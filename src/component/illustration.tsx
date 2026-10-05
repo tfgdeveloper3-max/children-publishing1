@@ -16,12 +16,15 @@ const FLIP_SEC = 1.35;
 const FLIP_EASE = [0.645, 0.045, 0.355, 1] as const;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-type Spread = { title: string; src: string };
+type Spread = { left: string; right: string };
 const SPREADS: Spread[] = [
-    { title: "Dirty Shoes", src: "/images/Illustration-1.jpg" },
-    { title: "Midnight Snack", src: "/images/Illustration-2.jpg" },
-    { title: "Mouse Trap", src: "/images/Illustration-3.jpg" },
-    { title: "Wobbly Woes", src: "/images/Illustration-4.jpg" },
+    { left: "/images/illus/01/01.jpg", right: "/images/illus/01/02.jpg" },
+    { left: "/images/illus/02/01.jpg", right: "/images/illus/02/02.jpg" },
+    { left: "/images/illus/03/01.jpg", right: "/images/illus/03/02.jpg" },
+    { left: "/images/illus/04/01.jpg", right: "/images/illus/04/02.jpg" },
+    { left: "/images/illus/05/01.jpg", right: "/images/illus/05/02.jpg" },
+    { left: "/images/illus/06/01.jpg", right: "/images/illus/06/02.jpg" },
+    { left: "/images/illus/07/01.jpg", right: "/images/illus/07/02.jpg" },
 ];
 
 type Side = "left" | "right";
@@ -40,12 +43,10 @@ function Page({ spread, side }: { spread: Spread; side: Side }) {
     return (
         <div className="absolute inset-0 overflow-hidden bg-[#f4f1ea]">
             <img
-                src={spread.src}
-                alt={side === "left" ? `${spread.title} illustration` : ""}
+                src={side === "left" ? spread.left : spread.right}
                 draggable={false}
                 decoding="async"
-                className="absolute top-0 h-full w-[200%] max-w-none select-none object-cover"
-                style={{ left: side === "left" ? 0 : "-100%" }}
+                className="absolute inset-0 h-full w-full select-none object-cover"
             />
             <div
                 aria-hidden="true"
@@ -112,20 +113,21 @@ export default function Illustrations() {
     const rot = useMotionValue(0);
 
     const total = SPREADS.length;
-    const wrap = (n: number) => (n + total) % total;
 
     useEffect(() => {
         SPREADS.forEach((s) => {
-            const img = new Image();
-            img.src = s.src;
-            img.decode?.().catch(() => { });
+            [s.left, s.right].forEach((src) => {
+                const img = new Image();
+                img.src = src;
+                img.decode?.().catch(() => { });
+            });
         });
     }, []);
 
     const turn = useCallback(
         (dir: 1 | -1) => {
             if (flip) return;
-            const to = wrap(index + dir);
+            const to = (index + dir + total) % total;
 
             if (reduceMotion) {
                 setIndex(to);
@@ -144,8 +146,7 @@ export default function Illustrations() {
                 },
             });
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [flip, index, reduceMotion]
+        [flip, index, reduceMotion, rot, total]
     );
 
     useEffect(() => {
@@ -166,7 +167,6 @@ export default function Illustrations() {
     const progress = useTransform(rot, (r) => Math.abs(r) / 180);
     const revealShadow = useTransform(progress, [0, 0.15, 0.85, 1], [0, 0.35, 0.1, 0]);
 
-    // Mobile par arrows white gol buttons (touch ke liye clear), sm+ par transparent
     const arrowBtn =
         "flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-brand-ink shadow-[0_8px_20px_-10px_rgba(37,40,62,0.5)] transition-colors duration-300 hover:bg-brand-plum/10 hover:text-brand-plum focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-plum disabled:opacity-40 sm:h-12 sm:w-12 sm:bg-transparent sm:shadow-none lg:h-14 lg:w-14";
 
@@ -185,8 +185,6 @@ export default function Illustrations() {
                     </motion.h2>
                 </motion.div>
 
-                {/* Mobile: book poori width, arrows neeche ek row mein
-                    Tablet+: arrows book ke dono taraf */}
                 <motion.div
                     variants={fadeUp}
                     initial="hidden"
@@ -233,18 +231,15 @@ export default function Illustrations() {
                 </motion.div>
 
                 <div className="mt-6 flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1 text-center" aria-live="polite">
-                    <span className="text-[13px] font-semibold text-brand-ink sm:text-[14px]">Showing Illustration Of -</span>
                     <span className="relative inline-grid">
                         <AnimatePresence mode="popLayout" initial={false}>
                             <motion.span
-                                key={target.title}
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
                                 transition={{ duration: 0.6, ease: EASE }}
                                 className="text-[clamp(20px,5vw,26px)] font-extrabold text-brand-plum lg:text-[clamp(24px,2.2vw,32px)]"
                             >
-                                {target.title}
                             </motion.span>
                         </AnimatePresence>
                     </span>

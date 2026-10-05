@@ -1,7 +1,110 @@
-import { motion, type Variants } from "motion/react";
-import { Sparkle, Star } from "lucide-react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+    motion,
+    AnimatePresence,
+    animate,
+    useMotionValue,
+    useReducedMotion,
+    type AnimationPlaybackControls,
+    type Variants,
+} from "motion/react";
+import { ChevronLeft, ChevronRight, Sparkle, Star } from "lucide-react";
+import "animate.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+const AUTOPLAY_SEC = 7;
+const SWIPE_PX = 60;
+
+type Banner = { kind: "banner"; src: string; alt: string; focus: string };
+type Original = { kind: "original"; src: string; alt: string; bg: string };
+type Slide = Original | Banner;
+
+const SLIDES: Slide[] = [
+    { kind: "original", src: "/images/Hero-bg-right.png", alt: "A mother reading a picture book to her son at bedtime", bg: "/images/Hero-Banner-1-BG.jpg" },
+    { kind: "banner", src: "/images/Hero-Banner-2.jpg", alt: "A happy woolly mammoth catching snowflakes in an icy land", focus: "82% center" },
+    { kind: "banner", src: "/images/Hero-Banner-3.jpg", alt: "A red-haired girl running along a farm path past a red barn", focus: "70% center" },
+    { kind: "banner", src: "/images/Hero-Banner-4.jpg", alt: "Two children finding a flower on a sunny forest trail", focus: "72% center" },
+];
+
+const sparkles = [
+    { left: "36%", top: "12%", size: 10, delay: 0 },
+    { left: "49%", top: "24%", size: 8, delay: 1.4 },
+    { left: "57%", top: "9%", size: 7, delay: 2.6 },
+    { left: "74%", top: "6%", size: 9, delay: 0.8 },
+    { left: "90%", top: "16%", size: 7, delay: 2 },
+];
+
+const PRELOAD = [...SLIDES.map((s) => s.src), "/images/Hero-Banner-1-BG.jpg", "/images/Banner-Overlay.png"];
+
+function OriginalSlide({ slide }: { slide: Original }) {
+    return (
+        <div className="absolute inset-0 isolate bg-brand-night">
+            <img
+                src={slide.bg}
+                alt="Smiling children doing arts and crafts together"
+                draggable={false}
+                decoding="async"
+                className="absolute inset-0 h-full w-full select-none object-cover"
+                style={{ objectPosition: "70% center" }}
+            />
+
+            <div className="mask-fade-left absolute -top-[8%] right-0 aspect-square h-[110%] overflow-hidden">
+                <motion.img
+                    src={slide.src}
+                    alt={slide.alt}
+                    draggable={false}
+                    initial={{ scale: 1.04 }}
+                    animate={{ scale: [1.04, 1.0, 1.03] }}
+                    transition={{ duration: 28, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" }}
+                    style={{ willChange: "transform", transformOrigin: "70% 50%" }}
+                    className="h-full w-full select-none object-cover"
+                />
+            </div>
+
+            <img
+                src="/images/Banner-Overlay.png"
+                alt=""
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 h-full w-full object-fill opacity-90 lg:opacity-80"
+            />
+
+            {sparkles.map((s, i) => (
+                <motion.span
+                    key={i}
+                    aria-hidden="true"
+                    className="pointer-events-none absolute hidden text-amber-100 sm:block"
+                    style={{ left: s.left, top: s.top }}
+                    initial={{ opacity: 0, scale: 0.4 }}
+                    animate={{ opacity: [0, 1, 0], scale: [0.4, 1, 0.4], rotate: [0, 90] }}
+                    transition={{ duration: 4.5, delay: s.delay, repeat: Infinity, ease: "easeInOut" }}
+                >
+                    <Sparkle style={{ width: s.size, height: s.size }} fill="currentColor" strokeWidth={0} />
+                </motion.span>
+            ))}
+        </div>
+    );
+}
+
+function BannerSlide({ slide }: { slide: Banner }) {
+    return (
+        <div className="absolute inset-0 bg-brand-night">
+            <img
+                src={slide.src}
+                alt={slide.alt}
+                draggable={false}
+                decoding="async"
+                className="h-full w-full select-none object-cover"
+                style={{ objectPosition: slide.focus }}
+            />
+            <img
+                src="/images/Banner-Overlay.png"
+                alt=""
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 h-full w-full object-fill opacity-90 lg:opacity-80"
+            />
+        </div>
+    );
+}
 
 const contentVariants: Variants = {
     hidden: {},
@@ -13,13 +116,25 @@ const itemVariants: Variants = {
     show: { opacity: 1, y: 0, transition: { duration: 1.1, ease: EASE } },
 };
 
-const sparkles = [
-    { left: "36%", top: "12%", size: 10, delay: 0 },
-    { left: "49%", top: "24%", size: 8, delay: 1.4 },
-    { left: "57%", top: "9%", size: 7, delay: 2.6 },
-    { left: "74%", top: "6%", size: 9, delay: 0.8 },
-    { left: "90%", top: "16%", size: 7, delay: 2 },
-];
+const slideVariants: Variants = {
+    enter: (dir: number) => ({ opacity: 0, x: `${dir * 2.5}%`, scale: 1.1 }),
+    center: {
+        opacity: 1,
+        x: "0%",
+        scale: 1,
+        transition: {
+            opacity: { duration: 1.6, ease: EASE },
+            x: { duration: 1.9, ease: EASE },
+            scale: { duration: AUTOPLAY_SEC + 2, ease: "easeOut" },
+        },
+    },
+    exit: (dir: number) => ({
+        opacity: 0,
+        x: `${dir * -2}%`,
+        scale: 1.05,
+        transition: { duration: 1.6, ease: EASE },
+    }),
+};
 
 const Splat = () => (
     <svg viewBox="0 0 24 24" className="h-[16px] w-[16px] text-brand-plum sm:h-[18px] sm:w-[18px]" fill="currentColor" aria-hidden="true">
@@ -35,10 +150,7 @@ const BubbleTail = () => (
         className="absolute -bottom-[38px] left-[54%] h-[45px] w-[57px] sm:-bottom-[47px] sm:h-[55px] sm:w-[70px]"
         aria-hidden="true"
     >
-        <path
-            d="M4 0 H66 V11 C46 25 30 39 16 50 C12 53 7 52 8 47 C10 35 6 21 2 11 Z"
-            fill="var(--color-brand-paper)"
-        />
+        <path d="M4 0 H66 V11 C46 25 30 39 16 50 C12 53 7 52 8 47 C10 35 6 21 2 11 Z" fill="var(--color-brand-paper)" />
         <path
             d="M2 10.5 C6 21 10 35 8 47 C7 52 12 53 16 50 C30 39 46 25 68 10.5"
             fill="none"
@@ -58,47 +170,111 @@ const BubbleTail = () => (
 );
 
 export default function Hero() {
+    const reduceMotion = useReducedMotion();
+    const total = SLIDES.length;
+
+    const [[index, direction], setSlide] = useState<[number, number]>([0, 1]);
+    const [hovered, setHovered] = useState(false);
+    const [tabHidden, setTabHidden] = useState(false);
+
+    const progress = useMotionValue(0);
+    const controlsRef = useRef<AnimationPlaybackControls | null>(null);
+
+    const paused = hovered || tabHidden || !!reduceMotion;
+
+    const goTo = useCallback(
+        (next: number, dir: number) => {
+            controlsRef.current?.stop();
+            progress.set(0);
+            setSlide([(next + total) % total, dir]);
+        },
+        [progress, total]
+    );
+
+    const go = useCallback((dir: 1 | -1) => goTo(index + dir, dir), [goTo, index]);
+
+    useEffect(() => {
+        PRELOAD.forEach((src) => {
+            const img = new Image();
+            img.src = src;
+            img.decode?.().catch(() => { });
+        });
+    }, []);
+
+    useEffect(() => {
+        const onVisibility = () => setTabHidden(document.hidden);
+        document.addEventListener("visibilitychange", onVisibility);
+        return () => document.removeEventListener("visibilitychange", onVisibility);
+    }, []);
+
+    useEffect(() => {
+        if (paused) return;
+        const remaining = Math.max(0.05, (1 - progress.get()) * AUTOPLAY_SEC);
+        const controls = animate(progress, 1, {
+            duration: remaining,
+            ease: "linear",
+            onComplete: () => go(1),
+        });
+        controlsRef.current = controls;
+        return () => controls.stop();
+    }, [index, paused, progress, go]);
+
+    useEffect(() => {
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "ArrowRight") go(1);
+            if (e.key === "ArrowLeft") go(-1);
+        };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, [go]);
+
+    const slide = SLIDES[index];
+
+    const cardEntrance = {
+        "--animate-duration": "1.4s",
+        animationDelay: "0.3s",
+    } as CSSProperties;
+
+    const counterAnim = { "--animate-duration": "0.8s" } as CSSProperties;
+
+    const navBtn =
+        "flex h-10 w-10 items-center justify-center rounded-full border border-white/40 bg-white/15 text-white backdrop-blur-md transition-colors duration-300 hover:bg-white hover:text-brand-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:h-11 sm:w-11";
+
     return (
-        <section className="relative isolate overflow-hidden bg-brand-night">
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.7 }}
-                transition={{ duration: 1.8, ease: "easeOut" }}
-                className="mask-fade-left absolute -top-[8%] right-0 -z-20 aspect-square h-[110%] overflow-hidden"
-            >
-                <motion.img
-                    src="/images/Hero-bg-right.png"
-                    alt="A mother reading a picture book to her son at bedtime"
-                    initial={{ scale: 1.04 }}
-                    animate={{ scale: [1.04, 1.0, 1.03] }}
-                    transition={{ duration: 28, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" }}
-                    style={{ willChange: "transform", transformOrigin: "70% 50%" }}
-                    className="h-full w-full object-cover"
-                />
-            </motion.div>
+        <motion.section
+            aria-roledescription="carousel"
+            aria-label="Featured illustrations"
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            onPanEnd={(_, info) => {
+                if (info.offset.x < -SWIPE_PX) go(1);
+                else if (info.offset.x > SWIPE_PX) go(-1);
+            }}
+            style={{ touchAction: "pan-y" }}
+            className="relative isolate overflow-hidden bg-brand-night"
+        >
+            <div className="absolute inset-0 -z-20 overflow-hidden">
+                <AnimatePresence initial={false} custom={direction}>
+                    <motion.div
+                        key={index}
+                        custom={direction}
+                        variants={reduceMotion ? undefined : slideVariants}
+                        initial={reduceMotion ? { opacity: 0 } : "enter"}
+                        animate={reduceMotion ? { opacity: 1, transition: { duration: 0.4 } } : "center"}
+                        exit={reduceMotion ? { opacity: 0, transition: { duration: 0.4 } } : "exit"}
+                        className="absolute inset-0"
+                        style={{ willChange: "transform, opacity" }}
+                        role="group"
+                        aria-roledescription="slide"
+                        aria-label={`${index + 1} of ${total}`}
+                    >
+                        {slide.kind === "original" ? <OriginalSlide slide={slide} /> : <BannerSlide slide={slide} />}
+                    </motion.div>
+                </AnimatePresence>
+            </div>
 
-            <img
-                src="/images/Hero-Bg.png"
-                alt=""
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 -z-10 h-full w-full object-fill mix-blend-multiply"
-            />
-            {/* Mobile/tablet par text card ke peeche halka dark layer, taake photo card se na takraye */}
-            <div className="pointer-events-none absolute inset-0 -z-10 bg-brand-night/40 lg:hidden" />
-
-            {sparkles.map((s, i) => (
-                <motion.span
-                    key={i}
-                    aria-hidden="true"
-                    className="pointer-events-none absolute -z-10 hidden text-amber-100 sm:block"
-                    style={{ left: s.left, top: s.top }}
-                    initial={{ opacity: 0, scale: 0.4 }}
-                    animate={{ opacity: [0, 1, 0], scale: [0.4, 1, 0.4], rotate: [0, 90] }}
-                    transition={{ duration: 4.5, delay: s.delay, repeat: Infinity, ease: "easeInOut" }}
-                >
-                    <Sparkle style={{ width: s.size, height: s.size }} fill="currentColor" strokeWidth={0} />
-                </motion.span>
-            ))}
+            <div className="pointer-events-none absolute inset-0 -z-10 bg-brand-night/35 lg:hidden" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-brand-night/60 to-transparent" />
 
             <motion.div
                 aria-hidden="true"
@@ -115,13 +291,10 @@ export default function Hero() {
                 </motion.div>
             </motion.div>
 
-            {/* Height: mobile 500 → tablet 580 → laptop/desktop clamp */}
-            <div className="mx-auto flex min-h-[500px] max-w-[1140px] items-center px-4 pb-20 pt-14 sm:min-h-[580px] sm:px-5 sm:pb-24 sm:pt-20 lg:min-h-[clamp(600px,42vw,820px)]">
-                <motion.div
-                    initial={{ opacity: 0, y: 40, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ duration: 1.3, ease: EASE, delay: 0.4 }}
-                    className="w-full max-w-[600px] lg:max-w-[560px] xl:max-w-[600px]"
+            <div className="relative mx-auto flex min-h-[540px] max-w-[1140px] items-center px-4 pb-28 pt-14 sm:min-h-[600px] sm:px-5 sm:pb-28 sm:pt-20 lg:min-h-[clamp(620px,42vw,820px)]">
+                <div
+                    className="animate__animated animate__fadeInLeft w-full max-w-[600px] lg:max-w-[560px] xl:max-w-[600px]"
+                    style={cardEntrance}
                 >
                     <motion.div
                         animate={{ y: [0, -8, 0] }}
@@ -160,10 +333,7 @@ export default function Hero() {
                                     <span className="text-brand-plum">creative design</span>
                                 </motion.h1>
 
-                                <motion.p
-                                    variants={itemVariants}
-                                    className="mt-2 text-[12px] font-medium text-brand-ink/90 sm:text-[13px]"
-                                >
+                                <motion.p variants={itemVariants} className="mt-2 text-[12px] font-medium text-brand-ink/90 sm:text-[13px]">
                                     Work And Play Come Together ?
                                 </motion.p>
 
@@ -182,7 +352,6 @@ export default function Hero() {
                                 </motion.div>
                             </motion.div>
 
-                            {/* Kids image — mobile par chhoti, taake button ke upar na aaye */}
                             <motion.div
                                 initial={{ opacity: 0, x: 40, rotate: 4 }}
                                 animate={{ opacity: 1, x: 0, rotate: 0 }}
@@ -202,8 +371,54 @@ export default function Hero() {
                             <BubbleTail />
                         </div>
                     </motion.div>
-                </motion.div>
+                </div>
             </div>
-        </section>
+
+            <div className="absolute inset-x-0 bottom-5 z-10 sm:bottom-7">
+                <div
+                    className="animate__animated animate__fadeInUp mx-auto flex max-w-[1140px] items-center justify-center gap-4 px-4 sm:justify-end sm:gap-5 sm:px-5"
+                    style={{ "--animate-duration": "1.2s", animationDelay: "1.2s" } as CSSProperties}
+                >
+                    <div className="flex items-baseline gap-1 font-bold text-white tabular-nums">
+                        <span key={index} className="animate__animated animate__fadeInDown inline-block text-[20px] sm:text-[24px]" style={counterAnim}>
+                            {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="text-[13px] text-white/60 sm:text-[14px]">/ {String(total).padStart(2, "0")}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2" role="tablist" aria-label="Choose slide">
+                        {SLIDES.map((s, i) => (
+                            <button
+                                key={s.src}
+                                type="button"
+                                role="tab"
+                                aria-selected={i === index}
+                                aria-label={`Go to slide ${i + 1}`}
+                                onClick={() => i !== index && goTo(i, i > index ? 1 : -1)}
+                                className="group relative h-6 w-8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-12"
+                            >
+                                <span className="absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 overflow-hidden rounded-full bg-white/30 transition-colors group-hover:bg-white/50">
+                                    {i === index && (
+                                        <motion.span
+                                            className="absolute inset-0 origin-left rounded-full bg-brand-orange"
+                                            style={{ scaleX: reduceMotion ? 1 : progress }}
+                                        />
+                                    )}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <button type="button" aria-label="Previous slide" onClick={() => go(-1)} className={navBtn}>
+                            <ChevronLeft className="h-5 w-5" strokeWidth={2.4} />
+                        </button>
+                        <button type="button" aria-label="Next slide" onClick={() => go(1)} className={navBtn}>
+                            <ChevronRight className="h-5 w-5" strokeWidth={2.4} />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </motion.section>
     );
 }
