@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/* ---------- Baloo 2 (served from /public/fonts) ---------- */
+@font-face {
+  font-family: "Baloo 2";
+  src: url("/fonts/Baloo2-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Baloo 2";
+  src: url("/fonts/Baloo2-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Baloo 2";
+  src: url("/fonts/Baloo2-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Baloo 2";
+  src: url("/fonts/Baloo2-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Baloo 2";
+  src: url("/fonts/Baloo2-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Design tokens ---------- */
+@theme {
+  --font-baloo: "Baloo 2", ui-rounded, system-ui, sans-serif;
+
+  --color-brand-purple: #70167e;
+  /* top bar */
+  --color-brand-plum: #70167e;
+  /* active link, accent text */
+  --color-brand-orange: #d18109;
+  /* buttons */
+  --color-brand-orange-dark: #a86707;
+  --color-brand-ink: #25283e;
+  /* headings, logo */
+  --color-brand-night: #1c1640;
+  /* hero base */
+  --color-brand-paper: #f4f3f9;
+  /* speech bubble */
+  --color-brand-dots: #bba9d1;
+  /* dotted bubble line */
+}
+
+html {
+  font-family: var(--font-baloo);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--color-brand-ink);
+}
+
+/* Fades the sharp illustration into the blurred layer on its left edge */
+.mask-fade-left {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 22%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 22%);
+}
+
+/* Scalloped (wavy) bottom edge under the navbar */
+.scallop-edge {
+  background-image: radial-gradient(circle at 7px 0, #fff 6px, transparent 6.5px);
+  background-size: 14px 7px;
+  background-repeat: repeat-x;
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate__animated {
+    animation: none !important;
+  }
+}
+
+/* Postage-stamp perforated edge for service card images.
+   Layer 1 keeps the centre solid, layer 2 punches round holes only in the padding ring. */
+.stamp-edge {
+  padding: 6px;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    radial-gradient(circle at 50% 50%, #0000 2.3px, #000 2.8px) 0 0 / 9px 9px;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    radial-gradient(circle at 50% 50%, #0000 2.3px, #000 2.8px) 0 0 / 9px 9px;
+}
