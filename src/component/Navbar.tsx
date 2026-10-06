@@ -1,11 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, type Variants } from "motion/react";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const links = ["Home", "About", "Pages", "Shop", "Blog", "Contact"] as const;
-type LinkName = (typeof links)[number];
+type SubItem = { label: string; to: string };
+type NavItem = { label: string; to: string; children?: SubItem[] };
+
+const NAV: NavItem[] = [
+    { label: "Home", to: "/" },
+    {
+        label: "Services",
+        to: "/services",
+        children: [{ label: "Book Cover Design", to: "/services/book-cover-design" }],
+    },
+    { label: "About Us", to: "/about" },
+    { label: "Portfolio", to: "/portfolio" },
+    { label: "Blog", to: "/blog" },
+    { label: "Contact Us", to: "/contact" },
+];
+
+const isItemActive = (item: NavItem, pathname: string) => {
+    if (item.to === "/") return pathname === "/";
+    if (pathname.startsWith(item.to)) return true;
+    return !!item.children?.some((c) => pathname.startsWith(c.to));
+};
 
 const listVariants: Variants = {
     hidden: {},
@@ -17,18 +37,20 @@ const itemVariants: Variants = {
     show: { opacity: 1, y: 0, transition: { duration: 0.9, ease: EASE } },
 };
 
+const MotionLink = motion.create(Link);
+
 export function PillButton({
     children,
-    href = "#",
+    to = "/contact",
     className = "",
 }: {
-    children: React.ReactNode;
-    href?: string;
+    children: ReactNode;
+    to?: string;
     className?: string;
 }) {
     return (
-        <motion.a
-            href={href}
+        <MotionLink
+            to={to}
             whileHover={{ scale: 1.04, y: -1 }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 220, damping: 20 }}
@@ -37,41 +59,69 @@ export function PillButton({
             <span className="pointer-events-none absolute inset-[3px] rounded-full border border-dashed border-white/90" />
             <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30 blur-sm transition-transform duration-[1100ms] ease-out group-hover:translate-x-[420%]" />
             <span className="relative">{children}</span>
-        </motion.a>
+        </MotionLink>
     );
 }
 
 export default function Navbar() {
-    const [active, setActive] = useState<LinkName>("Home");
-    const [hovered, setHovered] = useState<LinkName | null>(null);
+    const { pathname } = useLocation();
+    const [hovered, setHovered] = useState<string | null>(null);
+    const [dropdown, setDropdown] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
+    const [mobileSub, setMobileSub] = useState<string | null>(null);
 
-    const underlineTarget = hovered ?? active;
+    const activeLabel = NAV.find((item) => isItemActive(item, pathname))?.label ?? null;
+    const underlineTarget = hovered ?? activeLabel;
 
-    // Screen lg (desktop) size par aaye to mobile menu khud band ho jaye
+    useEffect(() => {
+        setOpen(false);
+        setDropdown(null);
+        setMobileSub(null);
+    }, [pathname]);
+
     useEffect(() => {
         const onResize = () => {
             if (window.innerWidth >= 1024) setOpen(false);
         };
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                setDropdown(null);
+                setOpen(false);
+            }
+        };
         window.addEventListener("resize", onResize);
-        return () => window.removeEventListener("resize", onResize);
+        window.addEventListener("keydown", onKey);
+        return () => {
+            window.removeEventListener("resize", onResize);
+            window.removeEventListener("keydown", onKey);
+        };
     }, []);
+
+    const linkClass = (active: boolean) =>
+        `relative flex items-center gap-1 py-2 text-[13px] font-bold uppercase tracking-wide outline-none transition-colors duration-500 xl:text-[14px] ${active ? "text-brand-plum" : "text-brand-ink hover:text-brand-plum"}`;
+
+    const underline = (label: string) =>
+        underlineTarget === label && (
+            <motion.span
+                layoutId="nav-underline"
+                transition={{ type: "spring", bounce: 0.2, duration: 0.7 }}
+                className="absolute -bottom-0.5 left-0 right-0 mx-auto h-[3px] w-6 rounded-full bg-brand-orange"
+            />
+        );
 
     return (
         <header className="relative z-30 bg-white">
-            {/* Height: mobile 72 → tablet 80 → desktop 88 */}
             <nav className="mx-auto flex h-[72px] max-w-[1140px] items-center justify-between px-4 sm:h-[80px] sm:px-5 lg:h-[88px]">
-                <motion.a
-                    href="#"
+                <MotionLink
+                    to="/"
                     initial={{ opacity: 0, x: -24 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 1, ease: EASE }}
                     className="text-[26px] font-extrabold leading-none text-brand-ink sm:text-[30px] xl:text-[34px]"
                 >
                     Logo Here
-                </motion.a>
+                </MotionLink>
 
-                {/* Laptop (lg) par links ke beech kam gap, bade desktop (xl) par zyada */}
                 <motion.ul
                     variants={listVariants}
                     initial="hidden"
@@ -79,31 +129,86 @@ export default function Navbar() {
                     onMouseLeave={() => setHovered(null)}
                     className="hidden items-center gap-6 lg:flex xl:gap-10"
                 >
-                    {links.map((link) => {
-                        const isActive = active === link;
-                        return (
-                            <motion.li key={link} variants={itemVariants}>
-                                <a
-                                    href="#"
-                                    onMouseEnter={() => setHovered(link)}
-                                    onFocus={() => setHovered(link)}
-                                    onBlur={() => setHovered(null)}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        setActive(link);
+                    {NAV.map((item) => {
+                        const active = activeLabel === item.label;
+
+                        if (item.children) {
+                            const isOpen = dropdown === item.label;
+                            return (
+                                <motion.li
+                                    key={item.label}
+                                    variants={itemVariants}
+                                    className="relative"
+                                    onMouseEnter={() => {
+                                        setHovered(item.label);
+                                        setDropdown(item.label);
                                     }}
-                                    aria-current={isActive ? "page" : undefined}
-                                    className={`relative block py-2 text-[13px] font-bold uppercase tracking-wide outline-none transition-colors duration-500 xl:text-[14px] ${isActive ? "text-brand-plum" : "text-brand-ink hover:text-brand-plum"}`}
+                                    onMouseLeave={() => setDropdown(null)}
                                 >
-                                    {link}
-                                    {underlineTarget === link && (
-                                        <motion.span
-                                            layoutId="nav-underline"
-                                            transition={{ type: "spring", bounce: 0.2, duration: 0.7 }}
-                                            className="absolute -bottom-0.5 left-0 right-0 mx-auto h-[3px] w-6 rounded-full bg-brand-orange"
-                                        />
-                                    )}
-                                </a>
+                                    <button
+                                        type="button"
+                                        aria-haspopup="true"
+                                        aria-expanded={isOpen}
+                                        onClick={() => setDropdown(isOpen ? null : item.label)}
+                                        onFocus={() => setHovered(item.label)}
+                                        onBlur={() => setHovered(null)}
+                                        className={linkClass(active)}
+                                    >
+                                        {item.label}
+                                        <motion.span animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.35, ease: EASE }} className="inline-flex">
+                                            <ChevronDown className="h-4 w-4" strokeWidth={2.6} />
+                                        </motion.span>
+                                        {underline(item.label)}
+                                    </button>
+
+                                    <AnimatePresence>
+                                        {isOpen && (
+                                            <div className="absolute left-1/2 top-full z-40 -translate-x-1/2 pt-3">
+                                                <motion.ul
+                                                    initial={{ opacity: 0, y: 10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={{ opacity: 0, y: 10 }}
+                                                    transition={{ duration: 0.35, ease: EASE }}
+                                                    className="min-w-[230px] rounded-2xl border border-brand-paper bg-white p-2 shadow-[0_20px_40px_-18px_rgba(37,40,62,0.4)]"
+                                                >
+                                                    {item.children.map((sub) => (
+                                                        <li key={sub.to}>
+                                                            <NavLink
+                                                                to={sub.to}
+                                                                onBlur={(e) => {
+                                                                    if (!e.currentTarget.closest("li")?.parentElement?.contains(e.relatedTarget as Node)) {
+                                                                        setDropdown(null);
+                                                                    }
+                                                                }}
+                                                                className={({ isActive }) =>
+                                                                    `block rounded-xl px-4 py-2.5 text-[13px] font-bold uppercase tracking-wide outline-none transition-colors duration-300 focus-visible:bg-brand-paper ${isActive ? "bg-brand-paper text-brand-plum" : "text-brand-ink hover:bg-brand-paper hover:text-brand-plum"}`
+                                                                }
+                                                            >
+                                                                {sub.label}
+                                                            </NavLink>
+                                                        </li>
+                                                    ))}
+                                                </motion.ul>
+                                            </div>
+                                        )}
+                                    </AnimatePresence>
+                                </motion.li>
+                            );
+                        }
+
+                        return (
+                            <motion.li key={item.label} variants={itemVariants}>
+                                <NavLink
+                                    to={item.to}
+                                    end={item.to === "/"}
+                                    onMouseEnter={() => setHovered(item.label)}
+                                    onFocus={() => setHovered(item.label)}
+                                    onBlur={() => setHovered(null)}
+                                    className={linkClass(active)}
+                                >
+                                    {item.label}
+                                    {underline(item.label)}
+                                </NavLink>
                             </motion.li>
                         );
                     })}
@@ -139,7 +244,6 @@ export default function Navbar() {
                 </button>
             </nav>
 
-            {/* Mobile / tablet menu — lambi list ho to scroll ho jaye */}
             <AnimatePresence>
                 {open && (
                     <motion.div
@@ -150,26 +254,68 @@ export default function Navbar() {
                         className="absolute inset-x-0 top-full z-40 max-h-[calc(100dvh-120px)] overflow-y-auto border-t border-brand-paper bg-white px-4 pb-6 pt-2 shadow-[0_20px_40px_-20px_rgba(37,40,62,0.35)] sm:px-5 lg:hidden"
                     >
                         <ul className="flex flex-col">
-                            {links.map((link, i) => (
-                                <motion.li
-                                    key={link}
-                                    initial={{ opacity: 0, x: -12 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.05 * i, duration: 0.5, ease: EASE }}
-                                >
-                                    <a
-                                        href="#"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            setActive(link);
-                                            setOpen(false);
-                                        }}
-                                        className={`block border-b border-brand-paper py-3 text-[15px] font-bold uppercase tracking-wide ${active === link ? "text-brand-plum" : "text-brand-ink"}`}
+                            {NAV.map((item, i) => {
+                                const active = activeLabel === item.label;
+                                const subOpen = mobileSub === item.label;
+
+                                return (
+                                    <motion.li
+                                        key={item.label}
+                                        initial={{ opacity: 0, x: -12 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: 0.05 * i, duration: 0.5, ease: EASE }}
+                                        className="border-b border-brand-paper"
                                     >
-                                        {link}
-                                    </a>
-                                </motion.li>
-                            ))}
+                                        {item.children ? (
+                                            <>
+                                                <button
+                                                    type="button"
+                                                    aria-expanded={subOpen}
+                                                    onClick={() => setMobileSub(subOpen ? null : item.label)}
+                                                    className={`flex w-full items-center justify-between py-3 text-[15px] font-bold uppercase tracking-wide ${active ? "text-brand-plum" : "text-brand-ink"}`}
+                                                >
+                                                    {item.label}
+                                                    <motion.span animate={{ rotate: subOpen ? 180 : 0 }} transition={{ duration: 0.35, ease: EASE }} className="inline-flex">
+                                                        <ChevronDown className="h-5 w-5" />
+                                                    </motion.span>
+                                                </button>
+                                                <AnimatePresence initial={false}>
+                                                    {subOpen && (
+                                                        <motion.ul
+                                                            initial={{ height: 0, opacity: 0 }}
+                                                            animate={{ height: "auto", opacity: 1 }}
+                                                            exit={{ height: 0, opacity: 0 }}
+                                                            transition={{ duration: 0.4, ease: EASE }}
+                                                            className="overflow-hidden"
+                                                        >
+                                                            {item.children.map((sub) => (
+                                                                <li key={sub.to}>
+                                                                    <NavLink
+                                                                        to={sub.to}
+                                                                        className={({ isActive }) =>
+                                                                            `block py-2.5 pl-4 text-[14px] font-semibold uppercase tracking-wide ${isActive ? "text-brand-plum" : "text-brand-ink/80"}`
+                                                                        }
+                                                                    >
+                                                                        {sub.label}
+                                                                    </NavLink>
+                                                                </li>
+                                                            ))}
+                                                        </motion.ul>
+                                                    )}
+                                                </AnimatePresence>
+                                            </>
+                                        ) : (
+                                            <NavLink
+                                                to={item.to}
+                                                end={item.to === "/"}
+                                                className={`block py-3 text-[15px] font-bold uppercase tracking-wide ${active ? "text-brand-plum" : "text-brand-ink"}`}
+                                            >
+                                                {item.label}
+                                            </NavLink>
+                                        )}
+                                    </motion.li>
+                                );
+                            })}
                         </ul>
                         <PillButton className="mt-5 w-full sm:w-auto">Start Your Project</PillButton>
                     </motion.div>

@@ -1,33 +1,22 @@
-import "animate.css";
-import { MotionConfig } from "motion/react";
-import TopBar from "./component/Topbar";
-import Navbar from "./component/Navbar";
-import Hero from "./component/Hero";
-import Services from "./component/Services";
-import About from "./component/AboutUs";
-import Trust from "./component/Trust";
-import Portfolio from "./component/Portfolio";
-import Testimonials from "./component/Testimonials";
-import Illustrations from "./component/illustration";
-import Blog from "./component/Blogs";
-import Footer from "./component/Footer";
+import { Navigate, Route, Routes } from "react-router-dom";
+import Layout from "@/component/Layout";
+import Home from "@/pages/Home";
+import About from "@/pages/About/page";
+import Portfolio from "@/pages/PortfolioPage/page";
+import Blogs from "@/pages/Blogs/page";
+import BookCoverDesign from "@/pages/InnerServices/Book-Cover-Design/page";
 
 export default function App() {
   return (
-    <MotionConfig reducedMotion="user">
-      <TopBar />
-      <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <About />
-        <Trust />
-        <Portfolio />
-        <Testimonials />
-        <Illustrations />
-        <Blog />
-      </main>
-      <Footer />
-    </MotionConfig>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="portfolio" element={<Portfolio />} />
+        <Route path="blog" element={<Blogs />} />
+        <Route path="services/book-cover-design" element={<BookCoverDesign />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Route>
+    </Routes>
   );
 }

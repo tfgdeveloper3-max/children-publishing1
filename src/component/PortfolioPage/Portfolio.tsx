@@ -42,7 +42,7 @@ function useWidth<T extends HTMLElement>() {
     return [ref, width] as const;
 }
 
-export default function PortfolioSection() {
+export default function Portfolio() {
     const sectionRef = useRef<HTMLElement>(null);
     const inView = useInView(sectionRef, { amount: 0.25 });
     const headRef = useRef<HTMLDivElement>(null);
@@ -59,9 +59,6 @@ export default function PortfolioSection() {
         return () => window.clearInterval(id);
     }, [inView, paused, reduceMotion]);
 
-    /* Grid size container ki width se:
-       Mobile (< 560px): 3 columns × 5 rows
-       Tablet / Laptop / Desktop: 5 columns × 3 rows */
     const cols = width < 560 ? 3 : 5;
     const rows = Math.ceil(TOTAL / cols);
     const gapX = cols === 5 ? Math.max(12, width * 0.034) : 10;

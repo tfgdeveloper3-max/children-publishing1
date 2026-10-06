@@ -153,9 +153,6 @@ export default function Blog() {
                     Our News &amp; Article
                 </motion.h2>
 
-                {/* Mobile: 1 column (card max 440px, center)
-                    Tablet: 2 columns — akela last card beech mein
-                    Laptop/Desktop: 3 columns */}
                 <motion.div
                     variants={stagger}
                     className="mx-auto mt-7 grid max-w-[440px] grid-cols-1 gap-5 md:max-w-none md:grid-cols-2 md:gap-6 lg:mt-8 lg:grid-cols-3 lg:gap-5"
