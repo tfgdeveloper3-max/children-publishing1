@@ -5,6 +5,7 @@ import About from "@/pages/About/page";
 import Portfolio from "@/pages/PortfolioPage/page";
 import Blogs from "@/pages/Blogs/page";
 import BookCoverDesign from "@/pages/InnerServices/Book-Cover-Design/page";
+import Contact from "./pages/Contactus/page";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="about" element={<About />} />
         <Route path="portfolio" element={<Portfolio />} />
         <Route path="blog" element={<Blogs />} />
+        <Route path="contact" element={<Contact />} />
         <Route path="services/book-cover-design" element={<BookCoverDesign />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
