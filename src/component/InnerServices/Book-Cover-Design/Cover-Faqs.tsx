@@ -8,24 +8,24 @@ type QA = { q: string; a: string };
 
 const FAQS: QA[] = [
     {
-        q: "Lorem Ipsum is simply dummy text typesetting industry?",
-        a: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966,",
+        q: "How long does a book cover take?",
+        a: "Most covers take 7 to 14 days from your brief to final files. The exact time depends on how quickly we receive your feedback.",
     },
     {
-        q: "Lorem Ipsum is simply dummy text typesetting industry?",
-        a: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966,",
+        q: "How many cover concepts will I receive?",
+        a: "You will receive 2 to 3 initial concepts. Once you pick your favourite, we refine it until you are happy.",
     },
     {
-        q: "Lorem Ipsum is simply dummy text typesetting industry?",
-        a: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966,",
+        q: "Can you design the full wrap-around cover?",
+        a: "Yes. We design the front, spine and back cover. We just need your page count and trim size to set the spine width exactly.",
     },
     {
-        q: "Lorem Ipsum is simply dummy text typesetting industry?",
-        a: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966,",
+        q: "Which file formats will I get?",
+        a: "You get a print-ready PDF and ebook cover files (JPG/PNG). Editable source files are available on request.",
     },
     {
-        q: "Lorem Ipsum is simply dummy text typesetting industry?",
-        a: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966,",
+        q: "Can the cover match the illustrations inside my book?",
+        a: "Yes. If we illustrated your book, the cover will match the inside pages. If another artist did, we can work with their artwork.",
     },
 ];
 
@@ -202,8 +202,7 @@ export default function CoverFaq() {
                         className={`mt-3 text-[13px] leading-[1.7] text-brand-ink/75 sm:text-[14px] ${inView ? "animate__animated animate__fadeInUp" : "opacity-0"}`}
                         style={{ "--animate-duration": "1s", animationDelay: "0.2s" } as CSSProperties}
                     >
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                        industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley.
+                        Quick answers to what authors ask us most about book covers.
                     </p>
                 </div>
 
@@ -237,9 +236,7 @@ export default function CoverFaq() {
                         <h3 className="mt-6 text-[16px] font-extrabold text-brand-ink sm:text-[17px]">Do you have more questions?</h3>
 
                         <p className="mx-auto mt-3 max-w-[300px] text-[12.5px] leading-[1.85] text-brand-ink/75 sm:text-[13px]">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the
-                            librarian at St Bride Printing Library in London.
+                            We're happy to help. Send us a message and a member of the Toonhaus team will reply within one working day.
                         </p>
 
                         <motion.a
@@ -251,7 +248,7 @@ export default function CoverFaq() {
                         >
                             <span className="pointer-events-none absolute inset-[3px] rounded-full border border-dashed border-white/90" />
                             <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30 blur-sm transition-transform duration-[1100ms] ease-out group-hover:translate-x-[420%]" />
-                            <span className="relative">Direct Mail</span>
+                            <span className="relative">Email Us</span>
                         </motion.a>
                     </motion.aside>
                 </div>

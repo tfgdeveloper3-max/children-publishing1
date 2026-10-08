@@ -3,10 +3,13 @@ import { motion, useInView, useReducedMotion, type Variants } from "motion/react
 import {
     ArrowUpRight,
     Backpack,
+    BookOpen,
+    Film,
     MoveLeft,
     MoveRight,
     PenTool,
     School,
+    Users,
     type LucideIcon,
 } from "lucide-react";
 
@@ -14,15 +17,55 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 type Service = {
     title: string;
+    description: string;
     image: string;
     icon: LucideIcon;
     href: string;
 };
 
 const services: Service[] = [
-    { title: "Children's Book Illustration", image: "/images/Cover3.png", icon: School, href: "#" },
-    { title: "Amazon KDP & Publishing", image: "/images/Cover2.png", icon: Backpack, href: "#" },
-    { title: "Brand Identity & Logo Design", image: "/images/Cover1.png", icon: PenTool, href: "#" },
+    {
+        title: "Children's Book Illustration",
+        description: "Full-colour pages and lovable characters, painted to match your story.",
+        image: "/images/Cover3.png",
+        icon: School,
+        href: "#",
+    },
+    {
+        title: "Book Cover Design",
+        description: "Front, spine and back covers that stand out on a shelf and on a screen.",
+        image: "/images/Cover2.png",
+        icon: BookOpen,
+        href: "#",
+    },
+    {
+        title: "Amazon KDP & Publishing",
+        description: "Formatting, uploads and launch support for Amazon KDP, IngramSpark and more.",
+        image: "/images/Cover1.png",
+        icon: Backpack,
+        href: "#",
+    },
+    {
+        title: "Character Design",
+        description: "Original characters with a look, a personality and a story of their own.",
+        image: "/images/Cover3.png",
+        icon: Users,
+        href: "#",
+    },
+    {
+        title: "Brand Identity & Logo Design",
+        description: "Logos and brand looks that make your author name or studio easy to remember.",
+        image: "/images/Cover2.png",
+        icon: PenTool,
+        href: "#",
+    },
+    {
+        title: "Book Marketing & Trailers",
+        description: "Book trailers, social graphics and launch materials that help readers find you.",
+        image: "/images/Cover1.png",
+        icon: Film,
+        href: "#",
+    },
 ];
 
 const headingVariants: Variants = {
@@ -84,6 +127,13 @@ function ServiceCard({ service, delay, show }: { service: Service; delay: number
                 <h3 className="mt-3 text-[15px] font-bold leading-tight text-brand-ink transition-colors duration-500 group-hover:text-brand-plum sm:mt-4 sm:text-[16px]">
                     {service.title}
                 </h3>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-[#5b5e6e] sm:mt-2 sm:text-[14px]">
+                    {service.description}
+                </p>
+                <span className="mt-3 inline-flex items-center gap-1 text-[13px] font-semibold text-brand-plum transition-colors duration-500 group-hover:text-brand-orange sm:mt-4 sm:text-[14px]">
+                    Learn More
+                    <ArrowUpRight className="h-4 w-4" strokeWidth={2.4} />
+                </span>
             </motion.div>
         </motion.a>
     );
@@ -187,8 +237,14 @@ export default function Services() {
                         variants={fadeUp}
                         className="mx-auto mt-1 max-w-[560px] text-[clamp(26px,6vw,44px)] font-bold leading-[1.1] text-brand-ink lg:text-[clamp(28px,3.2vw,44px)]"
                     >
-                        Creative services designed around your ideas.
+                        Everything your book needs, under one roof.
                     </motion.h2>
+                    <motion.p
+                        variants={fadeUp}
+                        className="mx-auto mt-3 max-w-[480px] text-[15px] leading-relaxed sm:text-[16px]"
+                    >
+                        Six services. One friendly team. A finished book you'll be proud of.
+                    </motion.p>
                 </motion.div>
 
                 <div

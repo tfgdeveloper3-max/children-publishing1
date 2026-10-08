@@ -10,21 +10,21 @@ import {
     type MotionValue,
     type Variants,
 } from "motion/react";
-import { MoveLeft, MoveRight } from "lucide-react";
+import { MoveLeft, MoveRight, ArrowUpRight } from "lucide-react";
 
 const FLIP_SEC = 1.35;
 const FLIP_EASE = [0.645, 0.045, 0.355, 1] as const;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-type Spread = { left: string; right: string };
+type Spread = { title: string; left: string; right: string };
 const SPREADS: Spread[] = [
-    { left: "/images/illus/01/01.jpg", right: "/images/illus/01/02.jpg" },
-    { left: "/images/illus/02/01.jpg", right: "/images/illus/02/02.jpg" },
-    { left: "/images/illus/03/01.jpg", right: "/images/illus/03/02.jpg" },
-    { left: "/images/illus/04/01.jpg", right: "/images/illus/04/02.jpg" },
-    { left: "/images/illus/05/01.jpg", right: "/images/illus/05/02.jpg" },
-    { left: "/images/illus/06/01.jpg", right: "/images/illus/06/02.jpg" },
-    { left: "/images/illus/07/01.jpg", right: "/images/illus/07/02.jpg" },
+    { title: "The Brave Little Fox", left: "/images/illus/01/01.jpg", right: "/images/illus/01/02.jpg" },
+    { title: "Ocean Dreams", left: "/images/illus/02/01.jpg", right: "/images/illus/02/02.jpg" },
+    { title: "Starlight Safari", left: "/images/illus/03/01.jpg", right: "/images/illus/03/02.jpg" },
+    { title: "The Magic Garden", left: "/images/illus/04/01.jpg", right: "/images/illus/04/02.jpg" },
+    { title: "Cloud Castles", left: "/images/illus/05/01.jpg", right: "/images/illus/05/02.jpg" },
+    { title: "The Friendly Dragon", left: "/images/illus/06/01.jpg", right: "/images/illus/06/02.jpg" },
+    { title: "Rainbow River", left: "/images/illus/07/01.jpg", right: "/images/illus/07/02.jpg" },
 ];
 
 type Side = "left" | "right";
@@ -181,8 +181,14 @@ export default function Illustrations() {
                         variants={fadeUp}
                         className="mt-1 text-[clamp(26px,6vw,40px)] font-extrabold leading-[1.1] text-brand-ink lg:text-[clamp(32px,3.4vw,52px)]"
                     >
-                        Explore Our Illustration Work
+                        A peek inside our picture books
                     </motion.h2>
+                    <motion.p
+                        variants={fadeUp}
+                        className="mx-auto mt-3 max-w-[540px] text-[14px] font-medium leading-[1.6] text-brand-ink/65 sm:text-[15px]"
+                    >
+                        Flip through the pages and see how we bring characters, colour and mood to every spread.
+                    </motion.p>
                 </motion.div>
 
                 <motion.div
@@ -191,7 +197,7 @@ export default function Illustrations() {
                     animate={inView ? "show" : "hidden"}
                     className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-6 sm:flex-nowrap sm:gap-4 md:gap-6 lg:mt-10 lg:gap-10"
                 >
-                    <button type="button" aria-label="Previous page" onClick={() => turn(-1)} disabled={!!flip} className={`${arrowBtn} order-2 sm:order-none`}>
+                    <button type="button" aria-label="Previous Page" onClick={() => turn(-1)} disabled={!!flip} className={`${arrowBtn} order-2 sm:order-none`}>
                         <MoveLeft className="h-6 w-6 lg:h-8 lg:w-8" strokeWidth={2.6} />
                     </button>
 
@@ -225,24 +231,39 @@ export default function Illustrations() {
                         </div>
                     </div>
 
-                    <button type="button" aria-label="Next page" onClick={() => turn(1)} disabled={!!flip} className={`${arrowBtn} order-3 sm:order-none`}>
+                    <button type="button" aria-label="Next Page" onClick={() => turn(1)} disabled={!!flip} className={`${arrowBtn} order-3 sm:order-none`}>
                         <MoveRight className="h-6 w-6 lg:h-8 lg:w-8" strokeWidth={2.6} />
                     </button>
                 </motion.div>
 
-                <div className="mt-6 flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1 text-center" aria-live="polite">
-                    <span className="relative inline-grid">
-                        <AnimatePresence mode="popLayout" initial={false}>
-                            <motion.span
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.6, ease: EASE }}
-                                className="text-[clamp(20px,5vw,26px)] font-extrabold text-brand-plum lg:text-[clamp(24px,2.2vw,32px)]"
-                            >
-                            </motion.span>
-                        </AnimatePresence>
-                    </span>
+                <div className="mt-6 flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-center sm:gap-6" aria-live="polite">
+                    <div className="flex items-baseline gap-x-2">
+                        <span className="text-[13px] font-semibold text-brand-ink/50 sm:text-[14px]">Now Showing:</span>
+                        <span className="relative inline-grid">
+                            <AnimatePresence mode="popLayout" initial={false}>
+                                <motion.span
+                                    key={current.title}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.6, ease: EASE }}
+                                    className="text-[clamp(18px,4.5vw,24px)] font-extrabold text-brand-plum lg:text-[clamp(20px,1.8vw,28px)]"
+                                >
+                                    {current.title}
+                                </motion.span>
+                            </AnimatePresence>
+                        </span>
+                    </div>
+
+                    <motion.a
+                        href="#portfolio"
+                        whileHover={{ scale: 1.04 }}
+                        whileTap={{ scale: 0.97 }}
+                        className="inline-flex items-center gap-2 rounded-full bg-brand-plum px-6 py-2.5 text-[13px] font-bold uppercase tracking-wide text-white shadow-[0_10px_24px_-8px_rgba(37,40,62,0.4)] transition-colors duration-300 hover:bg-brand-plum/85 sm:px-7 sm:py-3 sm:text-[14px]"
+                    >
+                        View Full Portfolio
+                        <ArrowUpRight className="h-4 w-4" strokeWidth={2.4} />
+                    </motion.a>
                 </div>
             </div>
         </section>

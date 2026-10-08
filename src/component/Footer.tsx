@@ -39,7 +39,6 @@ const fadeUp: Variants = {
 
 const PHONE_DISPLAY = "+1 234 567890";
 const PHONE_LINK = "tel:+1234567890";
-const CURRENT_YEAR = new Date().getFullYear();
 
 const SOCIALS: { label: string; href: string; icon: IconComponent }[] = [
     { label: "Facebook", href: "#", icon: FacebookIcon },
@@ -49,24 +48,28 @@ const SOCIALS: { label: string; href: string; icon: IconComponent }[] = [
 
 const EXPLORE_LEFT = [
     { label: "Home", href: "#" },
+    { label: "Services", href: "#services" },
     { label: "About Us", href: "#about" },
-    { label: "Contact Us", href: "#contact" },
-    { label: "Reviews", href: "#reviews" },
-    { label: "Contact US", href: "#contact" },
 ];
 
 const EXPLORE_RIGHT = [
+    { label: "Portfolio", href: "#portfolio" },
+    { label: "Blogs", href: "#blog" },
+    { label: "Contact Us", href: "#contact" },
+];
+
+const LEGAL = [
     { label: "Terms & Conditions", href: "#" },
     { label: "Privacy Policy", href: "#" },
 ];
 
 const WORK = [
-    { src: "/images/Footer-2.jpg", alt: "Girl with curly hair at the salon" },
-    { src: "/images/Footer-1.jpg", alt: "Family meeting a puppy in the kitchen" },
-    { src: "/images/Footer-4.jpg", alt: "Happy girl in the salon chair" },
-    { src: "/images/Footer-3.jpg", alt: "Twins opening Christmas presents" },
-    { src: "/images/Footer-6.jpg", alt: "Kids building a snowman" },
-    { src: "/images/Footer-5.jpg", alt: "Twins waiting for the school bus" },
+    { src: "/images/Footer-2.jpg", alt: "Children at a hair salon" },
+    { src: "/images/Footer-1.jpg", alt: "Family playing with a puppy in the kitchen" },
+    { src: "/images/Footer-4.jpg", alt: "Girl in a salon chair" },
+    { src: "/images/Footer-3.jpg", alt: "Children by a Christmas tree" },
+    { src: "/images/Footer-6.jpg", alt: "Children building a snowman" },
+    { src: "/images/Footer-5.jpg", alt: "Children waiting for a school bus" },
 ];
 
 function ColumnTitle({ children }: { children: string }) {
@@ -115,7 +118,6 @@ export default function Footer() {
                     className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[90%] -translate-x-1/2 opacity-[0.05] sm:w-[min(720px,70%)]"
                 />
 
-                {/* Mobile: 1 column | Tablet: 2 columns (Our Work neeche poori width) | Laptop+: 3 columns */}
                 <motion.div
                     ref={ref}
                     variants={stagger}
@@ -126,12 +128,12 @@ export default function Footer() {
                     <motion.div variants={fadeUp}>
                         <a href="#" className="inline-block">
                             <h2 className="text-[32px] font-extrabold leading-none text-white sm:text-[36px] lg:text-[clamp(34px,2.6vw,42px)]">
-                                Logo Here
+                                Toonhaus Publishing
                             </h2>
                         </a>
 
                         <p className="mt-4 max-w-[320px] text-[13px] font-semibold leading-[1.6] text-white/85 sm:text-[14px]">
-                            Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
+                            We illustrate, design and publish children's books that families love to read together.
                         </p>
 
                         <a
@@ -172,12 +174,16 @@ export default function Footer() {
                             <LinkList links={EXPLORE_LEFT} />
                             <LinkList links={EXPLORE_RIGHT} />
                         </div>
+
+                        <div className="mt-7 border-t border-white/15 pt-5 sm:mt-8 sm:pt-6">
+                            <p className="mb-3 text-[12px] font-semibold text-white/50 uppercase tracking-wider sm:text-[13px]">Legal</p>
+                            <LinkList links={LEGAL} />
+                        </div>
                     </motion.nav>
 
                     <motion.div variants={fadeUp} className="md:col-span-2 lg:col-span-1">
                         <ColumnTitle>Our Work</ColumnTitle>
 
-                        {/* Mobile: 3 columns (max 320px) | Tablet: 6 ek row mein | Laptop+: 3 × 2 */}
                         <div className="mt-6 grid max-w-[320px] grid-cols-3 gap-2.5 sm:mt-7 md:max-w-[560px] md:grid-cols-6 lg:max-w-[300px] lg:grid-cols-3">
                             {WORK.map((item) => (
                                 <div key={item.src} className="group aspect-square overflow-hidden rounded-[12px] border-[3px] border-[#f3e3c8]">
@@ -197,7 +203,7 @@ export default function Footer() {
             <div className="bg-brand-plum">
                 <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-4 px-5 py-4 text-center sm:flex-row sm:py-5 sm:text-left">
                     <p className="text-[12px] font-semibold text-white sm:text-[13px]">
-                        Copyright © {CURRENT_YEAR} All Rights Reserved By
+                        Copyright © 2026 Toonhaus Publishing. All Rights Reserved.
                     </p>
                 </div>
             </div>

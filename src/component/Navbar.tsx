@@ -1,20 +1,17 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, type Variants } from "motion/react";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronRight, Menu, X } from "lucide-react";
+import { SERVICE_CATEGORIES, serviceHref } from "@/data/services";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 type SubItem = { label: string; to: string };
-type NavItem = { label: string; to: string; children?: SubItem[] };
+type NavItem = { label: string; to: string; children?: SubItem[]; mega?: boolean };
 
 const NAV: NavItem[] = [
     { label: "Home", to: "/" },
-    {
-        label: "Services",
-        to: "/services",
-        children: [{ label: "Book Cover Design", to: "/services/book-cover-design" }],
-    },
+    { label: "Services", to: "/services", mega: true },
     { label: "About Us", to: "/about" },
     { label: "Portfolio", to: "/portfolio" },
     { label: "Blog", to: "/blog" },
@@ -69,6 +66,8 @@ export default function Navbar() {
     const [dropdown, setDropdown] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
     const [mobileSub, setMobileSub] = useState<string | null>(null);
+    const [megaCat, setMegaCat] = useState(0);
+    const [mobileCat, setMobileCat] = useState<number | null>(null);
 
     const activeLabel = NAV.find((item) => isItemActive(item, pathname))?.label ?? null;
     const underlineTarget = hovered ?? activeLabel;
@@ -77,6 +76,7 @@ export default function Navbar() {
         setOpen(false);
         setDropdown(null);
         setMobileSub(null);
+        setMobileCat(null);
     }, [pathname]);
 
     useEffect(() => {
@@ -111,7 +111,7 @@ export default function Navbar() {
 
     return (
         <header className="relative z-30 bg-white">
-            <nav className="mx-auto flex h-[72px] max-w-[1140px] items-center justify-between px-4 sm:h-[80px] sm:px-5 lg:h-[88px]">
+            <nav className="relative mx-auto flex h-[72px] max-w-[1140px] items-center justify-between px-4 sm:h-[80px] sm:px-5 lg:h-[88px]">
                 <MotionLink
                     to="/"
                     initial={{ opacity: 0, x: -24 }}
@@ -127,10 +127,140 @@ export default function Navbar() {
                     initial="hidden"
                     animate="show"
                     onMouseLeave={() => setHovered(null)}
-                    className="hidden items-center gap-6 lg:flex xl:gap-10"
+                    className="hidden h-full items-center gap-6 lg:flex xl:gap-10"
                 >
                     {NAV.map((item) => {
                         const active = activeLabel === item.label;
+
+                        if (item.mega) {
+                            const isOpen = dropdown === item.label;
+                            const cat = SERVICE_CATEGORIES[megaCat];
+                            return (
+                                <motion.li
+                                    key={item.label}
+                                    variants={itemVariants}
+                                    onMouseEnter={() => {
+                                        setHovered(item.label);
+                                        setDropdown(item.label);
+                                    }}
+                                    onMouseLeave={() => setDropdown(null)}
+                                    className="flex h-full items-center"
+                                >
+                                    <div className="flex items-center gap-1">
+                                        <NavLink
+                                            to={item.to}
+                                            onFocus={() => setHovered(item.label)}
+                                            onBlur={() => setHovered(null)}
+                                            className={linkClass(active)}
+                                        >
+                                            {item.label}
+                                            {underline(item.label)}
+                                        </NavLink>
+                                        <button
+                                            type="button"
+                                            aria-label={`${isOpen ? "Close" : "Open"} ${item.label} menu`}
+                                            aria-haspopup="true"
+                                            aria-expanded={isOpen}
+                                            onClick={() => setDropdown(isOpen ? null : item.label)}
+                                            className={`inline-flex rounded-full p-0.5 outline-none transition-colors duration-500 focus-visible:ring-2 focus-visible:ring-brand-plum ${active ? "text-brand-plum" : "text-brand-ink hover:text-brand-plum"}`}
+                                        >
+                                            <motion.span animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.35, ease: EASE }} className="inline-flex">
+                                                <ChevronDown className="h-4 w-4" strokeWidth={2.6} />
+                                            </motion.span>
+                                        </button>
+                                    </div>
+
+                                    <AnimatePresence>
+                                        {isOpen && (
+                                            <div className="absolute left-1/2 top-full z-40 w-[min(900px,calc(100vw-40px))] -translate-x-1/2 pt-1">
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: 14, scale: 0.98 }}
+                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                    exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                                                    transition={{ duration: 0.35, ease: EASE }}
+                                                    className="grid grid-cols-[260px_1fr] overflow-hidden rounded-3xl border border-brand-paper bg-white shadow-[0_30px_60px_-28px_rgba(37,40,62,0.45)]"
+                                                >
+                                                    <div role="tablist" aria-orientation="vertical" aria-label="Service categories" className="flex flex-col gap-1 bg-[#fbf9f4] p-3">
+                                                        {SERVICE_CATEGORIES.map((c, i) => {
+                                                            const on = megaCat === i;
+                                                            return (
+                                                                <button
+                                                                    key={c.slug}
+                                                                    type="button"
+                                                                    role="tab"
+                                                                    aria-selected={on}
+                                                                    onMouseEnter={() => setMegaCat(i)}
+                                                                    onFocus={() => setMegaCat(i)}
+                                                                    onClick={() => setMegaCat(i)}
+                                                                    className={`relative flex items-center justify-between gap-2 rounded-2xl px-4 py-3 text-left text-[13px] font-bold leading-snug outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-brand-plum ${on ? "text-white" : "text-brand-ink hover:text-brand-plum"}`}
+                                                                >
+                                                                    {on && (
+                                                                        <motion.span
+                                                                            layoutId="mega-cat-bg"
+                                                                            transition={{ type: "spring", stiffness: 300, damping: 28 }}
+                                                                            className="absolute inset-0 rounded-2xl bg-brand-plum"
+                                                                        />
+                                                                    )}
+                                                                    <span className="relative">{c.label}</span>
+                                                                    <ChevronRight className={`relative h-4 w-4 shrink-0 transition-transform duration-300 ${on ? "translate-x-0.5" : "opacity-40"}`} />
+                                                                </button>
+                                                            );
+                                                        })}
+                                                    </div>
+
+                                                    <div className="flex min-h-[340px] flex-col p-5">
+                                                        <div className="flex items-center justify-between gap-4 border-b border-brand-paper pb-3">
+                                                            <p className="text-[15px] font-extrabold text-brand-ink">{cat.label}</p>
+                                                            <Link
+                                                                to={`/services?category=${cat.slug}`}
+                                                                className="group/all inline-flex shrink-0 items-center gap-1 text-[12px] font-bold uppercase tracking-wide text-brand-orange hover:text-brand-plum"
+                                                            >
+                                                                View all
+                                                                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/all:translate-x-1" />
+                                                            </Link>
+                                                        </div>
+
+                                                        <AnimatePresence mode="wait">
+                                                            <motion.ul
+                                                                key={cat.slug}
+                                                                initial="hidden"
+                                                                animate="show"
+                                                                exit={{ opacity: 0, transition: { duration: 0.12 } }}
+                                                                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.018 } } }}
+                                                                className="mt-3 grid max-h-[380px] grid-cols-2 gap-x-2 gap-y-0.5 overflow-y-auto pr-1 xl:grid-cols-3"
+                                                            >
+                                                                {cat.services.map((svc) => {
+                                                                    const Icon = svc.icon;
+                                                                    return (
+                                                                        <motion.li
+                                                                            key={svc.title}
+                                                                            variants={{
+                                                                                hidden: { opacity: 0, x: 10 },
+                                                                                show: { opacity: 1, x: 0, transition: { duration: 0.3, ease: EASE } },
+                                                                            }}
+                                                                        >
+                                                                            <Link
+                                                                                to={serviceHref(cat, svc)}
+                                                                                className="group/svc flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-semibold leading-snug text-brand-ink outline-none transition-colors duration-300 hover:bg-brand-paper hover:text-brand-plum focus-visible:bg-brand-paper"
+                                                                            >
+                                                                                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-plum/10 text-brand-plum transition-all duration-300 group-hover/svc:scale-110 group-hover/svc:bg-brand-plum group-hover/svc:text-white">
+                                                                                    <Icon className="h-4 w-4" strokeWidth={1.8} />
+                                                                                </span>
+                                                                                {svc.title}
+                                                                            </Link>
+                                                                        </motion.li>
+                                                                    );
+                                                                })}
+                                                            </motion.ul>
+                                                        </AnimatePresence>
+                                                    </div>
+                                                </motion.div>
+                                            </div>
+                                        )}
+                                    </AnimatePresence>
+                                </motion.li>
+                            );
+                        }
 
                         if (item.children) {
                             const isOpen = dropdown === item.label;
@@ -145,21 +275,29 @@ export default function Navbar() {
                                     }}
                                     onMouseLeave={() => setDropdown(null)}
                                 >
-                                    <button
-                                        type="button"
-                                        aria-haspopup="true"
-                                        aria-expanded={isOpen}
-                                        onClick={() => setDropdown(isOpen ? null : item.label)}
-                                        onFocus={() => setHovered(item.label)}
-                                        onBlur={() => setHovered(null)}
-                                        className={linkClass(active)}
-                                    >
-                                        {item.label}
-                                        <motion.span animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.35, ease: EASE }} className="inline-flex">
-                                            <ChevronDown className="h-4 w-4" strokeWidth={2.6} />
-                                        </motion.span>
-                                        {underline(item.label)}
-                                    </button>
+                                    <div className="flex items-center gap-1">
+                                        <NavLink
+                                            to={item.to}
+                                            onFocus={() => setHovered(item.label)}
+                                            onBlur={() => setHovered(null)}
+                                            className={linkClass(active)}
+                                        >
+                                            {item.label}
+                                            {underline(item.label)}
+                                        </NavLink>
+                                        <button
+                                            type="button"
+                                            aria-label={`${isOpen ? "Close" : "Open"} ${item.label} menu`}
+                                            aria-haspopup="true"
+                                            aria-expanded={isOpen}
+                                            onClick={() => setDropdown(isOpen ? null : item.label)}
+                                            className={`inline-flex rounded-full p-0.5 outline-none transition-colors duration-500 focus-visible:ring-2 focus-visible:ring-brand-plum ${active ? "text-brand-plum" : "text-brand-ink hover:text-brand-plum"}`}
+                                        >
+                                            <motion.span animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.35, ease: EASE }} className="inline-flex">
+                                                <ChevronDown className="h-4 w-4" strokeWidth={2.6} />
+                                            </motion.span>
+                                        </button>
+                                    </div>
 
                                     <AnimatePresence>
                                         {isOpen && (
@@ -266,19 +404,105 @@ export default function Navbar() {
                                         transition={{ delay: 0.05 * i, duration: 0.5, ease: EASE }}
                                         className="border-b border-brand-paper"
                                     >
-                                        {item.children ? (
+                                        {item.mega ? (
                                             <>
-                                                <button
-                                                    type="button"
-                                                    aria-expanded={subOpen}
-                                                    onClick={() => setMobileSub(subOpen ? null : item.label)}
-                                                    className={`flex w-full items-center justify-between py-3 text-[15px] font-bold uppercase tracking-wide ${active ? "text-brand-plum" : "text-brand-ink"}`}
-                                                >
-                                                    {item.label}
-                                                    <motion.span animate={{ rotate: subOpen ? 180 : 0 }} transition={{ duration: 0.35, ease: EASE }} className="inline-flex">
-                                                        <ChevronDown className="h-5 w-5" />
-                                                    </motion.span>
-                                                </button>
+                                                <div className="flex items-center justify-between">
+                                                    <NavLink
+                                                        to={item.to}
+                                                        className={`flex-1 py-3 text-[15px] font-bold uppercase tracking-wide ${active ? "text-brand-plum" : "text-brand-ink"}`}
+                                                    >
+                                                        {item.label}
+                                                    </NavLink>
+                                                    <button
+                                                        type="button"
+                                                        aria-label={`${subOpen ? "Close" : "Open"} ${item.label} menu`}
+                                                        aria-expanded={subOpen}
+                                                        onClick={() => setMobileSub(subOpen ? null : item.label)}
+                                                        className={`flex h-10 w-10 items-center justify-center rounded-full ${active ? "text-brand-plum" : "text-brand-ink"}`}
+                                                    >
+                                                        <motion.span animate={{ rotate: subOpen ? 180 : 0 }} transition={{ duration: 0.35, ease: EASE }} className="inline-flex">
+                                                            <ChevronDown className="h-5 w-5" />
+                                                        </motion.span>
+                                                    </button>
+                                                </div>
+                                                <AnimatePresence initial={false}>
+                                                    {subOpen && (
+                                                        <motion.ul
+                                                            initial={{ height: 0, opacity: 0 }}
+                                                            animate={{ height: "auto", opacity: 1 }}
+                                                            exit={{ height: 0, opacity: 0 }}
+                                                            transition={{ duration: 0.4, ease: EASE }}
+                                                            className="overflow-hidden pb-2"
+                                                        >
+                                                            {SERVICE_CATEGORIES.map((c, ci) => {
+                                                                const catOpen = mobileCat === ci;
+                                                                return (
+                                                                    <li key={c.slug} className="ml-2 border-l-2 border-brand-paper pl-3">
+                                                                        <button
+                                                                            type="button"
+                                                                            aria-expanded={catOpen}
+                                                                            onClick={() => setMobileCat(catOpen ? null : ci)}
+                                                                            className={`flex w-full items-center justify-between gap-2 py-2.5 text-left text-[13px] font-bold ${catOpen ? "text-brand-plum" : "text-brand-ink"}`}
+                                                                        >
+                                                                            {c.label}
+                                                                            <motion.span animate={{ rotate: catOpen ? 90 : 0 }} transition={{ duration: 0.3, ease: EASE }} className="inline-flex shrink-0">
+                                                                                <ChevronRight className="h-4 w-4" />
+                                                                            </motion.span>
+                                                                        </button>
+                                                                        <AnimatePresence initial={false}>
+                                                                            {catOpen && (
+                                                                                <motion.ul
+                                                                                    initial={{ height: 0, opacity: 0 }}
+                                                                                    animate={{ height: "auto", opacity: 1 }}
+                                                                                    exit={{ height: 0, opacity: 0 }}
+                                                                                    transition={{ duration: 0.35, ease: EASE }}
+                                                                                    className="overflow-hidden"
+                                                                                >
+                                                                                    {c.services.map((svc) => {
+                                                                                        const Icon = svc.icon;
+                                                                                        return (
+                                                                                            <li key={svc.title}>
+                                                                                                <Link
+                                                                                                    to={serviceHref(c, svc)}
+                                                                                                    className="flex items-center gap-2.5 py-2 pl-1 text-[13px] font-medium text-brand-ink/80 active:text-brand-plum"
+                                                                                                >
+                                                                                                    <Icon className="h-4 w-4 shrink-0 text-brand-plum" strokeWidth={1.8} />
+                                                                                                    {svc.title}
+                                                                                                </Link>
+                                                                                            </li>
+                                                                                        );
+                                                                                    })}
+                                                                                </motion.ul>
+                                                                            )}
+                                                                        </AnimatePresence>
+                                                                    </li>
+                                                                );
+                                                            })}
+                                                        </motion.ul>
+                                                    )}
+                                                </AnimatePresence>
+                                            </>
+                                        ) : item.children ? (
+                                            <>
+                                                <div className="flex items-center justify-between">
+                                                    <NavLink
+                                                        to={item.to}
+                                                        className={`flex-1 py-3 text-[15px] font-bold uppercase tracking-wide ${active ? "text-brand-plum" : "text-brand-ink"}`}
+                                                    >
+                                                        {item.label}
+                                                    </NavLink>
+                                                    <button
+                                                        type="button"
+                                                        aria-label={`${subOpen ? "Close" : "Open"} ${item.label} menu`}
+                                                        aria-expanded={subOpen}
+                                                        onClick={() => setMobileSub(subOpen ? null : item.label)}
+                                                        className={`flex h-10 w-10 items-center justify-center rounded-full ${active ? "text-brand-plum" : "text-brand-ink"}`}
+                                                    >
+                                                        <motion.span animate={{ rotate: subOpen ? 180 : 0 }} transition={{ duration: 0.35, ease: EASE }} className="inline-flex">
+                                                            <ChevronDown className="h-5 w-5" />
+                                                        </motion.span>
+                                                    </button>
+                                                </div>
                                                 <AnimatePresence initial={false}>
                                                     {subOpen && (
                                                         <motion.ul

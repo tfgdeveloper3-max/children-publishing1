@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useInView, useReducedMotion, type Variants } from "motion/react";
+import { Eye } from "lucide-react";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -8,6 +10,8 @@ const IMG_EXT = "png";
 const STEP_MS = 2600;
 const MOVE_SEC = 1.5;
 const EASE_FLOW = [0.45, 0, 0.2, 1] as const;
+
+const MotionLink = motion.create(Link);
 
 const COVERS = Array.from({ length: TOTAL }, (_, i) => ({
     src: `/images/Cover-${i + 1}.${IMG_EXT}`,
@@ -59,9 +63,6 @@ export default function PortfolioSection() {
         return () => window.clearInterval(id);
     }, [inView, paused, reduceMotion]);
 
-    /* Grid size container ki width se:
-       Mobile (< 560px): 3 columns × 5 rows
-       Tablet / Laptop / Desktop: 5 columns × 3 rows */
     const cols = width < 560 ? 3 : 5;
     const rows = Math.ceil(TOTAL / cols);
     const gapX = cols === 5 ? Math.max(12, width * 0.034) : 10;
@@ -78,14 +79,20 @@ export default function PortfolioSection() {
             <div className="relative z-10 mx-auto max-w-[1140px] px-4 sm:px-5">
                 <motion.div ref={headRef} variants={stagger} initial="hidden" animate={headInView ? "show" : "hidden"} className="text-center">
                     <motion.p variants={fadeUp} className="text-[13px] font-semibold text-brand-plum sm:text-[14px]">
-                        Portfolio
+                        Our Portfolio
                     </motion.p>
                     <motion.h2
                         variants={fadeUp}
-                        className="mx-auto mt-1 max-w-[560px] text-[clamp(26px,6vw,40px)] font-extrabold leading-[1.1] text-brand-ink lg:text-[clamp(34px,3.6vw,54px)] lg:leading-[1.08]"
+                        className="mx-auto mt-1 max-w-[620px] text-[clamp(26px,6vw,40px)] font-extrabold leading-[1.1] text-brand-ink lg:text-[clamp(34px,3.6vw,54px)] lg:leading-[1.08]"
                     >
-                        Selected projects created with purpose.
+                        Books we're proud to have made.
                     </motion.h2>
+                    <motion.p
+                        variants={fadeUp}
+                        className="mx-auto mt-3 max-w-[600px] text-[13px] leading-[1.75] text-brand-ink/75 sm:mt-4 sm:text-[15px]"
+                    >
+                        From playful picture books to bedtime favourites, here are some of the stories we've helped bring into the world.
+                    </motion.p>
                 </motion.div>
 
                 <motion.div variants={fadeUp} initial="hidden" animate={headInView ? "show" : "hidden"} className="mt-7 sm:mt-8 lg:mt-10">
@@ -93,6 +100,8 @@ export default function PortfolioSection() {
                         ref={boxRef}
                         onMouseEnter={() => setPaused(true)}
                         onMouseLeave={() => setPaused(false)}
+                        onFocusCapture={() => setPaused(true)}
+                        onBlurCapture={() => setPaused(false)}
                         className="relative mx-auto w-full max-w-[1100px]"
                         style={{ height: boxH }}
                     >
@@ -121,13 +130,25 @@ export default function PortfolioSection() {
                                             className="absolute left-0 top-0"
                                             style={{ width: cardW, height: cardH, willChange: "transform, opacity", backfaceVisibility: "hidden" }}
                                         >
-                                            <img
-                                                src={cover.src}
-                                                alt={cover.alt}
-                                                loading="lazy"
-                                                draggable={false}
-                                                className="h-full w-full rounded-[3px] object-cover shadow-[0_10px_14px_-8px_rgba(37,40,62,0.55)] sm:shadow-[0_14px_18px_-8px_rgba(37,40,62,0.55)]"
-                                            />
+                                            <Link
+                                                to="/portfolio"
+                                                aria-label={`View Book: ${cover.alt}`}
+                                                className="group relative block h-full w-full overflow-hidden rounded-[3px] shadow-[0_10px_14px_-8px_rgba(37,40,62,0.55)] outline-none focus-visible:ring-4 focus-visible:ring-brand-orange/50 sm:shadow-[0_14px_18px_-8px_rgba(37,40,62,0.55)]"
+                                            >
+                                                <img
+                                                    src={cover.src}
+                                                    alt={cover.alt}
+                                                    loading="lazy"
+                                                    draggable={false}
+                                                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06] group-focus-visible:scale-[1.06]"
+                                                />
+                                                <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-brand-ink/0 transition-colors duration-500 group-hover:bg-brand-ink/55 group-focus-visible:bg-brand-ink/55">
+                                                    <span className="inline-flex translate-y-3 items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-brand-ink opacity-0 shadow-[0_8px_18px_-8px_rgba(0,0,0,0.6)] transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:px-4 sm:py-2 sm:text-[12px]">
+                                                        <Eye className="h-3.5 w-3.5 text-brand-orange" strokeWidth={2.4} />
+                                                        View Book
+                                                    </span>
+                                                </span>
+                                            </Link>
                                         </motion.div>
                                     );
                                 })}
@@ -137,14 +158,14 @@ export default function PortfolioSection() {
                 </motion.div>
 
                 <motion.div variants={fadeUp} initial="hidden" animate={headInView ? "show" : "hidden"} className="mt-8 flex justify-center sm:mt-10">
-                    <motion.a
-                        href="#portfolio"
+                    <MotionLink
+                        to="/portfolio"
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.97 }}
                         className="inline-flex items-center justify-center rounded-full bg-brand-orange px-7 py-3 text-[14px] font-bold uppercase tracking-wide text-white shadow-[0_10px_24px_-8px_rgba(209,129,9,0.5)] outline-[1.5px] outline-dashed -outline-offset-[6px] outline-white/75 transition-colors duration-300 hover:bg-brand-orange-dark sm:px-8 sm:py-3.5 sm:text-[15px]"
                     >
-                        View More
-                    </motion.a>
+                        See All Projects
+                    </MotionLink>
                 </motion.div>
             </div>
         </section>

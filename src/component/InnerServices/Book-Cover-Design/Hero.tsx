@@ -22,10 +22,10 @@ type InnerHeroProps = {
 };
 
 export default function InnerHero({
-    eyebrow = "Illustration • Publishing • Branding • Digital Design",
-    title = "Book Cover Designing",
-    description = "Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry. Lorem Ipsum Has Been The Industry's Standard.",
-    ctaLabel = "Know More",
+    eyebrow = "Front Cover • Spine • Back Cover • Ebook Ready",
+    title = "Book Cover Design",
+    description = "A great cover gets your book picked up. We design covers that look just as good on a bookshelf as they do on a phone screen.",
+    ctaLabel = "Get a Cover Quote",
     ctaHref = "#",
     bg = "/images/Book-Cover-Design-BG.png",
 }: InnerHeroProps) {

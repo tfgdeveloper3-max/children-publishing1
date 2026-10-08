@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useInView, type Variants } from "motion/react";
-import { ArrowRight, CalendarDays, User } from "lucide-react";
+import { ArrowRight, ArrowUpRight, CalendarDays, User } from "lucide-react";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -30,34 +30,34 @@ type BlogPost = {
 const POSTS: BlogPost[] = [
     {
         image: "/images/Blog-1.png",
-        imageAlt: "Two kids reading books under a starry night sky",
-        badge: "Author",
+        imageAlt: "Starry night, two children reading outdoors",
+        badge: "Illustration",
         badgeColor: "#F2542D",
         date: "30 Sep, 2026",
-        title: "Lorem Ipsum is simply dummy text of the printing industry.",
-        author: "John Smith",
+        title: "How Illustrations Make a Children's Story Magical",
+        author: "Toonhaus Team",
         authorRole: "Blog Writer",
         href: "#",
     },
     {
         image: "/images/Blog-2.png",
-        imageAlt: "Girl playing in her colorful bedroom with a cat",
-        badge: "Author",
+        imageAlt: "Girl with books in a pink bedroom",
+        badge: "Writing Tips",
         badgeColor: "#F5A300",
         date: "30 Sep, 2026",
-        title: "Lorem Ipsum is simply dummy text of the printing industry.",
-        author: "John Smith",
+        title: "7 Tips for Writing a Picture Book Kids Ask for Again",
+        author: "Toonhaus Team",
         authorRole: "Blog Writer",
         href: "#",
     },
     {
         image: "/images/Blog-3.png",
-        imageAlt: "Mother reading a bedtime story to her child",
-        badge: "Author",
-        badgeColor: "#F2542D",
+        imageAlt: "Mother reading to child at bedtime",
+        badge: "Reading",
+        badgeColor: "#7C5CFC",
         date: "30 Sep, 2026",
-        title: "Lorem Ipsum is simply dummy text of the printing industry.",
-        author: "John Smith",
+        title: "Why Bedtime Stories Matter for Every Child",
+        author: "Toonhaus Team",
         authorRole: "Blog Writer",
         href: "#",
     },
@@ -117,7 +117,7 @@ function BlogCard({ post, className = "" }: { post: BlogPost; className?: string
 
                     <a
                         href={post.href}
-                        aria-label={`Read more: ${post.title}`}
+                        aria-label={`Read More: ${post.title}`}
                         className="flex h-8 w-8 items-center justify-center rounded-full border border-[#F2542D] text-[#F2542D] transition-colors duration-300 hover:bg-[#F2542D] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2542D] lg:h-7 lg:w-7"
                     >
                         <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" strokeWidth={2.4} />
@@ -144,14 +144,20 @@ export default function Blog() {
                 className="relative z-10 mx-auto max-w-[1140px] px-4 sm:px-5"
             >
                 <motion.p variants={fadeUp} className="text-center text-[13px] font-semibold text-brand-plum sm:text-[14px]">
-                    Our Blogs
+                    From Our Blog
                 </motion.p>
                 <motion.h2
                     variants={fadeUp}
                     className="mt-0.5 text-center text-[clamp(26px,6vw,40px)] font-extrabold leading-[1.1] text-brand-ink lg:text-[clamp(34px,3.6vw,54px)]"
                 >
-                    Our News &amp; Article
+                    Stories, tips and studio news
                 </motion.h2>
+                <motion.p
+                    variants={fadeUp}
+                    className="mx-auto mt-2 max-w-[520px] text-center text-[14px] font-medium leading-[1.6] text-brand-ink/60 sm:text-[15px]"
+                >
+                    Ideas for authors who want to write, illustrate and publish better children's books.
+                </motion.p>
 
                 <motion.div
                     variants={stagger}
@@ -168,6 +174,18 @@ export default function Blog() {
                             }
                         />
                     ))}
+                </motion.div>
+
+                <motion.div variants={fadeUp} className="mt-8 text-center sm:mt-9">
+                    <motion.a
+                        href="#blog"
+                        whileHover={{ scale: 1.04 }}
+                        whileTap={{ scale: 0.97 }}
+                        className="inline-flex items-center gap-2 rounded-full bg-brand-plum px-7 py-3 text-[14px] font-bold uppercase tracking-wide text-white shadow-[0_10px_24px_-8px_rgba(37,40,62,0.4)] transition-colors duration-300 hover:bg-brand-plum/85 sm:px-8 sm:py-3.5 sm:text-[15px]"
+                    >
+                        View All Articles
+                        <ArrowUpRight className="h-4 w-4" strokeWidth={2.4} />
+                    </motion.a>
                 </motion.div>
             </motion.div>
         </section>

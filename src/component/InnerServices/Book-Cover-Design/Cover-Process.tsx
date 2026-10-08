@@ -9,22 +9,22 @@ type Step = { title: string; text: string; icon: LucideIcon };
 const STEPS: Step[] = [
     {
         title: "Creative Brief",
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been text ever since 1966",
+        text: "Tell us about your story, your readers and the look you love. We ask a few questions to get every detail right.",
         icon: NotebookPen,
     },
     {
         title: "Concept Design",
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been text ever since 1966",
+        text: "We create cover concepts with colours, fonts and layout. You choose the one that feels like your book.",
         icon: Lightbulb,
     },
     {
         title: "Refinement",
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been text ever since 1966",
+        text: "We fine-tune your chosen cover with your feedback until it feels just right.",
         icon: SlidersHorizontal,
     },
     {
         title: "Final Files",
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been text ever since 1966",
+        text: "You receive print-ready and ebook files, set up for Amazon KDP, IngramSpark or your chosen platform.",
         icon: FolderCheck,
     },
 ];
@@ -160,8 +160,7 @@ export default function CoverProcess() {
                         className={`mt-3 text-[13px] leading-[1.7] text-brand-ink/75 sm:text-[14px] ${inView ? "animate__animated animate__fadeInUp" : "opacity-0"}`}
                         style={{ "--animate-duration": "1s", animationDelay: "0.2s" } as CSSProperties}
                     >
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                        industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley.
+                        Four simple steps from your first idea to print-ready files, so you always know what happens next.
                     </p>
                 </div>
 

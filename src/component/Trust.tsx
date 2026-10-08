@@ -20,10 +20,10 @@ const cardIn: Variants = {
 type Feature = { title: string; text: string; icon: LucideIcon };
 
 const FEATURES: Feature[] = [
-    { title: "10+ Years", text: "Creative & Publishing Experience", icon: Bus },
-    { title: "Multi-Service", text: "Books, Brands & Digital Projects", icon: Presentation },
-    { title: "End-to-End", text: "From Concept to Final Delivery", icon: Sparkles },
-    { title: "Worldwide", text: "Remote Creative Collaboration", icon: Blocks },
+    { title: "A Decade of Stories", text: "10+ years in children's books", icon: Bus },
+    { title: "All Under One Roof", text: "Illustration, covers, publishing and branding", icon: Presentation },
+    { title: "Idea to Bookshelf", text: "One team from first sketch to final file", icon: Sparkles },
+    { title: "Authors Worldwide", text: "Friendly remote teamwork, any time zone", icon: Blocks },
 ];
 
 function TrustCard({ title, text, icon: Icon }: Feature) {
@@ -86,14 +86,14 @@ export default function Trust() {
                 className="relative z-20 mx-auto max-w-[1040px] px-4 sm:px-5"
             >
                 <motion.p variants={fadeUp} className="text-center text-[13px] font-semibold text-white sm:text-[14px]">
-                    Why Clients Trust Us
+                    Why Authors Choose Toonhaus
                 </motion.p>
 
                 <motion.h2
                     variants={fadeUp}
                     className="mx-auto mt-1 max-w-[760px] text-center text-[clamp(26px,6vw,40px)] font-extrabold leading-[1.12] text-white lg:text-[clamp(34px,3.6vw,54px)] lg:leading-[1.1]"
                 >
-                    Creative expertise for every stage of your journey.
+                    Every step of your book, handled with care.
                 </motion.h2>
 
                 {/* Mobile: 1 column | Tablet+: 2 columns */}

@@ -322,19 +322,19 @@ export default function Hero() {
                                     >
                                         <Splat />
                                     </motion.span>
-                                    Illustration • Publishing • Branding • Digital Design
+                                    Picture Books • Cover Design • Self-Publishing • Author Branding
                                 </motion.p>
 
                                 <motion.h1
                                     variants={itemVariants}
                                     className="mt-3 text-[25px] font-bold leading-[1.12] text-brand-ink min-[400px]:text-[28px] sm:text-[36px] lg:text-[37px] xl:text-[39px]"
                                 >
-                                    Children's book illustration and{" "}
-                                    <span className="text-brand-plum">creative design</span>
+                                    Stories that {" "}
+                                    <span className="text-brand-plum">leap off the page</span>
                                 </motion.h1>
 
-                                <motion.p variants={itemVariants} className="mt-2 text-[12px] font-medium text-brand-ink/90 sm:text-[13px]">
-                                    Work And Play Come Together ?
+                                <motion.p variants={itemVariants} className="mt-2 max-w-[300px] text-[12px] font-medium text-brand-ink/90 sm:text-[13px]">
+                                    We illustrate, design and publish children's books that little readers ask for again and again.
                                 </motion.p>
 
                                 <motion.div variants={itemVariants} className="mt-6 sm:mt-7">
@@ -347,7 +347,7 @@ export default function Hero() {
                                     >
                                         <span className="pointer-events-none absolute inset-[3px] rounded-full border border-dashed border-white/90" />
                                         <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30 blur-sm transition-transform duration-[1100ms] ease-out group-hover:translate-x-[420%]" />
-                                        <span className="relative">Know More</span>
+                                        <span className="relative">See Our Books</span>
                                     </motion.a>
                                 </motion.div>
                             </motion.div>

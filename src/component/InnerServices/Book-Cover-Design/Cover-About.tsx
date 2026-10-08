@@ -20,7 +20,10 @@ const textCol: Variants = {
     show: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
 };
 
-const points = ["Learning Opportunity For Kids", "Your Child Will Take"];
+const points = [
+    "Print-ready front, spine and back cover",
+    "Ebook cover included with every order",
+];
 
 const scallop = {
     WebkitMaskImage: "radial-gradient(circle at 6px 0, transparent 5px, #000 5.5px)",
@@ -74,13 +77,13 @@ export default function About() {
                     className="mx-auto max-w-[620px] text-center"
                 >
                     <motion.p variants={fadeUp} className="text-[13px] font-semibold text-brand-plum sm:text-[14px]">
-                        Book Cover Designing
+                        Book Cover Design
                     </motion.p>
                     <motion.h2
                         variants={fadeUp}
                         className="mt-1 text-[clamp(26px,6vw,36px)] font-extrabold leading-[1.15] text-brand-ink lg:text-[clamp(34px,3vw,44px)]"
                     >
-                        Creative services designed around your ideas.
+                        Covers that make readers stop and look.
                     </motion.h2>
                 </motion.div>
 
@@ -108,15 +111,11 @@ export default function About() {
                         viewport={{ once: true, amount: 0.3 }}
                     >
                         <motion.p variants={fadeUp} className="text-[13px] leading-[1.9] text-brand-ink/80 sm:text-[14px]">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley.Lorem
-                            Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley.
+                            Parents and children often choose a book by its cover. Ours are made to catch the eye, show the mood of your story and tell readers at a glance who the book is for. Every cover is designed for your book alone, with your characters, your colours and your title.
                         </motion.p>
 
                         <motion.p variants={fadeUp} className="mt-4 text-[13px] leading-[1.9] text-brand-ink/80 sm:text-[14px]">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley.
+                            We design the full wrap-around cover (front, spine and back) with the correct size and bleed for Amazon KDP, IngramSpark and other print-on-demand services. You also get an ebook cover for online stores. Every file is checked before it reaches you.
                         </motion.p>
 
                         <motion.ul variants={fadeUp} className="mt-5 space-y-3">

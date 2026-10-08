@@ -10,25 +10,25 @@ type Testimonial = { name: string; role: string; avatar: string; rating: number;
 
 const TESTIMONIALS: Testimonial[] = [
     {
-        name: "Rodja Hartmann",
-        role: "Vecum, CEO",
+        name: "— Emily Carter",
+        role: "Children's Book Author",
         avatar: "/images/Client-1.jpg",
         rating: 5,
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966.",
+        text: "The illustrations were even better than I had imagined. Every character looked just as I'd pictured, and the team kept me updated at every step.",
     },
     {
-        name: "Sarah Mitchell",
-        role: "Author",
+        name: "Daniel Morgan",
+        role: "Self-Published Author",
         avatar: "/images/Client-2.jpg",
         rating: 5,
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966.",
+        text: "I knew nothing about formatting or KDP. Toonhaus handled it all, and my book was live on Amazon sooner than I expected.",
     },
     {
-        name: "James Carter",
-        role: "Brightpage, Publisher",
+        name: "Sophia Bennett",
+        role: "Founder, Sample Press",
         avatar: "/images/Client-3.jpg",
         rating: 5,
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966.",
+        text: "Friendly, reliable and creative. The cover design stood out right away, and our readers keep telling us how much they love it.",
     },
 ];
 
@@ -136,7 +136,7 @@ export default function AboutTestimonials() {
                             variants={fadeUp}
                             className="mt-1 text-[clamp(24px,6vw,36px)] font-extrabold leading-[1.15] text-white lg:text-[clamp(28px,2.9vw,46px)]"
                         >
-                            Trusted by authors, publishers, and creative businesses.
+                            Loved by authors, trusted by publishers.
                         </motion.h2>
 
                         <motion.div

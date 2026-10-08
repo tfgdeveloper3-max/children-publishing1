@@ -21,9 +21,9 @@ const pop: Variants = {
 
 const TABS = {
     mission:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley.",
+        "We make colourful, caring books that help children fall in love with reading. We also make publishing simple and stress-free for the authors behind them.",
     vision:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley.",
+        "We want every author with a story to see it in print, and every child to find a book that feels like it was written just for them.",
 } as const;
 type TabKey = keyof typeof TABS;
 
@@ -32,7 +32,10 @@ const TAB_LABELS: Record<TabKey, string> = {
     vision: "Our Vision",
 };
 
-const CHECKS = ["Learning Opportunity For Kids", "Your Child Will Take"];
+const CHECKS = [
+    "Stories that help children learn, imagine and grow",
+    "Books your readers will want to open again and again",
+];
 
 export default function About() {
     const [tab, setTab] = useState<TabKey>("mission");
@@ -92,7 +95,7 @@ export default function About() {
                                     <span className="text-[1.25em] leading-none">10+</span>
                                 </div>
                                 <p className="text-[0.9em] font-bold leading-[1.1] text-brand-ink">
-                                    Years Of
+                                    Years of
                                     <br />
                                     Experience
                                 </p>
@@ -125,24 +128,21 @@ export default function About() {
                         className="w-full max-w-[640px] lg:w-[53%] lg:max-w-none"
                     >
                         <motion.p variants={fadeUp} className="text-[14px] font-semibold text-brand-plum sm:text-[15px]">
-                            About Us
+                            About Toonhaus
                         </motion.p>
 
                         <motion.h2
                             variants={fadeUp}
                             className="mt-1 text-[clamp(26px,6.5vw,34px)] font-extrabold leading-[1.1] text-brand-ink sm:text-[clamp(32px,4vw,40px)] lg:text-[clamp(32px,3.4vw,50px)] lg:leading-[1.08]"
                         >
-                            Making Childhood Stories
-                            <br className="hidden sm:block" /> Spark With Imagination
+                            Where little stories grow into big adventures
                         </motion.h2>
 
                         <motion.p
                             variants={fadeUp}
                             className="mt-4 max-w-[600px] text-[14px] font-medium leading-[1.65] text-brand-ink/65 sm:text-[15px]"
                         >
-                            Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has been the industry's standard dummy text
-                            ever since 1966, when designers at Letraset and James Mosley.
+                            Toonhaus Publishing is a team of illustrators, designers and publishing specialists who love children's books. For over ten years we have helped authors turn a simple idea into a book that is ready to read, share and sell.
                         </motion.p>
 
                         <motion.div variants={fadeUp} role="tablist" className="mt-5 flex flex-wrap items-center gap-2 sm:gap-3">
@@ -181,6 +181,13 @@ export default function About() {
                             </AnimatePresence>
                         </div>
 
+                        <motion.p
+                            variants={fadeUp}
+                            className="mt-5 max-w-[600px] text-[14px] font-medium leading-[1.65] text-brand-ink/65 sm:text-[15px]"
+                        >
+                            One team looks after everything: illustration, cover design, formatting and publishing. You get one point of contact and one consistent look from the first page to the last. No juggling freelancers, no lost files and no guesswork.
+                        </motion.p>
+
                         <motion.ul variants={fadeUp} className="mt-4 space-y-3">
                             {CHECKS.map((item) => (
                                 <li key={item} className="flex items-center gap-3">
@@ -199,7 +206,7 @@ export default function About() {
                                 whileTap={{ scale: 0.97 }}
                                 className="inline-flex items-center justify-center rounded-full bg-brand-orange px-7 py-3 text-[14px] font-bold uppercase tracking-wide text-white shadow-[0_10px_24px_-8px_rgba(209,129,9,0.5)] outline-[1.5px] outline-dashed -outline-offset-[6px] outline-white/75 transition-colors duration-300 hover:bg-brand-orange-dark sm:px-8 sm:py-3.5 sm:text-[15px]"
                             >
-                                Contact Us
+                                Meet the Team
                             </motion.a>
                         </motion.div>
                     </motion.div>
