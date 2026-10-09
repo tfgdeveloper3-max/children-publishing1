@@ -1,21 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, useInView, useReducedMotion, type Variants } from "motion/react";
-import {
-    ArrowUpRight,
-    Backpack,
-    BookOpen,
-    Film,
-    MoveLeft,
-    MoveRight,
-    PenTool,
-    School,
-    Users,
-    type LucideIcon,
-} from "lucide-react";
+import { ArrowUpRight, MoveLeft, MoveRight, type LucideIcon } from "lucide-react";
+import { findService, serviceHref } from "@/data/services";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-type Service = {
+type Card = {
     title: string;
     description: string;
     image: string;
@@ -23,50 +14,41 @@ type Service = {
     href: string;
 };
 
-const services: Service[] = [
-    {
-        title: "Children's Book Illustration",
-        description: "Full-colour pages and lovable characters, painted to match your story.",
-        image: "/images/Cover3.png",
-        icon: School,
-        href: "#",
-    },
-    {
-        title: "Book Cover Design",
-        description: "Front, spine and back covers that stand out on a shelf and on a screen.",
-        image: "/images/Cover2.png",
-        icon: BookOpen,
-        href: "#",
-    },
-    {
-        title: "Amazon KDP & Publishing",
-        description: "Formatting, uploads and launch support for Amazon KDP, IngramSpark and more.",
-        image: "/images/Cover1.png",
-        icon: Backpack,
-        href: "#",
-    },
-    {
-        title: "Character Design",
-        description: "Original characters with a look, a personality and a story of their own.",
-        image: "/images/Cover3.png",
-        icon: Users,
-        href: "#",
-    },
-    {
-        title: "Brand Identity & Logo Design",
-        description: "Logos and brand looks that make your author name or studio easy to remember.",
-        image: "/images/Cover2.png",
-        icon: PenTool,
-        href: "#",
-    },
-    {
-        title: "Book Marketing & Trailers",
-        description: "Book trailers, social graphics and launch materials that help readers find you.",
-        image: "/images/Cover1.png",
-        icon: Film,
-        href: "#",
-    },
+const PICKS: [string, string][] = [
+    ["children-s-book-writing-story-development", "Turn your idea into a story children will want to hear again and again."],
+    ["children-s-book-illustration-services", "Bright, full-colour pages in the style that suits your story best."],
+    ["2d-3d-animation-services", "2D and 3D animation that brings your pages and characters to life."],
+    ["amazon-book-marketing-optimization", "Ads, keywords and categories that put your book in front of parents."],
+    ["author-character-branding", "A memorable brand for you and your characters that fans recognise."],
+
+    ["children-s-book-publishing-isbn-services", "Paperback, hardcover and Amazon KDP publishing with ISBNs handled."],
+    ["character-design-development", "Lovable characters that look the same on every single page."],
+    ["book-trailers-video-content", "Trailers and story videos that help families discover your book."],
+    ["book-launch-promotional-campaigns", "Reviews, press and podcasts that give your book a strong start."],
+    ["character-merchandise-design", "Plush toys, clothing, stickers and posters starring your characters."],
+
+    ["children-s-book-distribution-global-publishing", "Reach bookstores, libraries and online shops in 40+ countries."],
+    ["book-cover-interior-design", "Covers that stand out and layouts that make every page a joy."],
+    ["audiobooks-narration-voiceovers", "Warm narration and character voices for store-ready audiobooks."],
+    ["social-media-influencer-marketing", "Grow a community of parents and young fans on every platform."],
+    ["educational-materials-printable-activities", "Activity books, worksheets and colouring pages for home and class."],
 ];
+
+const IMAGES = ["/images/Cover3.png", "/images/Cover2.png", "/images/Cover1.png"];
+
+const services: Card[] = PICKS.flatMap(([slug, description], i) => {
+    const found = findService(slug);
+    if (!found) return [];
+    return [
+        {
+            title: found.service.title,
+            description,
+            image: IMAGES[i % IMAGES.length],
+            icon: found.service.icon,
+            href: serviceHref(found.category, found.service),
+        },
+    ];
+});
 
 const headingVariants: Variants = {
     hidden: {},
@@ -85,11 +67,20 @@ const cardVariants: Variants = {
     }),
 };
 
-function ServiceCard({ service, delay, show }: { service: Service; delay: number; show: boolean }) {
+function ServiceCard({ service, delay, show }: { service: Card; delay: number; show: boolean }) {
     const Icon = service.icon;
+    const navigate = useNavigate();
+
+    const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
+        if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        navigate(service.href);
+    };
+
     return (
         <motion.a
             href={service.href}
+            onClick={onClick}
             variants={cardVariants}
             custom={delay}
             initial="hidden"
@@ -127,9 +118,7 @@ function ServiceCard({ service, delay, show }: { service: Service; delay: number
                 <h3 className="mt-3 text-[15px] font-bold leading-tight text-brand-ink transition-colors duration-500 group-hover:text-brand-plum sm:mt-4 sm:text-[16px]">
                     {service.title}
                 </h3>
-                <p className="mt-1.5 text-[13px] leading-relaxed text-[#5b5e6e] sm:mt-2 sm:text-[14px]">
-                    {service.description}
-                </p>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-[#5b5e6e] sm:mt-2 sm:text-[14px]">{service.description}</p>
                 <span className="mt-3 inline-flex items-center gap-1 text-[13px] font-semibold text-brand-plum transition-colors duration-500 group-hover:text-brand-orange sm:mt-4 sm:text-[14px]">
                     Learn More
                     <ArrowUpRight className="h-4 w-4" strokeWidth={2.4} />
@@ -139,7 +128,6 @@ function ServiceCard({ service, delay, show }: { service: Service; delay: number
     );
 }
 
-/* Haath sirf bade desktop (xl+) par — laptop par carousel se takrate the */
 function Hands({ side }: { side: "left" | "right" }) {
     const isLeft = side === "left";
     return (
@@ -172,7 +160,6 @@ export default function Services() {
     const carouselRef = useRef<HTMLDivElement>(null);
     const carouselInView = useInView(carouselRef, { once: true, amount: 0.3 });
 
-    // Mobile: 1 card | Tablet: 2 cards | Laptop/Desktop: 3 cards
     useEffect(() => {
         const update = () => {
             const w = window.innerWidth;
@@ -229,7 +216,7 @@ export default function Services() {
                 >
                     <p
                         ref={labelRef}
-                        className={`text-[13px] font-semibold text-brand-plum ${labelInView ? "animate__animated animate__fadeInDown animate__slow" : "opacity-0"}`}
+                        className={`text-[16px] font-semibold text-brand-plum ${labelInView ? "animate__animated animate__fadeInDown animate__slow" : "opacity-0"}`}
                     >
                         What We Do
                     </p>
@@ -239,10 +226,7 @@ export default function Services() {
                     >
                         Everything your book needs Under one roof
                     </motion.h2>
-                    <motion.p
-                        variants={fadeUp}
-                        className="mx-auto mt-3 max-w-[480px] text-[15px] leading-relaxed sm:text-[16px]"
-                    >
+                    <motion.p variants={fadeUp} className="mx-auto mt-3 max-w-[480px] text-[15px] leading-relaxed sm:text-[16px]">
                         Countless services. One friendly team. A finished book you'll be proud of.
                     </motion.p>
                 </motion.div>

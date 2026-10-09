@@ -84,7 +84,7 @@ export default function Trust() {
                 animate={inView ? "show" : "hidden"}
                 className="relative z-20 mx-auto max-w-[1040px] px-4 sm:px-5"
             >
-                <motion.p variants={fadeUp} className="text-center text-[13px] font-semibold text-white sm:text-[14px]">
+                <motion.p variants={fadeUp} className="text-center text-[16px] font-semibold text-white sm:text-[17px]">
                     Why Authors Choose Toonhaus
                 </motion.p>
 

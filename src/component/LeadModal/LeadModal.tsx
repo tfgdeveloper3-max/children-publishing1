@@ -123,7 +123,7 @@ export default function LeadModal({ open, options, onClose }: { open: boolean; o
                         animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
                         exit={{ opacity: 0, y: 40, scale: 0.97 }}
                         transition={{ type: "spring", stiffness: 260, damping: 26 }}
-                        className="relative max-h-[94dvh] w-full max-w-[480px] overflow-y-auto rounded-t-[24px] border border-brand-ink/15 bg-white px-5 pb-6 pt-6 shadow-[0_4px_0_#25283e,0_40px_80px_-30px_rgba(0,0,0,0.6)] sm:rounded-[24px] sm:px-7 sm:pb-7 sm:pt-7"
+                        className="relative max-h-[94dvh] w-full max-w-[480px] overflow-x-hidden overflow-y-auto overscroll-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden rounded-t-[24px] border border-brand-ink/15 bg-white px-5 pb-6 pt-6 shadow-[0_4px_0_#25283e,0_40px_80px_-30px_rgba(0,0,0,0.6)] sm:rounded-[24px] sm:px-7 sm:pb-7 sm:pt-7"
                     >
                         <span aria-hidden="true" className="pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full bg-brand-orange/15 blur-2xl" />
                         <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -left-12 h-40 w-40 rounded-full bg-brand-plum/10 blur-2xl" />
@@ -180,7 +180,7 @@ export default function LeadModal({ open, options, onClose }: { open: boolean; o
                                     initial="hidden"
                                     animate="show"
                                     exit={{ opacity: 0 }}
-                                    className="relative space-y-4"
+                                    className="relative space-y-3.5"
                                 >
                                     <motion.div variants={fieldIn} className="pr-10">
                                         <p className="text-[15px] font-bold text-brand-plum sm:text-[17px]">{options.service ?? "Let's Talk"}</p>
@@ -251,11 +251,11 @@ export default function LeadModal({ open, options, onClose }: { open: boolean; o
                                             id="lm-message"
                                             name="message"
                                             required
-                                            rows={4}
+                                            rows={3}
                                             placeholder="Message"
                                             value={form.message}
                                             onChange={onChange}
-                                            className={`${inputBase} min-h-[94px] resize-none rounded-[16px] py-3`}
+                                            className={`${inputBase} min-h-[84px] resize-none rounded-[16px] py-3`}
                                         />
                                     </motion.div>
 

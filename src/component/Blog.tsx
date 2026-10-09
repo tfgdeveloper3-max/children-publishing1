@@ -143,7 +143,7 @@ export default function Blog() {
                 animate={inView ? "show" : "hidden"}
                 className="relative z-10 mx-auto max-w-[1140px] px-4 sm:px-5"
             >
-                <motion.p variants={fadeUp} className="text-center text-[13px] font-semibold text-brand-plum sm:text-[14px]">
+                <motion.p variants={fadeUp} className="text-center text-[16px] font-semibold text-brand-plum sm:text-[17px]">
                     From Our Blog
                 </motion.p>
                 <motion.h2
@@ -178,7 +178,7 @@ export default function Blog() {
 
                 <motion.div variants={fadeUp} className="mt-8 text-center sm:mt-9">
                     <motion.a
-                        href="#blog"
+                        href="/blog"
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.97 }}
                         className="inline-flex items-center gap-2 rounded-full bg-brand-plum px-7 py-3 text-[14px] font-bold uppercase tracking-wide text-white shadow-[0_10px_24px_-8px_rgba(37,40,62,0.4)] transition-colors duration-300 hover:bg-brand-plum/85 sm:px-8 sm:py-3.5 sm:text-[15px]"

@@ -12,21 +12,21 @@ const TESTIMONIALS: Testimonial[] = [
     {
         name: "— Emily Carter",
         role: "Children's Book Author",
-        avatar: "/images/Client-1.jpg",
+        avatar: "/images/Client-1.png",
         rating: 5,
         text: "The illustrations were even better than I had imagined. Every character looked just as I'd pictured, and the team kept me updated at every step.",
     },
     {
         name: "Daniel Morgan",
         role: "Self-Published Author",
-        avatar: "/images/Client-2.jpg",
+        avatar: "/images/Client-2.png",
         rating: 5,
         text: "I knew nothing about formatting or KDP. Toonhaus handled it all, and my book was live on Amazon sooner than I expected.",
     },
     {
         name: "Sophia Bennett",
         role: "Founder, Sample Press",
-        avatar: "/images/Client-3.jpg",
+        avatar: "/images/Client-3.png",
         rating: 5,
         text: "Friendly, reliable and creative. The cover design stood out right away, and our readers keep telling us how much they love it.",
     },
@@ -89,7 +89,6 @@ export default function Testimonials() {
             <div aria-hidden="true" className="scallop-edge absolute inset-x-0 top-0 z-30 h-[7px]" />
             <div aria-hidden="true" className="scallop-edge absolute inset-x-0 bottom-0 z-30 h-[7px] rotate-180" />
 
-            {/* Mobile/Tablet: photo upar, purple panel neeche | Laptop+: side by side */}
             <div className="flex flex-col lg:min-h-[600px] lg:flex-row xl:min-h-[640px]">
                 <div className="relative h-[240px] w-full sm:h-[340px] md:h-[400px] lg:h-auto lg:w-[45%]">
                     <img
@@ -99,9 +98,7 @@ export default function Testimonials() {
                     />
                 </div>
 
-                {/* pb: mobile/tablet par neeche kid ke liye jagah */}
                 <div className="relative w-full px-5 pb-[215px] pt-12 sm:px-10 sm:pb-[245px] lg:w-[55%] lg:px-[6%] lg:pb-20 lg:pt-20 xl:pb-24">
-                    {/* Doodles sirf bade desktop par, warna heading se takrate hain */}
                     <img
                         src="/images/06.svg.png"
                         alt=""
@@ -133,7 +130,7 @@ export default function Testimonials() {
                         animate={headInView ? "show" : "hidden"}
                         className="relative z-20 max-w-[620px] lg:max-w-[64%] xl:max-w-[68%] 2xl:max-w-[620px]"
                     >
-                        <motion.p variants={fadeUp} className="text-[13px] font-semibold text-white sm:text-[14px]">
+                        <motion.p variants={fadeUp} className="text-[16px] font-semibold text-white sm:text-[17px]">
                             Testimonials
                         </motion.p>
                         <motion.h2

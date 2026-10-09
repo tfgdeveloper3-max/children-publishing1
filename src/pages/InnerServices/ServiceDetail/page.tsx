@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
-import { findService } from "@/data/services";
+import { findService, findServiceByItem, serviceHref } from "@/data/services";
 import { CATEGORY_CONTENT, SERVICE_CONTENT } from "@/data/serviceContent";
 import ServiceHero from "@/component/InnerServices/Shared/ServiceHero";
 import ServiceAbout from "@/component/InnerServices/Shared/ServiceAbout";
+import ServiceIncludes from "@/component/InnerServices/Shared/ServiceIncludes";
 import ServiceProcess from "@/component/InnerServices/Shared/ServiceProcess";
 import ServicePartners from "@/component/InnerServices/Shared/ServicePartners";
 import RelatedServices from "@/component/InnerServices/Shared/RelatedServices";
@@ -17,7 +18,10 @@ export default function ServiceDetail() {
         if (found) document.title = `${found.service.title} | Toon Haus Publishing`;
     }, [found]);
 
-    if (!found) return <Navigate to="/services" replace />;
+    if (!found) {
+        const parent = findServiceByItem(serviceSlug);
+        return <Navigate to={parent ? serviceHref(parent.category, parent.service) : "/services"} replace />;
+    }
 
     const { category, service } = found;
     const cat = CATEGORY_CONTENT[category.slug];
@@ -35,9 +39,10 @@ export default function ServiceDetail() {
                 imageAlt={`${service.title} by Toon Haus Publishing`}
             />
             <ServicePartners />
+            <ServiceIncludes title={service.title} items={service.includes} />
             <ServiceProcess
                 heading={cat.processHeading}
-                description={`Every ${service.title.toLowerCase()} project follows a simple, friendly process so you always know what happens next.`}
+                description="Every project follows a simple, friendly process so you always know what happens next."
                 steps={cat.process}
             />
             <RelatedServices category={category} current={service} />

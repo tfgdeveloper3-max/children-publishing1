@@ -174,7 +174,7 @@ export default function Illustrations() {
         <section className="relative overflow-hidden bg-white bg-[url('/images/illustration-BG.png')] bg-cover bg-center py-14 sm:py-16 lg:py-20">
             <div className="relative z-10 mx-auto max-w-[1240px] px-4 sm:px-5">
                 <motion.div ref={headRef} variants={stagger} initial="hidden" animate={inView ? "show" : "hidden"} className="text-center">
-                    <motion.p variants={fadeUp} className="text-[13px] font-semibold text-brand-plum sm:text-[14px]">
+                    <motion.p variants={fadeUp} className="text-[16px] font-semibold text-brand-plum sm:text-[17px]">
                         Kids Illustrations
                     </motion.p>
                     <motion.h2
@@ -256,7 +256,7 @@ export default function Illustrations() {
                     </div>
 
                     <motion.a
-                        href="#portfolio"
+                        href="/portfolio"
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.97 }}
                         className="inline-flex items-center gap-2 rounded-full bg-brand-plum px-6 py-2.5 text-[13px] font-bold uppercase tracking-wide text-white shadow-[0_10px_24px_-8px_rgba(37,40,62,0.4)] transition-colors duration-300 hover:bg-brand-plum/85 sm:px-7 sm:py-3 sm:text-[14px]"

@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { motion, AnimatePresence, useInView, type Variants } from "motion/react";
 import { Check } from "lucide-react";
+import { useLeadModal } from "@/component/LeadModal/LeadModalContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -22,8 +23,7 @@ const pop: Variants = {
 const TABS = {
     mission:
         "We make colourful, caring books that help children fall in love with reading. We also make publishing simple and stress-free for the authors behind them.",
-    vision:
-        "We want every author with a story to see it in print, and every child to find a book that feels like it was written just for them.",
+    vision: "We want every author with a story to see it in print, and every child to find a book that feels like it was written just for them.",
 } as const;
 type TabKey = keyof typeof TABS;
 
@@ -32,13 +32,11 @@ const TAB_LABELS: Record<TabKey, string> = {
     vision: "Our Vision",
 };
 
-const CHECKS = [
-    "Stories that help children learn, imagine and grow",
-    "Books your readers will want to open again and again",
-];
+const CHECKS = ["Stories that help children learn, imagine and grow", "Books your readers will want to open again and again"];
 
 export default function About() {
     const [tab, setTab] = useState<TabKey>("mission");
+    const { openLeadModal } = useLeadModal();
 
     const leftRef = useRef<HTMLDivElement>(null);
     const leftInView = useInView(leftRef, { once: true, amount: 0.25 });
@@ -47,7 +45,6 @@ export default function About() {
 
     return (
         <section className="relative overflow-hidden border-b-2 border-dashed border-brand-plum bg-white bg-[url('/images/About-BG.png')] bg-cover bg-center py-12 sm:py-16 lg:py-24">
-            {/* Tree sirf bade desktop par — chhoti screen par button/text se takrata tha */}
             <img
                 src="/images/Tree.png"
                 alt=""
@@ -58,7 +55,6 @@ export default function About() {
             <div className="relative z-10 mx-auto max-w-[1240px] px-4 sm:px-5">
                 <div className="flex flex-col items-center gap-10 sm:gap-14 lg:flex-row lg:gap-12 xl:gap-24">
                     <div ref={leftRef} className="w-full lg:w-[47%]">
-                        {/* @container: andar ka badge text collage ke size ke hisaab se scale hota hai (har screen par same proportion) */}
                         <motion.div
                             variants={stagger}
                             initial="hidden"
@@ -69,22 +65,14 @@ export default function About() {
                                 variants={pop}
                                 className="absolute left-[2.7%] top-0 z-10 h-[45%] w-[40.7%] overflow-hidden rounded-[12px] border-[3px] border-white shadow-[0_12px_30px_-10px_rgba(37,40,62,0.35)] sm:rounded-[18px] sm:border-4"
                             >
-                                <img
-                                    src="/images/Back-Cover.jpg"
-                                    alt="Girl running with her dog"
-                                    className="h-full w-full object-cover"
-                                />
+                                <img src="/images/Back-Cover.jpg" alt="Girl running with her dog" className="h-full w-full object-cover" />
                             </motion.div>
 
                             <motion.div
                                 variants={pop}
                                 className="absolute left-[32.5%] top-[26.4%] z-20 h-[73.6%] w-[63.4%] overflow-hidden rounded-[14px] shadow-[0_18px_40px_-12px_rgba(37,40,62,0.45)] sm:rounded-[20px]"
                             >
-                                <img
-                                    src="/images/Front-Cover.jpg"
-                                    alt="Children sailing through a storm"
-                                    className="h-full w-full object-cover object-[center_75%]"
-                                />
+                                <img src="/images/Front-Cover.jpg" alt="Children sailing through a storm" className="h-full w-full object-cover object-[center_75%]" />
                             </motion.div>
 
                             <motion.div
@@ -101,13 +89,7 @@ export default function About() {
                                 </p>
                             </motion.div>
 
-                            <motion.img
-                                variants={pop}
-                                src="/images/Balloon.png"
-                                alt=""
-                                aria-hidden="true"
-                                className="absolute left-[86%] top-[5%] z-30 w-[12%]"
-                            />
+                            <motion.img variants={pop} src="/images/Balloon.png" alt="" aria-hidden="true" className="absolute left-[86%] top-[5%] z-30 w-[12%]" />
 
                             <motion.img
                                 variants={pop}
@@ -127,7 +109,7 @@ export default function About() {
                         animate={rightInView ? "show" : "hidden"}
                         className="w-full max-w-[640px] lg:w-[53%] lg:max-w-none"
                     >
-                        <motion.p variants={fadeUp} className="text-[14px] font-semibold text-brand-plum sm:text-[15px]">
+                        <motion.p variants={fadeUp} className="text-[16px] font-semibold text-brand-plum sm:text-[17px]">
                             About Toonhaus
                         </motion.p>
 
@@ -138,11 +120,9 @@ export default function About() {
                             Where little stories grow into big adventures
                         </motion.h2>
 
-                        <motion.p
-                            variants={fadeUp}
-                            className="mt-4 max-w-[600px] text-[14px] font-medium leading-[1.65] text-brand-ink/65 sm:text-[15px]"
-                        >
-                            Toonhaus Publishing is a team of illustrators, designers and publishing specialists who love children's books. For over ten years we have helped authors turn a simple idea into a book that is ready to read, share and sell.
+                        <motion.p variants={fadeUp} className="mt-4 max-w-[600px] text-[14px] font-medium leading-[1.65] text-brand-ink/65 sm:text-[15px]">
+                            Toonhaus Publishing is a team of illustrators, designers and publishing specialists who love children's books. For over ten years we have
+                            helped authors turn a simple idea into a book that is ready to read, share and sell.
                         </motion.p>
 
                         <motion.div variants={fadeUp} role="tablist" className="mt-5 flex flex-wrap items-center gap-2 sm:gap-3">
@@ -155,9 +135,7 @@ export default function About() {
                                         role="tab"
                                         aria-selected={active}
                                         onClick={() => setTab(key)}
-                                        className={`rounded-full border-[1.5px] border-dashed px-4 py-1.5 text-[14px] font-bold transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange sm:px-5 sm:text-[15px] ${active
-                                            ? "border-brand-orange bg-brand-orange/10 text-brand-orange"
-                                            : "border-transparent text-brand-ink hover:text-brand-orange"
+                                        className={`rounded-full border-[1.5px] border-dashed px-4 py-1.5 text-[14px] font-bold transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange sm:px-5 sm:text-[15px] ${active ? "border-brand-orange bg-brand-orange/10 text-brand-orange" : "border-transparent text-brand-ink hover:text-brand-orange"
                                             }`}
                                     >
                                         {TAB_LABELS[key]}
@@ -181,11 +159,9 @@ export default function About() {
                             </AnimatePresence>
                         </div>
 
-                        <motion.p
-                            variants={fadeUp}
-                            className="mt-5 max-w-[600px] text-[14px] font-medium leading-[1.65] text-brand-ink/65 sm:text-[15px]"
-                        >
-                            One team looks after everything: illustration, cover design, formatting and publishing. You get one point of contact and one consistent look from the first page to the last. No juggling freelancers, no lost files and no guesswork.
+                        <motion.p variants={fadeUp} className="mt-5 max-w-[600px] text-[14px] font-medium leading-[1.65] text-brand-ink/65 sm:text-[15px]">
+                            One team looks after everything: illustration, cover design, formatting and publishing. You get one point of contact and one consistent
+                            look from the first page to the last. No juggling freelancers, no lost files and no guesswork.
                         </motion.p>
 
                         <motion.ul variants={fadeUp} className="mt-4 space-y-3">
@@ -200,14 +176,20 @@ export default function About() {
                         </motion.ul>
 
                         <motion.div variants={fadeUp} className="mt-7 sm:mt-8">
-                            <motion.a
-                                href="#contact"
+                            <motion.button
+                                type="button"
+                                onClick={() =>
+                                    openLeadModal({
+                                        title: "Meet the Team",
+                                        subtitle: "Tell us a little about your book and the right people from our team will get in touch with you.",
+                                    })
+                                }
                                 whileHover={{ scale: 1.04 }}
                                 whileTap={{ scale: 0.97 }}
-                                className="inline-flex items-center justify-center rounded-full bg-brand-orange px-7 py-3 text-[14px] font-bold uppercase tracking-wide text-white shadow-[0_10px_24px_-8px_rgba(209,129,9,0.5)] outline-[1.5px] outline-dashed -outline-offset-[6px] outline-white/75 transition-colors duration-300 hover:bg-brand-orange-dark sm:px-8 sm:py-3.5 sm:text-[15px]"
+                                className="inline-flex items-center justify-center rounded-full bg-brand-orange px-7 py-3 text-[14px] font-bold uppercase tracking-wide text-white shadow-[0_10px_24px_-8px_rgba(209,129,9,0.5)] outline-[1.5px] outline-dashed -outline-offset-[6px] outline-white/75 transition-colors duration-300 hover:bg-brand-orange-dark focus-visible:ring-4 focus-visible:ring-brand-orange/40 sm:px-8 sm:py-3.5 sm:text-[15px]"
                             >
                                 Meet the Team
-                            </motion.a>
+                            </motion.button>
                         </motion.div>
                     </motion.div>
                 </div>

@@ -339,7 +339,7 @@ export default function Hero() {
 
                                 <motion.div variants={itemVariants} className="mt-6 sm:mt-7">
                                     <motion.a
-                                        href="#"
+                                        href="/portfolio"
                                         whileHover={{ scale: 1.05, y: -2 }}
                                         whileTap={{ scale: 0.97 }}
                                         transition={{ type: "spring", stiffness: 220, damping: 20 }}

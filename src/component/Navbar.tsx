@@ -114,6 +114,7 @@ export default function Navbar() {
     return (
         <header className="relative z-30 bg-white">
             <nav className="relative mx-auto flex h-[72px] max-w-[1140px] items-center justify-between px-4 sm:h-[80px] sm:px-5 lg:h-[88px]">
+
                 <MotionLink
                     to="/"
                     aria-label="Toon Haus Publishing home"
@@ -216,7 +217,7 @@ export default function Navbar() {
                                                         })}
                                                     </div>
 
-                                                    <div className="flex min-h-[340px] flex-col p-5">
+                                                    <div className="flex min-h-[360px] flex-col p-5">
                                                         <div className="flex items-center justify-between gap-4 border-b border-brand-paper pb-3">
                                                             <p className="text-[15px] font-extrabold text-brand-ink">{cat.label}</p>
                                                             <Link
@@ -235,7 +236,7 @@ export default function Navbar() {
                                                                 animate="show"
                                                                 exit={{ opacity: 0, transition: { duration: 0.12 } }}
                                                                 variants={{ hidden: {}, show: { transition: { staggerChildren: 0.018 } } }}
-                                                                className="mt-3 grid max-h-[380px] grid-cols-2 gap-x-2 gap-y-0.5 overflow-y-auto pr-1 xl:grid-cols-3"
+                                                                className="mt-3 grid grid-cols-2 gap-2"
                                                             >
                                                                 {cat.services.map((svc) => {
                                                                     const Icon = svc.icon;
@@ -249,12 +250,19 @@ export default function Navbar() {
                                                                         >
                                                                             <Link
                                                                                 to={serviceHref(cat, svc)}
-                                                                                className="group/svc flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-semibold leading-snug text-brand-ink outline-none transition-colors duration-300 hover:bg-brand-paper hover:text-brand-plum focus-visible:bg-brand-paper"
+                                                                                className="group/svc flex h-full items-start gap-3 rounded-2xl p-3 outline-none transition-colors duration-300 hover:bg-brand-paper focus-visible:bg-brand-paper"
                                                                             >
-                                                                                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-plum/10 text-brand-plum transition-all duration-300 group-hover/svc:scale-110 group-hover/svc:bg-brand-plum group-hover/svc:text-white">
-                                                                                    <Icon className="h-4 w-4" strokeWidth={1.8} />
+                                                                                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-plum/10 text-brand-plum transition-all duration-300 group-hover/svc:scale-110 group-hover/svc:bg-brand-plum group-hover/svc:text-white">
+                                                                                    <Icon className="h-5 w-5" strokeWidth={1.8} />
                                                                                 </span>
-                                                                                {svc.title}
+                                                                                <span className="min-w-0">
+                                                                                    <span className="block text-[13.5px] font-bold leading-snug text-brand-ink transition-colors duration-300 group-hover/svc:text-brand-plum">
+                                                                                        {svc.title}
+                                                                                    </span>
+                                                                                    <span className="mt-1 line-clamp-2 block text-[12px] leading-snug text-brand-ink/55">
+                                                                                        {svc.includes.map((i) => i.title).join(" • ")}
+                                                                                    </span>
+                                                                                </span>
                                                                             </Link>
                                                                         </motion.li>
                                                                     );
