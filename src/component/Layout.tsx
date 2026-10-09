@@ -5,6 +5,8 @@ import { MotionConfig } from "motion/react";
 import TopBar from "@/component/Topbar";
 import Navbar from "@/component/Navbar";
 import Footer from "@/component/Footer";
+import LiveChat from "@/component/Integrations/LiveChat";
+import LeadModalProvider from "@/component/LeadModal/LeadModalProvider";
 
 function ScrollToTop() {
     const { pathname, hash } = useLocation();
@@ -23,13 +25,16 @@ function ScrollToTop() {
 export default function Layout() {
     return (
         <MotionConfig reducedMotion="user">
-            <ScrollToTop />
-            <TopBar />
-            <Navbar />
-            <main>
-                <Outlet />
-            </main>
-            <Footer />
+            <LeadModalProvider>
+                <ScrollToTop />
+                <TopBar />
+                <Navbar />
+                <main>
+                    <Outlet />
+                </main>
+                <Footer />
+                <LiveChat />
+            </LeadModalProvider>
         </MotionConfig>
     );
 }

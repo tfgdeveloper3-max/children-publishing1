@@ -1,6 +1,9 @@
 import { useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import { AnimatePresence, motion, type Variants } from "motion/react";
+
 import { Check, Loader2, Mail, MapPin, Phone, Send, type LucideIcon } from "lucide-react";
+import { SITE } from "@/data/Site";
+import { submitLead } from "@/lib/lead";
 
 type BrandIcon = (props: { className?: string }) => ReactNode;
 
@@ -27,22 +30,22 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 type Info = { title: string; lines: string[]; href: string; icon: LucideIcon; external?: boolean };
 
 const INFO: Info[] = [
-    { title: "Phone", lines: ["(000) 123-456789"], href: "tel:+000123456789", icon: Phone },
-    { title: "Email", lines: ["info@loremipsum.com"], href: "mailto:info@loremipsum.com", icon: Mail },
+    { title: "Phone", lines: [SITE.phoneDisplay], href: SITE.phoneLink, icon: Phone },
+    { title: "Email", lines: [SITE.email], href: `mailto:${SITE.email}`, icon: Mail },
     {
         title: "Location",
-        lines: ["1901 Thornridge Cir. Shiloh,", "Hawaii 81063"],
-        href: "https://maps.google.com/?q=1901+Thornridge+Cir+Shiloh+Hawaii+81063",
+        lines: SITE.address.lines,
+        href: SITE.address.mapLink,
         icon: MapPin,
         external: true,
     },
 ];
 
 const SOCIALS: { label: string; href: string; icon: BrandIcon }[] = [
-    { label: "Facebook", href: "#", icon: FacebookIcon },
-    { label: "Twitter", href: "#", icon: TwitterIcon },
-    { label: "LinkedIn", href: "#", icon: LinkedinIcon },
-];
+    { label: "Facebook", href: SITE.socials.facebook, icon: FacebookIcon },
+    { label: "Twitter", href: SITE.socials.twitter, icon: TwitterIcon },
+    { label: "LinkedIn", href: SITE.socials.linkedin, icon: LinkedinIcon },
+].filter((s) => s.href);
 
 const col: Variants = {
     hidden: {},
@@ -106,10 +109,10 @@ function Field({ label, id, children }: { label: string; id: string; children: R
     );
 }
 
-type Status = "idle" | "sending" | "sent";
+type Status = "idle" | "sending" | "sent" | "error";
 
 export default function ContactSection() {
-    const [form, setForm] = useState({ name: "", email: "", message: "" });
+    const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
     const [status, setStatus] = useState<Status>("idle");
 
     const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -119,10 +122,14 @@ export default function ContactSection() {
         e.preventDefault();
         if (status === "sending") return;
         setStatus("sending");
-        await new Promise((r) => setTimeout(r, 1400));
-        setStatus("sent");
-        setForm({ name: "", email: "", message: "" });
-        setTimeout(() => setStatus("idle"), 3200);
+        try {
+            await submitLead({ name: form.name, email: form.email, phone_number: form.phone, message: form.message });
+            setStatus("sent");
+            setForm({ name: "", email: "", phone: "", message: "" });
+            setTimeout(() => setStatus("idle"), 3200);
+        } catch {
+            setStatus("error");
+        }
     };
 
     return (
@@ -146,25 +153,31 @@ export default function ContactSection() {
                         ))}
                     </motion.div>
 
-                    <motion.h3 variants={fadeUp} className="mt-8 text-[18px] font-bold text-brand-ink">
-                        Follow Us
-                    </motion.h3>
-                    <motion.ul variants={col} className="mt-4 flex gap-3">
-                        {SOCIALS.map(({ label, href, icon: Icon }) => (
-                            <motion.li key={label} variants={pop}>
-                                <motion.a
-                                    href={href}
-                                    aria-label={label}
-                                    whileHover={{ y: -4, rotate: 8, scale: 1.08 }}
-                                    whileTap={{ scale: 0.92 }}
-                                    transition={{ type: "spring", stiffness: 320, damping: 16 }}
-                                    className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-brand-orange text-white shadow-[0_6px_14px_-6px_rgba(209,129,9,0.9)] outline-none transition-colors duration-300 hover:bg-brand-plum focus-visible:ring-4 focus-visible:ring-brand-orange/40"
-                                >
-                                    <Icon className="h-3.5 w-3.5" />
-                                </motion.a>
-                            </motion.li>
-                        ))}
-                    </motion.ul>
+                    {SOCIALS.length > 0 && (
+                        <>
+                            <motion.h3 variants={fadeUp} className="mt-8 text-[18px] font-bold text-brand-ink">
+                                Follow Us
+                            </motion.h3>
+                            <motion.ul variants={col} className="mt-4 flex gap-3">
+                                {SOCIALS.map(({ label, href, icon: Icon }) => (
+                                    <motion.li key={label} variants={pop}>
+                                        <motion.a
+                                            href={href}
+                                            aria-label={label}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            whileHover={{ y: -4, rotate: 8, scale: 1.08 }}
+                                            whileTap={{ scale: 0.92 }}
+                                            transition={{ type: "spring", stiffness: 320, damping: 16 }}
+                                            className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-brand-orange text-white shadow-[0_6px_14px_-6px_rgba(209,129,9,0.9)] outline-none transition-colors duration-300 hover:bg-brand-plum focus-visible:ring-4 focus-visible:ring-brand-orange/40"
+                                        >
+                                            <Icon className="h-3.5 w-3.5" />
+                                        </motion.a>
+                                    </motion.li>
+                                ))}
+                            </motion.ul>
+                        </>
+                    )}
                 </motion.div>
 
                 <motion.div
@@ -216,6 +229,20 @@ export default function ContactSection() {
                             />
                         </Field>
 
+                        <Field label="Phone Number" id="cf-phone">
+                            <input
+                                id="cf-phone"
+                                name="phone"
+                                type="tel"
+                                required
+                                autoComplete="tel"
+                                placeholder="Phone Number"
+                                value={form.phone}
+                                onChange={onChange}
+                                className={`${inputBase} h-[34px] rounded-full`}
+                            />
+                        </Field>
+
                         <Field label="Message" id="cf-message">
                             <textarea
                                 id="cf-message"
@@ -248,7 +275,7 @@ export default function ContactSection() {
                                         transition={{ duration: 0.3, ease: EASE }}
                                         className="relative inline-flex items-center gap-2"
                                     >
-                                        {status === "idle" && (
+                                        {(status === "idle" || status === "error") && (
                                             <>
                                                 Send Message
                                                 <Send className="h-3.5 w-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-1" />
@@ -272,6 +299,23 @@ export default function ContactSection() {
                             <p aria-live="polite" className="sr-only">
                                 {status === "sent" ? "Your message has been sent." : ""}
                             </p>
+                            <AnimatePresence>
+                                {status === "error" && (
+                                    <motion.p
+                                        role="alert"
+                                        initial={{ opacity: 0, y: -6 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0 }}
+                                        className="mt-3 rounded-xl bg-[#fde8ec] px-4 py-3 text-[12.5px] text-[#8e1f33]"
+                                    >
+                                        Your message couldn't be sent. Please try again, or email us at{" "}
+                                        <a href={`mailto:${SITE.email}`} className="font-bold underline">
+                                            {SITE.email}
+                                        </a>
+                                        .
+                                    </motion.p>
+                                )}
+                            </AnimatePresence>
                         </motion.div>
                     </motion.form>
                 </motion.div>

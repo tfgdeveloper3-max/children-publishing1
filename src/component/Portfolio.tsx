@@ -78,7 +78,7 @@ export default function PortfolioSection() {
         >
             <div className="relative z-10 mx-auto max-w-[1140px] px-4 sm:px-5">
                 <motion.div ref={headRef} variants={stagger} initial="hidden" animate={headInView ? "show" : "hidden"} className="text-center">
-                    <motion.p variants={fadeUp} className="text-[13px] font-semibold text-brand-plum sm:text-[14px]">
+                    <motion.p variants={fadeUp} className="text-[15px] font-bold text-brand-plum sm:text-[17px]">
                         Our Portfolio
                     </motion.p>
                     <motion.h2

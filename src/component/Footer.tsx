@@ -1,7 +1,8 @@
 import { useRef, type ComponentType, type SVGProps } from "react";
-import { motion, useInView, type Variants } from "motion/react";
-import { ChevronsRight, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion, useInView, type Variants } from "motion/react";
+import { ChevronsRight, Mail, MapPin, Phone } from "lucide-react";
+import { SITE } from "@/data/Site";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -26,6 +27,14 @@ const YoutubeIcon: IconComponent = (props) => (
     </svg>
 );
 
+const InstagramIcon: IconComponent = (props) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" {...props}>
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+);
+
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const stagger: Variants = {
@@ -38,30 +47,29 @@ const fadeUp: Variants = {
     show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
 };
 
-const PHONE_DISPLAY = "+1 234 567890";
-const PHONE_LINK = "tel:+1234567890";
-
-const SOCIALS: { label: string; href: string; icon: IconComponent }[] = [
-    { label: "Facebook", href: "#", icon: FacebookIcon },
-    { label: "LinkedIn", href: "#", icon: LinkedinIcon },
-    { label: "YouTube", href: "#", icon: YoutubeIcon },
-];
+const SOCIALS = [
+    { label: "Facebook", href: SITE.socials.facebook, icon: FacebookIcon },
+    { label: "Instagram", href: SITE.socials.instagram, icon: InstagramIcon },
+    { label: "LinkedIn", href: SITE.socials.linkedin, icon: LinkedinIcon },
+    { label: "YouTube", href: SITE.socials.youtube, icon: YoutubeIcon },
+].filter((s) => s.href);
 
 const EXPLORE_LEFT = [
-    { label: "Home", href: "#" },
-    { label: "Services", href: "#services" },
-    { label: "About Us", href: "#about" },
+    { label: "Home", to: "/" },
+    { label: "Services", to: "/services" },
+    { label: "About Us", to: "/about" },
+    { label: "Portfolio", to: "/portfolio" },
 ];
 
 const EXPLORE_RIGHT = [
-    { label: "Portfolio", href: "#portfolio" },
-    { label: "Blogs", href: "#blog" },
-    { label: "Contact Us", href: "#contact" },
+    { label: "Blogs", to: "/blog" },
+    { label: "Reviews", to: "/reviews" },
+    { label: "Contact Us", to: "/contact" },
 ];
 
 const LEGAL = [
-    { label: "Terms & Conditions", href: "#" },
-    { label: "Privacy Policy", href: "#" },
+    { label: "Terms & Conditions", to: "/terms-and-conditions" },
+    { label: "Privacy Policy", to: "/privacy-policy" },
 ];
 
 const WORK = [
@@ -85,21 +93,42 @@ function ColumnTitle({ children }: { children: string }) {
     );
 }
 
-function LinkList({ links }: { links: { label: string; href: string }[] }) {
+function LinkList({ links }: { links: { label: string; to: string }[] }) {
     return (
         <ul className="space-y-3 sm:space-y-3.5">
             {links.map((link) => (
                 <li key={link.label}>
-                    <a
-                        href={link.href}
+                    <Link
+                        to={link.to}
                         className="group inline-flex items-center gap-2 text-[13px] font-semibold text-white/85 transition-colors duration-300 hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange sm:text-[14px]"
                     >
                         <ChevronsRight className="h-4 w-4 shrink-0" strokeWidth={2.4} />
                         <span className="transition-transform duration-300 group-hover:translate-x-1">{link.label}</span>
-                    </a>
+                    </Link>
                 </li>
             ))}
         </ul>
+    );
+}
+
+function ContactRow({ href, icon: Icon, label, value, external }: { href: string; icon: typeof Phone; label: string; value: string; external?: boolean }) {
+    return (
+        <a
+            href={href}
+            target={external ? "_blank" : undefined}
+            rel={external ? "noopener noreferrer" : undefined}
+            className="group flex w-fit items-center gap-3.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange"
+        >
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-orange outline-[1.5px] outline-dashed -outline-offset-[4px] outline-white/60 transition-transform duration-300 group-hover:scale-105 sm:h-12 sm:w-12">
+                <Icon className="h-5 w-5 text-white" strokeWidth={2} />
+            </span>
+            <span className="leading-tight">
+                <span className="block text-[12px] font-semibold text-white/80 sm:text-[13px]">{label}</span>
+                <span className="mt-0.5 block break-words text-[16px] font-bold text-white transition-colors duration-300 group-hover:text-brand-orange sm:text-[17px]">
+                    {value}
+                </span>
+            </span>
+        </a>
     );
 }
 
@@ -127,49 +156,39 @@ export default function Footer() {
                     className="relative z-10 mx-auto grid max-w-[1200px] grid-cols-1 gap-10 px-5 pb-12 pt-14 sm:pb-16 sm:pt-16 md:grid-cols-2 md:gap-12 lg:grid-cols-[1.05fr_1.15fr_1fr] lg:gap-10 lg:pt-20"
                 >
                     <motion.div variants={fadeUp}>
-                        <Link to="/" aria-label="Toon Haus Publishing home" className="inline-block">
-                            <img
-                                src="/images/logo1.png"
-                                alt="Toon Haus Publishing"
-                                loading="lazy"
-                                className="h-[70px] w-auto sm:h-[80px] lg:h-[88px]"
-                            />
+                        <Link to="/" aria-label={`${SITE.name} home`} className="inline-block">
+                            <img src="/images/logo1.png" alt={SITE.name} loading="lazy" className="h-[70px] w-auto sm:h-[80px] lg:h-[88px]" />
                         </Link>
 
                         <p className="mt-4 max-w-[320px] text-[13px] font-semibold leading-[1.6] text-white/85 sm:text-[14px]">
                             We illustrate, design and publish children's books that families love to read together.
                         </p>
 
-                        <a
-                            href={PHONE_LINK}
-                            className="group mt-6 flex w-fit items-center gap-3.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange"
-                        >
-                            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-orange outline-[1.5px] outline-dashed -outline-offset-[4px] outline-white/60 transition-transform duration-300 group-hover:scale-105 sm:h-12 sm:w-12">
-                                <Phone className="h-5 w-5 fill-white text-white" strokeWidth={1.5} />
-                            </span>
-                            <span className="leading-tight">
-                                <span className="block text-[12px] font-semibold text-white/80 sm:text-[13px]">Call Support</span>
-                                <span className="mt-0.5 block text-[17px] font-bold text-white sm:text-[18px]">{PHONE_DISPLAY}</span>
-                            </span>
-                        </a>
-
-                        <div className="mt-6 flex items-center gap-3">
-                            <span className="text-[13px] font-bold text-white">Follow Us :</span>
-                            <div className="flex gap-2">
-                                {SOCIALS.map(({ label, href, icon: Icon }) => (
-                                    <a
-                                        key={label}
-                                        href={href}
-                                        aria-label={label}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex h-9 w-9 items-center justify-center rounded-full bg-white/25 text-white transition-colors duration-300 hover:bg-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange sm:h-8 sm:w-8"
-                                    >
-                                        <Icon className="h-3.5 w-3.5" />
-                                    </a>
-                                ))}
-                            </div>
+                        <div className="mt-6 flex flex-col gap-4">
+                            <ContactRow href={SITE.phoneLink} icon={Phone} label="Call Support" value={SITE.phoneDisplay} />
+                            <ContactRow href={`mailto:${SITE.email}`} icon={Mail} label="Email Support" value={SITE.email} />
+                            <ContactRow href={SITE.address.mapLink} icon={MapPin} label="Visit Us" value={SITE.address.lines.join(", ")} external />
                         </div>
+
+                        {SOCIALS.length > 0 && (
+                            <div className="mt-6 flex items-center gap-3">
+                                <span className="text-[13px] font-bold text-white">Follow Us :</span>
+                                <div className="flex gap-2">
+                                    {SOCIALS.map(({ label, href, icon: Icon }) => (
+                                        <a
+                                            key={label}
+                                            href={href}
+                                            aria-label={label}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/25 text-white transition-colors duration-300 hover:bg-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange sm:h-8 sm:w-8"
+                                        >
+                                            <Icon className="h-3.5 w-3.5" />
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </motion.div>
 
                     <motion.nav variants={fadeUp} aria-label="Footer">
@@ -180,7 +199,7 @@ export default function Footer() {
                         </div>
 
                         <div className="mt-7 border-t border-white/15 pt-5 sm:mt-8 sm:pt-6">
-                            <p className="mb-3 text-[12px] font-semibold text-white/50 uppercase tracking-wider sm:text-[13px]">Legal</p>
+                            <p className="mb-3 text-[12px] font-semibold uppercase tracking-wider text-white/50 sm:text-[13px]">Legal</p>
                             <LinkList links={LEGAL} />
                         </div>
                     </motion.nav>
@@ -207,7 +226,7 @@ export default function Footer() {
             <div className="bg-brand-plum">
                 <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-4 px-5 py-4 text-center sm:flex-row sm:py-5 sm:text-left">
                     <p className="text-[12px] font-semibold text-white sm:text-[13px]">
-                        Copyright © 2026 Toonhaus Publishing. All Rights Reserved.
+                        Copyright © {new Date().getFullYear()} {SITE.name}. All Rights Reserved.
                     </p>
                 </div>
             </div>

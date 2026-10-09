@@ -237,13 +237,13 @@ export default function Services() {
                         variants={fadeUp}
                         className="mx-auto mt-1 max-w-[560px] text-[clamp(26px,6vw,44px)] font-bold leading-[1.1] text-brand-ink lg:text-[clamp(28px,3.2vw,44px)]"
                     >
-                        Everything your book needs, under one roof.
+                        Everything your book needs Under one roof
                     </motion.h2>
                     <motion.p
                         variants={fadeUp}
                         className="mx-auto mt-3 max-w-[480px] text-[15px] leading-relaxed sm:text-[16px]"
                     >
-                        Six services. One friendly team. A finished book you'll be proud of.
+                        Countless services. One friendly team. A finished book you'll be proud of.
                     </motion.p>
                 </motion.div>
 

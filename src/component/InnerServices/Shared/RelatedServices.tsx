@@ -30,7 +30,7 @@ export default function RelatedServices({ category, current }: { category: Servi
                     className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left"
                 >
                     <div>
-                        <p className="text-[13px] font-semibold text-brand-plum sm:text-[14px]">More in {category.label}</p>
+                        <p className="text-[15px] font-bold text-brand-plum sm:text-[17px]">More in {category.label}</p>
                         <h2 className="mt-1 text-[clamp(24px,5.5vw,32px)] font-extrabold leading-[1.15] text-brand-ink">Related Services</h2>
                     </div>
                     <Link

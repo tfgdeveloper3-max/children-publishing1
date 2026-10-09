@@ -330,7 +330,7 @@ export default function Hero() {
                                     className="mt-3 text-[25px] font-bold leading-[1.12] text-brand-ink min-[400px]:text-[28px] sm:text-[36px] lg:text-[37px] xl:text-[39px]"
                                 >
                                     Stories that {" "}
-                                    <span className="text-brand-plum">leap off the page</span>
+                                    <span className="text-brand-plum">leap off the pages</span>
                                 </motion.h1>
 
                                 <motion.p variants={itemVariants} className="mt-2 max-w-[300px] text-[12px] font-medium text-brand-ink/90 sm:text-[13px]">

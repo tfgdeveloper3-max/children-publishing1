@@ -29,7 +29,6 @@ const FEATURES: Feature[] = [
 function TrustCard({ title, text, icon: Icon }: Feature) {
     return (
         <motion.div variants={cardIn} whileHover={{ y: -4 }} className="relative">
-            {/* Tilt mobile par halka (4deg), tablet+ par screenshot jaisa (7deg) */}
             <div
                 aria-hidden="true"
                 className="stamp-edge absolute inset-0 bg-white drop-shadow-[0_14px_24px_rgba(30,10,40,0.25)] [transform:perspective(700px)_rotateY(4deg)] md:[transform:perspective(700px)_rotateY(7deg)]"
@@ -93,7 +92,7 @@ export default function Trust() {
                     variants={fadeUp}
                     className="mx-auto mt-1 max-w-[760px] text-center text-[clamp(26px,6vw,40px)] font-extrabold leading-[1.12] text-white lg:text-[clamp(34px,3.6vw,54px)] lg:leading-[1.1]"
                 >
-                    Every step of your book, handled with care.
+                    Every step of your book Handled with care
                 </motion.h2>
 
                 {/* Mobile: 1 column | Tablet+: 2 columns */}

@@ -64,7 +64,7 @@ export default function ServiceAbout({ eyebrow, heading, paragraphs, points, ima
 
             <div className="relative mx-auto max-w-[1140px] px-4 sm:px-5 md:px-[clamp(72px,8vw,110px)] xl:px-5">
                 <motion.div variants={head} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.5 }} className="mx-auto max-w-[620px] text-center">
-                    <motion.p variants={fadeUp} className="text-[13px] font-semibold text-brand-plum sm:text-[14px]">
+                    <motion.p variants={fadeUp} className="text-[15px] font-bold text-brand-plum sm:text-[17px]">
                         {eyebrow}
                     </motion.p>
                     <motion.h2 variants={fadeUp} className="mt-1 text-[clamp(26px,6vw,36px)] font-extrabold leading-[1.15] text-brand-ink lg:text-[clamp(34px,3vw,44px)]">

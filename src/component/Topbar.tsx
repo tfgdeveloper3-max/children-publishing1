@@ -1,10 +1,19 @@
 import { motion } from "motion/react";
-import { Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import type { ReactNode } from "react";
+import { SITE } from "@/data/Site";
 
 const FacebookIcon = () => (
     <svg viewBox="0 0 24 24" className="h-3 w-3" fill="currentColor" aria-hidden="true">
         <path d="M14 8h2.5V4.5H14c-2.2 0-4 1.8-4 4V11H8v3.5h2V21h3.5v-6.5H16l.5-3.5h-3V8.5c0-.3.2-.5.5-.5z" />
+    </svg>
+);
+
+const InstagramIcon = () => (
+    <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
     </svg>
 );
 
@@ -26,59 +35,65 @@ const YoutubeIcon = () => (
 type Social = { label: string; href: string; icon: ReactNode };
 
 const socials: Social[] = [
-    { label: "Facebook", href: "#", icon: <FacebookIcon /> },
-    { label: "LinkedIn", href: "#", icon: <LinkedinIcon /> },
-    { label: "YouTube", href: "#", icon: <YoutubeIcon /> },
-];
+    { label: "Facebook", href: SITE.socials.facebook, icon: <FacebookIcon /> },
+    { label: "Instagram", href: SITE.socials.instagram, icon: <InstagramIcon /> },
+    { label: "LinkedIn", href: SITE.socials.linkedin, icon: <LinkedinIcon /> },
+    { label: "YouTube", href: SITE.socials.youtube, icon: <YoutubeIcon /> },
+].filter((s) => s.href);
 
 export default function TopBar() {
     return (
         <div className="bg-brand-purple text-white">
-            {/* Mobile: chhota text + thodi kam spacing | sm+: original size */}
             <div className="mx-auto flex h-9 max-w-[1140px] items-center justify-between gap-3 px-4 text-[11px] font-semibold tracking-wide sm:px-5 sm:text-[12px]">
-                {/* Phone */}
-                <a
-                    href="tel:+1234567890"
-                    className="animate__animated animate__fadeInDown animate__slow group flex min-w-0 items-center gap-2 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-white/70"
-                >
-                    <Phone
-                        className="h-3.5 w-3.5 shrink-0 transition-transform duration-500 ease-out group-hover:-rotate-12"
-                        strokeWidth={2.5}
-                    />
-                    <span className="truncate">
-                        {/* Bahut chhoti screen par "Phone :" label hide */}
-                        <span className="hidden min-[400px]:inline">Phone : </span>
-                        <span className="transition-colors duration-500 group-hover:text-brand-orange">
-                            +1 234 567890
+                <div className="animate__animated animate__fadeInDown animate__slow flex min-w-0 items-center gap-5">
+                    <a
+                        href={SITE.phoneLink}
+                        className="group flex min-w-0 items-center gap-2 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                    >
+                        <Phone className="h-3.5 w-3.5 shrink-0 transition-transform duration-500 ease-out group-hover:-rotate-12" strokeWidth={2.5} />
+                        <span className="truncate">
+                            <span className="hidden min-[400px]:inline">Phone : </span>
+                            <span className="transition-colors duration-500 group-hover:text-brand-orange">{SITE.phoneDisplay}</span>
                         </span>
-                    </span>
-                </a>
+                    </a>
 
-                {/* Follow us */}
-                <div className="animate__animated animate__fadeInDown animate__slow flex shrink-0 items-center gap-2">
-                    <span className="hidden sm:inline">Follow Us :</span>
-                    <ul className="flex items-center gap-1.5">
-                        {socials.map((s, i) => (
-                            <motion.li
-                                key={s.label}
-                                initial={{ opacity: 0, scale: 0.6 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.6 + i * 0.12, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                            >
-                                <motion.a
-                                    href={s.href}
-                                    aria-label={s.label}
-                                    whileHover={{ y: -2, rotate: 8, scale: 1.1 }}
-                                    whileTap={{ scale: 0.92 }}
-                                    transition={{ type: "spring", stiffness: 260, damping: 18 }}
-                                    className="flex h-6 w-6 items-center justify-center rounded-full bg-white/25 text-white outline-none transition-colors duration-500 hover:bg-brand-orange focus-visible:ring-2 focus-visible:ring-white/70"
-                                >
-                                    {s.icon}
-                                </motion.a>
-                            </motion.li>
-                        ))}
-                    </ul>
+                    <a
+                        href={`mailto:${SITE.email}`}
+                        className="group hidden min-w-0 items-center gap-2 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-white/70 md:flex"
+                    >
+                        <Mail className="h-3.5 w-3.5 shrink-0 transition-transform duration-500 ease-out group-hover:-rotate-12" strokeWidth={2.5} />
+                        <span className="truncate transition-colors duration-500 group-hover:text-brand-orange">{SITE.email}</span>
+                    </a>
                 </div>
+
+                {socials.length > 0 && (
+                    <div className="animate__animated animate__fadeInDown animate__slow flex shrink-0 items-center gap-2">
+                        <span className="hidden sm:inline">Follow Us :</span>
+                        <ul className="flex items-center gap-1.5">
+                            {socials.map((s, i) => (
+                                <motion.li
+                                    key={s.label}
+                                    initial={{ opacity: 0, scale: 0.6 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.6 + i * 0.12, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <motion.a
+                                        href={s.href}
+                                        aria-label={s.label}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        whileHover={{ y: -2, rotate: 8, scale: 1.1 }}
+                                        whileTap={{ scale: 0.92 }}
+                                        transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                                        className="flex h-6 w-6 items-center justify-center rounded-full bg-white/25 text-white outline-none transition-colors duration-500 hover:bg-brand-orange focus-visible:ring-2 focus-visible:ring-white/70"
+                                    >
+                                        {s.icon}
+                                    </motion.a>
+                                </motion.li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
             </div>
         </div>
     );

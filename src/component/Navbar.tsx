@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, type Variants } from "motion/react";
 import { ArrowRight, ChevronDown, ChevronRight, Menu, X } from "lucide-react";
 import { SERVICE_CATEGORIES, serviceHref } from "@/data/services";
+import LeadButton from "@/component/LeadModal/LeadButton";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -365,7 +366,7 @@ export default function Navbar() {
                     transition={{ duration: 1, ease: EASE, delay: 0.2 }}
                     className="hidden lg:block"
                 >
-                    <PillButton className="lg:px-5 xl:px-7">Start Your Project</PillButton>
+                    <LeadButton className="lg:px-5 xl:px-7">Start Your Project</LeadButton>
                 </motion.div>
 
                 <button
@@ -548,7 +549,9 @@ export default function Navbar() {
                                 );
                             })}
                         </ul>
-                        <PillButton className="mt-5 w-full sm:w-auto">Start Your Project</PillButton>
+                        <LeadButton className="mt-5 w-full sm:w-auto" onOpen={() => setOpen(false)}>
+                            Start Your Project
+                        </LeadButton>
                     </motion.div>
                 )}
             </AnimatePresence>

@@ -182,7 +182,7 @@ export default function ServicesTabs() {
                     viewport={{ once: true, amount: 0.5 }}
                     className="mx-auto max-w-[640px] text-center"
                 >
-                    <motion.p variants={fadeUp} className="text-[13px] font-semibold text-brand-plum sm:text-[14px]">
+                    <motion.p variants={fadeUp} className="text-[15px] font-bold text-brand-plum sm:text-[17px]">
                         Services
                     </motion.p>
                     <motion.h2

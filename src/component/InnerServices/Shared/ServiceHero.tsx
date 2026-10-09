@@ -60,7 +60,7 @@ export default function ServiceHero({ eyebrow, title, description, bg, ctaLabel 
                         </ol>
                     </motion.nav>
 
-                    <motion.p variants={item} className="text-[11px] font-semibold tracking-wide text-white sm:text-[13px] lg:text-[14px]">
+                    <motion.p variants={item} className="text-[13px] font-semibold tracking-wide text-white sm:text-[15px] lg:text-[17px]">
                         {eyebrow}
                     </motion.p>
 
