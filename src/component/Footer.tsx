@@ -1,6 +1,7 @@
 import { useRef, type ComponentType, type SVGProps } from "react";
 import { motion, useInView, type Variants } from "motion/react";
 import { ChevronsRight, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -126,11 +127,14 @@ export default function Footer() {
                     className="relative z-10 mx-auto grid max-w-[1200px] grid-cols-1 gap-10 px-5 pb-12 pt-14 sm:pb-16 sm:pt-16 md:grid-cols-2 md:gap-12 lg:grid-cols-[1.05fr_1.15fr_1fr] lg:gap-10 lg:pt-20"
                 >
                     <motion.div variants={fadeUp}>
-                        <a href="#" className="inline-block">
-                            <h2 className="text-[32px] font-extrabold leading-none text-white sm:text-[36px] lg:text-[clamp(34px,2.6vw,42px)]">
-                                Toonhaus Publishing
-                            </h2>
-                        </a>
+                        <Link to="/" aria-label="Toon Haus Publishing home" className="inline-block">
+                            <img
+                                src="/images/logo1.png"
+                                alt="Toon Haus Publishing"
+                                loading="lazy"
+                                className="h-[70px] w-auto sm:h-[80px] lg:h-[88px]"
+                            />
+                        </Link>
 
                         <p className="mt-4 max-w-[320px] text-[13px] font-semibold leading-[1.6] text-white/85 sm:text-[14px]">
                             We illustrate, design and publish children's books that families love to read together.

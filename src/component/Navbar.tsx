@@ -114,12 +114,18 @@ export default function Navbar() {
             <nav className="relative mx-auto flex h-[72px] max-w-[1140px] items-center justify-between px-4 sm:h-[80px] sm:px-5 lg:h-[88px]">
                 <MotionLink
                     to="/"
+                    aria-label="Toon Haus Publishing home"
                     initial={{ opacity: 0, x: -24 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 1, ease: EASE }}
-                    className="text-[26px] font-extrabold leading-none text-brand-ink sm:text-[30px] xl:text-[34px]"
+                    whileHover={{ scale: 1.03 }}
+                    className="shrink-0"
                 >
-                    Logo Here
+                    <img
+                        src="/images/logo.png"
+                        alt="Toon Haus Publishing"
+                        className="h-[46px] w-auto sm:h-[54px] lg:h-[60px] xl:h-[66px]"
+                    />
                 </MotionLink>
 
                 <motion.ul
