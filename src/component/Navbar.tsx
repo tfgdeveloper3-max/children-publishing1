@@ -15,6 +15,7 @@ const NAV: NavItem[] = [
     { label: "About Us", to: "/about" },
     { label: "Portfolio", to: "/portfolio" },
     { label: "Blog", to: "/blog" },
+    { label: "Reviews", to: "/reviews" },
     { label: "Contact Us", to: "/contact" },
 ];
 
@@ -133,7 +134,7 @@ export default function Navbar() {
                     initial="hidden"
                     animate="show"
                     onMouseLeave={() => setHovered(null)}
-                    className="hidden h-full items-center gap-6 lg:flex xl:gap-10"
+                    className="hidden h-full items-center gap-5 lg:flex xl:gap-8"
                 >
                     {NAV.map((item) => {
                         const active = activeLabel === item.label;
