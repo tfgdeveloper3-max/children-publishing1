@@ -8,6 +8,7 @@ import Contact from "./pages/Contactus/page";
 import BookCoverDesign from "./pages/InnerServices/Book-Cover-Design/page";
 import Services from "./pages/Services/page";
 import Reviews from "./component/Reviews/reviews";
+import ServiceDetail from "./pages/InnerServices/ServiceDetail/page";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="services" element={<Services />} />
         <Route path="reviews" element={<Reviews />} />
         <Route path="services/book-cover-design" element={<BookCoverDesign />} />
+        <Route path="services/:serviceSlug" element={<ServiceDetail />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

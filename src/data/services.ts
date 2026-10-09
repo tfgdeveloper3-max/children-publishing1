@@ -80,8 +80,15 @@ export const slugify = (text: string) =>
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "");
 
-export const serviceHref = (category: ServiceCategory, service: Service) =>
-    service.to ?? `/services?category=${category.slug}&service=${slugify(service.title)}`;
+export const serviceHref = (_category: ServiceCategory, service: Service) => service.to ?? `/services/${slugify(service.title)}`;
+
+export const findService = (slug: string) => {
+    for (const category of SERVICE_CATEGORIES) {
+        const service = category.services.find((s) => slugify(s.title) === slug);
+        if (service) return { category, service };
+    }
+    return null;
+};
 
 export const SERVICE_CATEGORIES: ServiceCategory[] = [
     {

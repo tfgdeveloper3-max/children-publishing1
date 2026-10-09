@@ -1,0 +1,232 @@
+import {
+    Brush,
+    ClipboardList,
+    Clapperboard,
+    FileCheck2,
+    Lightbulb,
+    LineChart,
+    MessagesSquare,
+    Mic,
+    Palette,
+    PenLine,
+    PencilRuler,
+    Rocket,
+    Search,
+    Send,
+    Sparkles,
+    Target,
+    Wand2,
+    type LucideIcon,
+} from "lucide-react";
+
+export type Step = { title: string; text: string; icon: LucideIcon };
+export type QA = { q: string; a: string };
+
+export type CategoryContent = {
+    heroBg: string;
+    aboutImage: string;
+    aboutHeading: string;
+    about: string;
+    processHeading: string;
+    process: Step[];
+    faqs: QA[];
+};
+
+export type ServiceContent = { summary: string; points: [string, string] };
+
+const HERO_BG = "/images/Book-Cover-Design-BG.png";
+const ABOUT_IMG = "/images/Cover-Designing.png";
+
+export const CATEGORY_CONTENT: Record<string, CategoryContent> = {
+    "children-s-book-creation-publishing": {
+        heroBg: HERO_BG,
+        aboutImage: ABOUT_IMG,
+        aboutHeading: "From first idea to finished book.",
+        about: "Our editors, writers and publishing specialists guide children's authors through every stage, from shaping the story to getting a polished book onto store shelves. You stay in control of your story while we handle the craft and the technical details.",
+        processHeading: "How We Bring Your Book to Life",
+        process: [
+            { title: "Discovery Call", text: "We learn about your story, your readers and what you want the book to achieve.", icon: MessagesSquare },
+            { title: "Clear Plan", text: "You get a simple plan with timelines, deliverables and a fixed price before we begin.", icon: ClipboardList },
+            { title: "Create & Refine", text: "We do the work in stages and share drafts so you can give feedback at every step.", icon: PenLine },
+            { title: "Publish & Launch", text: "We deliver final files and help you get the book live and into readers' hands.", icon: Rocket },
+        ],
+        faqs: [
+            { q: "Do I keep the rights to my book?", a: "Yes. You keep full ownership and all royalties. We work for you, and every file we create is handed over to you." },
+            { q: "How long does the process take?", a: "It depends on the service and the length of your book. Most projects take between two and eight weeks, and we give you a timeline before we start." },
+            { q: "I'm a first-time author. Can you still help?", a: "Absolutely. Many of our authors are publishing for the first time, and we explain each step in plain language." },
+            { q: "How much will it cost?", a: "Every book is different, so we quote after a short call. You get a fixed price with no hidden fees." },
+            { q: "Can I ask for changes along the way?", a: "Yes. Feedback rounds are built into every project, so the result matches what you imagined." },
+        ],
+    },
+    "illustration-book-design": {
+        heroBg: HERO_BG,
+        aboutImage: ABOUT_IMG,
+        aboutHeading: "Pictures that make young readers stay.",
+        about: "In a children's book the pictures tell half the story. Our illustrators and designers create characters, scenes and layouts that feel warm, consistent and right for your readers' age, then prepare everything for print and digital.",
+        processHeading: "Our Illustration Process",
+        process: [
+            { title: "Creative Brief", text: "We gather your story, references, age group and style preferences.", icon: Lightbulb },
+            { title: "Sketches", text: "You review rough sketches and layouts before any colour is added.", icon: PencilRuler },
+            { title: "Colour & Detail", text: "Approved sketches are brought to life with colour, texture and detail.", icon: Palette },
+            { title: "Final Files", text: "You receive print-ready and eBook-ready files in every format you need.", icon: FileCheck2 },
+        ],
+        faqs: [
+            { q: "Can I choose the illustration style?", a: "Yes. We share style samples first, and you pick the look that fits your story best." },
+            { q: "How many revisions do I get?", a: "Revisions are included at the sketch stage and the colour stage, so changes are easy and inexpensive." },
+            { q: "Will my characters look the same on every page?", a: "Yes. We build a character sheet first and follow it on every page to keep characters consistent." },
+            { q: "Do I own the illustrations?", a: "Once the project is paid, the full rights to the artwork are transferred to you." },
+            { q: "Can you work from my own sketches?", a: "Of course. We are happy to start from your sketches, photos or even a simple description." },
+        ],
+    },
+    "animation-interactive-content": {
+        heroBg: HERO_BG,
+        aboutImage: ABOUT_IMG,
+        aboutHeading: "Let your story move, talk and play.",
+        about: "Children love stories that move. We turn your book into trailers, animations, audiobooks and interactive eBooks, so the same story can reach readers on screens, speakers and social feeds as well as on paper.",
+        processHeading: "How We Animate Your Story",
+        process: [
+            { title: "Script & Storyboard", text: "We plan every scene so you can see the story before animation starts.", icon: Clapperboard },
+            { title: "Style & Voice", text: "We match the look of your book and cast voices that suit your characters.", icon: Mic },
+            { title: "Animation", text: "Scenes are animated, timed to sound and shared with you for feedback.", icon: Wand2 },
+            { title: "Delivery", text: "You get files sized for YouTube, social media, your website and stores.", icon: Send },
+        ],
+        faqs: [
+            { q: "Can you animate my existing illustrations?", a: "Yes. We can bring your current artwork to life, or create new art made for animation." },
+            { q: "How long is a typical book trailer?", a: "Most trailers are 30 to 90 seconds, which is ideal for social media and store pages." },
+            { q: "Do you provide voice actors?", a: "Yes. We have voice artists for narration and character voices in a range of accents and ages." },
+            { q: "Which formats will I receive?", a: "You receive files ready for YouTube, Instagram, TikTok, Facebook and your website." },
+            { q: "Can one book become several products?", a: "Yes. A single book can become an eBook, an audiobook, a trailer, a YouTube story and short character clips." },
+        ],
+    },
+    "children-s-book-marketing-promotion": {
+        heroBg: HERO_BG,
+        aboutImage: ABOUT_IMG,
+        aboutHeading: "Help the right families find your book.",
+        about: "A great book still needs to be found. Our marketing team builds campaigns that reach parents, teachers, librarians and young readers where they already are, online and in their communities.",
+        processHeading: "Our Marketing Process",
+        process: [
+            { title: "Audit & Research", text: "We study your book, your readers and the competition in your category.", icon: Search },
+            { title: "Strategy", text: "You get a clear plan with channels, timelines and goals.", icon: Target },
+            { title: "Campaign", text: "We run the campaign and adjust it as results come in.", icon: Sparkles },
+            { title: "Report & Grow", text: "Regular reports show what is working and where to grow next.", icon: LineChart },
+        ],
+        faqs: [
+            { q: "Can you guarantee sales?", a: "No honest agency can guarantee sales, but we focus on proven tactics and share clear results so you can see progress." },
+            { q: "When should marketing start?", a: "Ideally six to eight weeks before launch, but we can also help books that are already published." },
+            { q: "Which platforms do you work with?", a: "Amazon, Instagram, Facebook, TikTok, YouTube, email, and outreach to schools, libraries and bookstores." },
+            { q: "Do I need a big budget?", a: "No. We build plans for different budgets and focus spending where it will make the biggest difference." },
+            { q: "Will I get reports?", a: "Yes. You receive regular, easy-to-read reports on reach, reviews and sales signals." },
+        ],
+    },
+    "author-character-branding": {
+        heroBg: HERO_BG,
+        aboutImage: ABOUT_IMG,
+        aboutHeading: "Turn your characters into a brand.",
+        about: "The best-loved children's characters live beyond the page. We help authors build a recognisable brand for themselves and their characters, with logos, activities, merchandise and content that keep families coming back.",
+        processHeading: "Our Branding Process",
+        process: [
+            { title: "Discovery", text: "We explore your story, your audience and what makes your characters special.", icon: Lightbulb },
+            { title: "Concepts", text: "We present brand concepts, logos and product ideas for you to choose from.", icon: Brush },
+            { title: "Refine", text: "Your favourite direction is polished until it feels exactly right.", icon: PencilRuler },
+            { title: "Brand Kit", text: "You receive a complete kit with files, colours and usage guidelines.", icon: FileCheck2 },
+        ],
+        faqs: [
+            { q: "Why should a children's author build a brand?", a: "A strong brand makes your books easier to recognise, helps readers find your next title and opens doors to merchandise and licensing." },
+            { q: "Can you design merchandise for my character?", a: "Yes. We design products such as plush toys, T-shirts, stickers and prints, ready for manufacturers." },
+            { q: "Do I own the brand assets?", a: "Yes. All logos, artwork and files are yours once the project is complete." },
+            { q: "Can you make printable activities for my website?", a: "Yes. Colouring pages, worksheets and activity sheets are a great way to grow your email list." },
+            { q: "Can you help me prepare for licensing?", a: "We create the style guides and character sheets that licensing partners expect to see." },
+        ],
+    },
+};
+
+export const SERVICE_CONTENT: Record<string, ServiceContent> = {
+    "story-development": { summary: "Shape your idea into a story children will want to hear again and again, with a clear plot, lovable characters and the right message.", points: ["Plot & Character Building", "Age-Appropriate Storytelling"] },
+    "children-s-book-ghostwriting": { summary: "Have your idea written by experienced children's writers who capture your voice and keep the language fun, simple and memorable.", points: ["Your Name On The Cover", "Rhyming & Prose Styles"] },
+    "developmental-editing": { summary: "Big-picture editing that strengthens your plot, pacing and characters so the whole story works from the first page to the last.", points: ["Story Structure Review", "Detailed Editorial Letter"] },
+    "line-editing": { summary: "Sentence-by-sentence editing that makes your writing flow, sound great when read aloud and suit the age of your readers.", points: ["Read-Aloud Rhythm", "Voice Kept Intact"] },
+    "copyediting-proofreading": { summary: "A careful final check for spelling, grammar, punctuation and consistency so your book is clean and professional.", points: ["Error-Free Text", "Consistent Style"] },
+    "manuscript-assessment": { summary: "An honest, expert review of your manuscript with clear notes on what works, what needs attention and how to fix it.", points: ["Strengths & Gaps", "Clear Next Steps"] },
+    "book-formatting": { summary: "Professional interior formatting for print and digital, with clean layouts that make text and pictures easy to enjoy.", points: ["Print & Digital Layouts", "Store-Ready Files"] },
+    "ebook-conversion": { summary: "Convert your book into beautiful eBooks that look right on Kindle, Apple Books, Kobo and tablets.", points: ["Fixed & Reflowable Layouts", "Tested On Every Device"] },
+    "paperback-publishing": { summary: "Get your book printed as a high-quality paperback and listed for sale, with the right trim size, paper and cover finish.", points: ["Print-On-Demand Setup", "Global Store Listings"] },
+    "hardcover-publishing": { summary: "Publish a sturdy, gift-ready hardcover edition that parents, schools and libraries love to buy.", points: ["Case Laminate & Jackets", "Library-Quality Finish"] },
+    "isbn-assignment": { summary: "We handle ISBNs for every format of your book so it can be sold, tracked and ordered by stores and libraries.", points: ["ISBN For Each Format", "Barcode Included"] },
+    "copyright-registration-assistance": { summary: "Protect your story and illustrations with guided copyright registration, prepared correctly the first time.", points: ["Paperwork Prepared", "Peace Of Mind"] },
+    "amazon-kdp-publishing": { summary: "Launch your book on Amazon KDP with an optimised listing, correct categories and files that pass review first time.", points: ["Account & Listing Setup", "Paperback, Hardcover & Kindle"] },
+    "ingramspark-distribution": { summary: "Reach bookstores and libraries worldwide through IngramSpark, with your book listed in their global catalogue.", points: ["Bookstore & Library Access", "Wholesale Pricing Setup"] },
+    "barnes-noble-distribution": { summary: "Publish your book on Barnes & Noble Press so readers can find it online and order it in store.", points: ["B&N Press Setup", "Print & Nook Editions"] },
+    "apple-books-kobo-distribution": { summary: "Bring your eBook to Apple Books and Kobo readers around the world with listings set up for you.", points: ["Apple Books Listing", "Kobo Worldwide Reach"] },
+    "global-distribution": { summary: "Make your book available in stores, libraries and online shops in dozens of countries from a single setup.", points: ["40+ Countries", "Print & Digital Channels"] },
+
+    "character-design": { summary: "Create lovable characters with distinct personalities, expressions and poses that children will remember long after the last page.", points: ["Character Sheets", "Expression & Pose Sets"] },
+    "2d-illustrations": { summary: "Bright, expressive 2D illustrations drawn to match the mood of your story and the age of your readers.", points: ["Hand-Drawn Feel", "Full-Colour Scenes"] },
+    "3d-illustrations": { summary: "Rich 3D illustrations with depth and lighting that give your book a modern, animated-film look.", points: ["Cinematic Lighting", "Reusable 3D Characters"] },
+    "watercolor-style-illustrations": { summary: "Soft, dreamy watercolour-style art that brings a gentle, timeless feel to bedtime stories and picture books.", points: ["Soft Textures", "Classic Picture-Book Look"] },
+    "cartoon-illustrations": { summary: "Fun, bold cartoon illustrations full of energy and humour that make kids laugh and turn the page.", points: ["Bold & Playful", "Big Expressions"] },
+    "educational-illustrations": { summary: "Clear, friendly illustrations that explain ideas, support learning and work beautifully in classrooms.", points: ["Easy To Understand", "Classroom Friendly"] },
+    "full-page-illustrations": { summary: "Detailed full-page illustrations that give each moment of your story room to shine.", points: ["Room For Text", "Rich Detail"] },
+    "double-page-spreads": { summary: "Big, immersive double-page spreads for the most exciting moments in your book.", points: ["Gutter-Safe Layouts", "Panoramic Scenes"] },
+    "cover-design": { summary: "A front, back and spine cover that stands out on the shelf and tells readers what your story is about.", points: ["Full Wrap Cover", "Title Typography"] },
+    "interior-layout": { summary: "Thoughtful page layouts that balance pictures and text so every spread is easy for little readers to follow.", points: ["Text & Art Balance", "Consistent Page Design"] },
+    "typography": { summary: "Child-friendly fonts and lettering that are easy to read and add personality to your book.", points: ["Readable Fonts", "Custom Title Lettering"] },
+    "character-consistency": { summary: "Keep your characters looking the same across every page, book and product with clear reference sheets.", points: ["Reference Sheets", "Series-Ready Art"] },
+    "illustration-revisions": { summary: "Update or improve existing artwork with careful revisions that keep the original style intact.", points: ["Style Matched", "Quick Turnaround"] },
+    "print-ready-files": { summary: "Files prepared to printer specifications with correct bleed, colour profiles and resolution.", points: ["CMYK & Bleed Setup", "Printer Approved"] },
+    "ebook-ready-files": { summary: "Artwork and layouts optimised for screens, so your eBook looks sharp on phones, tablets and e-readers.", points: ["Screen-Optimised Art", "Small File Sizes"] },
+
+    "animated-book-trailers": { summary: "Short animated trailers that show off your book and make families want to read it.", points: ["30–90 Second Trailers", "Made For Social Media"] },
+    "2d-animation": { summary: "Charming 2D animation that brings your illustrations and characters to life.", points: ["Matches Your Book Art", "Smooth Character Motion"] },
+    "3d-animation": { summary: "Immersive 3D animation with depth, lighting and movement that feels like a family film.", points: ["Cinematic Quality", "Reusable 3D Assets"] },
+    "character-animation": { summary: "Give your characters personality in motion, with walks, waves, dances and expressions.", points: ["Expressive Movement", "Loopable Clips"] },
+    "animated-illustrations": { summary: "Subtle motion added to your illustrations for websites, social posts and digital books.", points: ["Gentle Motion", "Web & Social Ready"] },
+    "storybook-animation": { summary: "Turn your whole book into an animated story that children can watch again and again.", points: ["Full Story Animation", "Narration & Music"] },
+    "motion-graphics": { summary: "Animated titles, text and graphics for trailers, ads, social posts and presentations.", points: ["Animated Titles", "Branded Visuals"] },
+    "character-voiceovers": { summary: "Professional voice actors who give each of your characters a unique and lovable voice.", points: ["Many Voice Styles", "Studio-Quality Audio"] },
+    "narration": { summary: "Warm, engaging narration recorded by experienced readers who know how to hold young listeners.", points: ["Child-Friendly Pace", "Clear Delivery"] },
+    "audiobooks": { summary: "Complete audiobooks with narration, sound effects and music, ready for Audible and other stores.", points: ["Store-Ready Audio", "Music & Sound Effects"] },
+    "animated-ebooks": { summary: "eBooks with moving pictures and read-along audio that make reading feel magical.", points: ["Read-Along Audio", "Animated Pages"] },
+    "interactive-children-s-ebooks": { summary: "Tap, swipe and play eBooks with interactive elements that keep children engaged with the story.", points: ["Tap-To-Play Elements", "Learning Activities"] },
+    "educational-animations": { summary: "Clear, friendly animations that explain lessons and ideas for classrooms and learning apps.", points: ["Easy Explanations", "Teacher Friendly"] },
+    "youtube-story-videos": { summary: "Read-aloud and animated story videos made for YouTube that grow your audience and channel.", points: ["Channel-Ready Videos", "Thumbnails Included"] },
+    "social-media-animation-clips": { summary: "Short, eye-catching animated clips sized for Instagram, TikTok, Facebook and YouTube Shorts.", points: ["Vertical & Square Sizes", "Made To Be Shared"] },
+
+    "amazon-marketing": { summary: "Grow your Amazon sales with ads, listing improvements and promotions that put your book in front of buyers.", points: ["Amazon Ads Management", "Listing Optimisation"] },
+    "amazon-keyword-category-optimization": { summary: "Choose the keywords and categories that help parents find your book in Amazon searches.", points: ["Keyword Research", "Best-Fit Categories"] },
+    "book-launch-campaigns": { summary: "A planned launch that builds excitement, gathers early reviews and gives your book its strongest start.", points: ["Pre-Launch Buzz", "Launch-Week Push"] },
+    "social-media-marketing": { summary: "Consistent, engaging social content that grows a community of parents, teachers and young fans.", points: ["Content Calendar", "Community Growth"] },
+    "instagram-facebook-campaigns": { summary: "Targeted Instagram and Facebook campaigns that reach parents and gift buyers who love children's books.", points: ["Parent Targeting", "Ad Creative Included"] },
+    "tiktok-promotion": { summary: "Reach new readers on TikTok with short, fun videos and BookTok-friendly campaigns.", points: ["BookTok Content", "Trend-Based Videos"] },
+    "youtube-promotion": { summary: "Grow your book's audience on YouTube with optimised videos, ads and channel support.", points: ["Video SEO", "YouTube Ads"] },
+    "author-website": { summary: "A professional author website that tells your story, shows your books and helps readers buy them.", points: ["Mobile Friendly", "Book Showcase"] },
+    "children-s-book-website": { summary: "A playful website for your book with activities, character pages and links to buy.", points: ["Kid-Friendly Design", "Activities & Downloads"] },
+    "email-marketing": { summary: "Build and grow an email list of families and teachers who want to hear about your next book.", points: ["List Building", "Newsletter Design"] },
+    "influencer-outreach": { summary: "Connect with parenting, education and BookTok influencers who share your book with their followers.", points: ["Hand-Picked Creators", "Honest Reviews"] },
+    "parenting-community-outreach": { summary: "Introduce your book to parenting groups, forums and communities where families look for recommendations.", points: ["Parent Groups", "Trusted Word Of Mouth"] },
+    "blogger-outreach": { summary: "Get your book featured on parenting and children's book blogs that families trust.", points: ["Blog Features", "Lasting Backlinks"] },
+    "book-review-campaigns": { summary: "Collect genuine reader reviews that build trust and help your book sell.", points: ["Verified Readers", "Platform-Safe Methods"] },
+    "press-releases": { summary: "Professional press releases that announce your book to media, bloggers and local news.", points: ["Media-Ready Writing", "Wide Distribution"] },
+    "podcast-appearances": { summary: "Book interviews on parenting and author podcasts so listeners can hear the story behind your book.", points: ["Show Matching", "Interview Prep"] },
+    "children-s-book-fairs": { summary: "Get your book seen at children's book fairs and events where families and buyers discover new titles.", points: ["Event Selection", "Display Materials"] },
+    "school-outreach": { summary: "Bring your book into classrooms with school visits, reading programmes and teacher resources.", points: ["Author Visits", "Teacher Guides"] },
+    "library-outreach": { summary: "Help libraries discover, order and recommend your book to young readers.", points: ["Librarian Pitching", "Catalogue Ready"] },
+    "bookstore-outreach": { summary: "Pitch your book to independent and chain bookstores for shelf space and events.", points: ["Store Pitching", "Signing Events"] },
+    "bulk-sales-campaigns": { summary: "Sell your book in larger quantities to schools, businesses and organisations.", points: ["Bulk Pricing Plans", "Buyer Outreach"] },
+    "educational-institution-outreach": { summary: "Place your book with schools, districts and educational programmes looking for quality reading material.", points: ["District Pitching", "Curriculum Alignment"] },
+
+    "author-branding": { summary: "Build a memorable author brand with a clear look, voice and story that readers recognise.", points: ["Logo & Style Guide", "Author Bio & Photos"] },
+    "character-branding": { summary: "Turn your main character into a brand with a consistent look, personality and story world.", points: ["Brand Personality", "Style Guide"] },
+    "character-logo": { summary: "A playful, memorable logo built around your character, ready for books, merch and social media.", points: ["Multiple Versions", "All File Formats"] },
+    "character-merchandise": { summary: "Plush toys, T-shirts, mugs and more designed around your characters for fans to take home.", points: ["Product Mockups", "Manufacturer-Ready Files"] },
+    "coloring-pages": { summary: "Fun colouring pages featuring your characters that children love to print and fill in.", points: ["Print-Ready Sheets", "Great List Builders"] },
+    "activity-books": { summary: "Complete activity books with puzzles, mazes and games starring your characters.", points: ["Puzzles & Games", "Print & Sell"] },
+    "worksheets": { summary: "Educational worksheets that turn your story into lessons teachers can use in class.", points: ["Curriculum Friendly", "Ready To Print"] },
+    "printable-activities": { summary: "Downloadable crafts, games and activities that keep families engaged with your story.", points: ["Instant Downloads", "Website Ready"] },
+    "stickers": { summary: "Cute character stickers for rewards, merchandise and book events.", points: ["Die-Cut Ready", "Sticker Sheets"] },
+    "posters": { summary: "Bright posters featuring your characters for classrooms, bedrooms and book events.", points: ["Multiple Sizes", "Print Ready"] },
+    "educational-materials": { summary: "Teacher guides, lesson plans and reading resources built around your book.", points: ["Teacher Guides", "Lesson Plans"] },
+    "character-social-media-content": { summary: "Regular posts, short videos and stories that let your characters speak directly to fans.", points: ["Content Calendar", "Character Voice"] },
+    "character-website": { summary: "An interactive home for your characters with games, videos and news for young fans.", points: ["Games & Videos", "Safe For Kids"] },
+    "licensing-preparation": { summary: "Prepare your characters for licensing deals with style guides, artwork libraries and pitch materials.", points: ["Licensing Style Guide", "Pitch Deck"] },
+    "merchandise-design": { summary: "Product designs for toys, clothing and gifts that carry your brand onto store shelves.", points: ["Product Range Design", "Print Specifications"] },
+};

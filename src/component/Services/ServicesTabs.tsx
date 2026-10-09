@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { AnimatePresence, LayoutGroup, motion, type Variants } from "motion/react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import type { LucideIcon } from "lucide-react";
-import { SERVICE_CATEGORIES, slugify, type Service } from "@/data/services";
+import { SERVICE_CATEGORIES, serviceHref, slugify, type Service } from "@/data/services";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const HANDS = "/images/Hands-Side.png";
@@ -44,12 +44,14 @@ function Swirl() {
 function ServiceCard({
     title,
     Icon,
+    to,
     active,
     layoutKey,
     onActivate,
 }: {
     title: string;
     Icon: LucideIcon;
+    to: string;
     active: boolean;
     layoutKey: string;
     onActivate: () => void;
@@ -57,39 +59,42 @@ function ServiceCard({
     return (
         <motion.li
             variants={cardIn}
-            onMouseEnter={onActivate}
-            onFocus={onActivate}
-            onClick={onActivate}
-            tabIndex={0}
             whileHover={{ y: -6 }}
             transition={{ type: "spring", stiffness: 280, damping: 20 }}
-            className="group relative isolate flex min-h-[124px] w-[calc(50%-6px)] cursor-pointer flex-col justify-between overflow-hidden rounded-[10px] bg-white p-4 shadow-[0_10px_24px_-20px_rgba(37,40,62,0.6)] outline-none focus-visible:ring-4 focus-visible:ring-brand-plum/30 sm:min-h-[140px] sm:w-[calc(33.333%-11px)] sm:p-5 lg:w-[calc(25%-12px)] lg:min-h-[150px]"
+            className="w-[calc(50%-6px)] sm:w-[calc(33.333%-11px)] lg:w-[calc(25%-12px)]"
         >
-            {active && (
+            <Link
+                to={to}
+                onMouseEnter={onActivate}
+                onFocus={onActivate}
+                className="group relative isolate flex h-full min-h-[124px] flex-col justify-between overflow-hidden rounded-[10px] bg-white p-4 shadow-[0_10px_24px_-20px_rgba(37,40,62,0.6)] outline-none focus-visible:ring-4 focus-visible:ring-brand-plum/30 sm:min-h-[140px] sm:p-5 lg:min-h-[150px]"
+            >
+                {active && (
+                    <motion.span
+                        layoutId={`service-active-${layoutKey}`}
+                        transition={{ type: "spring", stiffness: 150, damping: 22 }}
+                        className="absolute inset-0 -z-10 bg-brand-plum"
+                    >
+                        <Swirl />
+                    </motion.span>
+                )}
+
+                <span className="pointer-events-none absolute inset-y-0 -left-1/2 -z-10 w-1/3 -skew-x-12 bg-white/20 blur-md transition-transform duration-[1200ms] ease-out group-hover:translate-x-[480%]" />
+
                 <motion.span
-                    layoutId={`service-active-${layoutKey}`}
-                    transition={{ type: "spring", stiffness: 150, damping: 22 }}
-                    className="absolute inset-0 -z-10 bg-brand-plum"
+                    animate={active ? { rotate: [0, -10, 10, 0], scale: [1, 1.12, 1] } : { rotate: 0, scale: 1 }}
+                    transition={active ? { duration: 0.9, ease: "easeInOut" } : { duration: 0.3 }}
+                    className={`inline-flex transition-colors duration-500 ${active ? "text-white" : "text-brand-ink"}`}
                 >
-                    <Swirl />
+                    <Icon className="h-9 w-9 sm:h-10 sm:w-10" strokeWidth={1.4} />
                 </motion.span>
-            )}
 
-            <span className="pointer-events-none absolute inset-y-0 -left-1/2 -z-10 w-1/3 -skew-x-12 bg-white/20 blur-md transition-transform duration-[1200ms] ease-out group-hover:translate-x-[480%]" />
-
-            <motion.span
-                animate={active ? { rotate: [0, -10, 10, 0], scale: [1, 1.12, 1] } : { rotate: 0, scale: 1 }}
-                transition={active ? { duration: 0.9, ease: "easeInOut" } : { duration: 0.3 }}
-                className={`inline-flex transition-colors duration-500 ${active ? "text-white" : "text-brand-ink"}`}
-            >
-                <Icon className="h-9 w-9 sm:h-10 sm:w-10" strokeWidth={1.4} />
-            </motion.span>
-
-            <h3
-                className={`mt-4 text-[14px] font-bold leading-[1.25] transition-colors duration-500 sm:text-[15px] lg:text-[16px] ${active ? "text-white" : "text-brand-ink"}`}
-            >
-                {title}
-            </h3>
+                <h3
+                    className={`mt-4 text-[14px] font-bold leading-[1.25] transition-colors duration-500 sm:text-[15px] lg:text-[16px] ${active ? "text-white" : "text-brand-ink"}`}
+                >
+                    {title}
+                </h3>
+            </Link>
         </motion.li>
     );
 }
@@ -250,6 +255,7 @@ export default function ServicesTabs() {
                                     key={title}
                                     title={title}
                                     Icon={icon}
+                                    to={serviceHref(category, category.services[i])}
                                     active={active === i}
                                     layoutKey={String(tab)}
                                     onActivate={() => setActive(i)}
