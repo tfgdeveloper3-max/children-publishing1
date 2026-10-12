@@ -43,7 +43,7 @@ export default function ContactHero() {
                     className="flex max-w-[760px] flex-col items-center text-center"
                 >
                     <motion.p variants={item} className="text-[11px] font-semibold tracking-wide text-white sm:text-[13px] lg:text-[14px]">
-                        Illustration • Publishing • Branding • Digital Design
+                        Say Hello • Get a Quote • Start Your Book
                     </motion.p>
 
                     <motion.h1
@@ -55,10 +55,9 @@ export default function ContactHero() {
 
                     <motion.p
                         variants={item}
-                        className="mt-3 max-w-[640px] text-[12px] font-medium leading-[1.9] text-white/95 sm:mt-4 sm:text-[13px] lg:text-[14px]"
+                        className="mt-3 max-w-[640px] text-[16px] font-medium leading-[1.9] text-white/95 sm:mt-4 sm:text-[16px] lg:text-[16px]"
                     >
-                        Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry. Lorem Ipsum Has Been The
-                        Industry's Standard.
+                        Have a story to tell? Share your idea with us and we'll reply within one working day.
                     </motion.p>
 
                     <motion.div variants={item} className="mt-6 sm:mt-7">
@@ -71,7 +70,7 @@ export default function ContactHero() {
                         >
                             <span className="pointer-events-none absolute inset-[3px] rounded-full border border-dashed border-white/90" />
                             <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30 blur-sm transition-transform duration-[1100ms] ease-out group-hover:translate-x-[420%]" />
-                            <span className="relative">Know More</span>
+                            <span className="relative">Send a Message</span>
                         </MotionLink>
                     </motion.div>
                 </motion.div>

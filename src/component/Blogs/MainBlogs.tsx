@@ -29,101 +29,68 @@ type BlogPost = {
 
 const POSTS: BlogPost[] = [
     {
-        image: "/images/Blog-1.png",
-        imageAlt: "Two kids reading books under a starry night sky",
-        badge: "Author",
+        image: "/images/Blog-4.jpg",
+        imageAlt: "Cat and puppy at a door",
+        badge: "Illustration",
         badgeColor: "#F2542D",
         date: "30 Sep, 2026",
-        title: "Lorem Ipsum is simply dummy text of the printing industry.",
-        author: "John Smith",
+        title: "How to Draw Pets and Animal Characters Readers Love",
+        author: "Toonhaus Team",
         authorRole: "Blog Writer",
         href: "#",
     },
     {
-        image: "/images/Blog-2.png",
-        imageAlt: "Girl playing in her colorful bedroom with a cat",
-        badge: "Author",
+        image: "/images/Blog-5.jpg",
+        imageAlt: "Children at an outdoor camp activity",
+        badge: "Story Ideas",
         badgeColor: "#F5A300",
         date: "30 Sep, 2026",
-        title: "Lorem Ipsum is simply dummy text of the printing industry.",
-        author: "John Smith",
+        title: "Picture Book Ideas for Camps and Outdoor Adventures",
+        author: "Toonhaus Team",
         authorRole: "Blog Writer",
         href: "#",
     },
     {
-        image: "/images/Blog-3.png",
-        imageAlt: "Mother reading a bedtime story to her child",
-        badge: "Author",
+        image: "/images/Blog-6.jpg",
+        imageAlt: "Dragon on a bridge",
+        badge: "Fantasy",
+        badgeColor: "#7C5CFC",
+        date: "30 Sep, 2026",
+        title: "Creating Fantasy Worlds: Dragons, Bridges and Big Skies",
+        author: "Toonhaus Team",
+        authorRole: "Blog Writer",
+        href: "#",
+    },
+    {
+        image: "/images/Blog-7.jpg",
+        imageAlt: "Children building a wooden tower",
+        badge: "Illustration",
         badgeColor: "#F2542D",
         date: "30 Sep, 2026",
-        title: "Lorem Ipsum is simply dummy text of the printing industry.",
-        author: "John Smith",
+        title: "Drawing Group Scenes Where Every Character Shines",
+        author: "Toonhaus Team",
         authorRole: "Blog Writer",
         href: "#",
     },
     {
-        image: "/images/Blog-2.png",
-        imageAlt: "Girl playing in her colorful bedroom with a cat",
-        badge: "Author",
-        badgeColor: "#F5A300",
+        image: "/images/Blog-8.jpg",
+        imageAlt: "Traveller on a path by a Japanese temple",
+        badge: "Publishing",
+        badgeColor: "#22A699",
         date: "30 Sep, 2026",
-        title: "Lorem Ipsum is simply dummy text of the printing industry.",
-        author: "John Smith",
+        title: "Setting Your Children's Book in Another Culture",
+        author: "Toonhaus Team",
         authorRole: "Blog Writer",
         href: "#",
     },
     {
-        image: "/images/Blog-3.png",
-        imageAlt: "Mother reading a bedtime story to her child",
-        badge: "Author",
-        badgeColor: "#F2542D",
+        image: "/images/Blog-9.jpg",
+        imageAlt: "Children and ducks under a tree",
+        badge: "Book Design",
+        badgeColor: "#E84393",
         date: "30 Sep, 2026",
-        title: "Lorem Ipsum is simply dummy text of the printing industry.",
-        author: "John Smith",
-        authorRole: "Blog Writer",
-        href: "#",
-    },
-    {
-        image: "/images/Blog-2.png",
-        imageAlt: "Girl playing in her colorful bedroom with a cat",
-        badge: "Author",
-        badgeColor: "#F5A300",
-        date: "30 Sep, 2026",
-        title: "Lorem Ipsum is simply dummy text of the printing industry.",
-        author: "John Smith",
-        authorRole: "Blog Writer",
-        href: "#",
-    },
-    {
-        image: "/images/Blog-3.png",
-        imageAlt: "Mother reading a bedtime story to her child",
-        badge: "Author",
-        badgeColor: "#F2542D",
-        date: "30 Sep, 2026",
-        title: "Lorem Ipsum is simply dummy text of the printing industry.",
-        author: "John Smith",
-        authorRole: "Blog Writer",
-        href: "#",
-    },
-    {
-        image: "/images/Blog-2.png",
-        imageAlt: "Girl playing in her colorful bedroom with a cat",
-        badge: "Author",
-        badgeColor: "#F5A300",
-        date: "30 Sep, 2026",
-        title: "Lorem Ipsum is simply dummy text of the printing industry.",
-        author: "John Smith",
-        authorRole: "Blog Writer",
-        href: "#",
-    },
-    {
-        image: "/images/Blog-3.png",
-        imageAlt: "Mother reading a bedtime story to her child",
-        badge: "Author",
-        badgeColor: "#F2542D",
-        date: "30 Sep, 2026",
-        title: "Lorem Ipsum is simply dummy text of the printing industry.",
-        author: "John Smith",
+        title: "Choosing a Cover Parents Will Pick Up",
+        author: "Toonhaus Team",
         authorRole: "Blog Writer",
         href: "#",
     },
@@ -183,7 +150,7 @@ function BlogCard({ post, className = "" }: { post: BlogPost; className?: string
 
                     <a
                         href={post.href}
-                        aria-label={`Read more: ${post.title}`}
+                        aria-label={`Read More: ${post.title}`}
                         className="flex h-8 w-8 items-center justify-center rounded-full border border-[#F2542D] text-[#F2542D] transition-colors duration-300 hover:bg-[#F2542D] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2542D] lg:h-7 lg:w-7"
                     >
                         <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" strokeWidth={2.4} />
@@ -210,13 +177,13 @@ export default function MainBlog() {
                 className="relative z-10 mx-auto max-w-[1140px] px-4 sm:px-5"
             >
                 <motion.p variants={fadeUp} className="text-center text-[13px] font-semibold text-brand-plum sm:text-[14px]">
-                    Our Blogs
+                    From Our Blog
                 </motion.p>
                 <motion.h2
                     variants={fadeUp}
                     className="mt-0.5 text-center text-[clamp(26px,6vw,40px)] font-extrabold leading-[1.1] text-brand-ink lg:text-[clamp(34px,3.6vw,54px)]"
                 >
-                    Our News &amp; Article
+                    Stories, tips and studio news
                 </motion.h2>
 
                 <motion.div

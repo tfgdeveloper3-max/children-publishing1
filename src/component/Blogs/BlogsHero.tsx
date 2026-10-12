@@ -43,22 +43,21 @@ export default function BlogsHero() {
                     className="flex max-w-[760px] flex-col items-center text-center"
                 >
                     <motion.p variants={item} className="text-[11px] font-semibold tracking-wide text-white sm:text-[13px] lg:text-[14px]">
-                        Illustration • Publishing • Branding • Digital Design
+                        Tips • Ideas • Studio News
                     </motion.p>
 
                     <motion.h1
                         variants={item}
                         className="mt-2 text-[38px] font-bold leading-[1.1] text-white drop-shadow-[0_4px_18px_rgba(30,10,60,0.35)] sm:mt-3 sm:text-[52px] lg:text-[60px]"
                     >
-                        Blogs
+                        The Toonhaus Blog
                     </motion.h1>
 
                     <motion.p
                         variants={item}
-                        className="mt-3 max-w-[640px] text-[12px] font-medium leading-[1.9] text-white/95 sm:mt-4 sm:text-[13px] lg:text-[14px]"
+                        className="mt-3 max-w-[640px] text-[16px] font-medium leading-[1.9] text-white/95 sm:mt-4 sm:text-[16px] lg:text-[16px]"
                     >
-                        Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry. Lorem Ipsum Has Been The
-                        Industry's Standard.
+                        Practical advice on writing, illustrating and publishing children's books, straight from our studio.
                     </motion.p>
 
                     <motion.div variants={item} className="mt-6 sm:mt-7">
@@ -70,8 +69,8 @@ export default function BlogsHero() {
                             className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-brand-orange px-7 py-3 text-[12px] font-bold uppercase tracking-wide text-white shadow-[0_10px_22px_-10px_rgba(209,129,9,0.9)] outline-none focus-visible:ring-4 focus-visible:ring-brand-orange/40 sm:px-8"
                         >
                             <span className="pointer-events-none absolute inset-[3px] rounded-full border border-dashed border-white/90" />
-                            <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30 blur-sm transition-transform duration-[1100ms] ease-out group-hover:translate-x-[420%]" />
-                            <span className="relative">Know More</span>
+                            <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30= blur-sm transition-transform duration-[1100ms] ease-out group-hover:translate-x-[420%]" />
+                            <span className="relative">Read Latest Posts</span>
                         </MotionLink>
                     </motion.div>
                 </motion.div>

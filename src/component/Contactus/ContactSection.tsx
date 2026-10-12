@@ -43,7 +43,7 @@ const INFO: Info[] = [
 
 const SOCIALS: { label: string; href: string; icon: BrandIcon }[] = [
     { label: "Facebook", href: SITE.socials.facebook, icon: FacebookIcon },
-    { label: "Twitter", href: SITE.socials.twitter, icon: TwitterIcon },
+    { label: "X (Twitter)", href: SITE.socials.twitter, icon: TwitterIcon },
     { label: "LinkedIn", href: SITE.socials.linkedin, icon: LinkedinIcon },
 ].filter((s) => s.href);
 
@@ -112,7 +112,7 @@ function Field({ label, id, children }: { label: string; id: string; children: R
 type Status = "idle" | "sending" | "sent" | "error";
 
 export default function ContactSection() {
-    const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+    const [form, setForm] = useState({ name: "", email: "", message: "" });
     const [status, setStatus] = useState<Status>("idle");
 
     const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -123,9 +123,9 @@ export default function ContactSection() {
         if (status === "sending") return;
         setStatus("sending");
         try {
-            await submitLead({ name: form.name, email: form.email, phone_number: form.phone, message: form.message });
+            await submitLead({ name: form.name, email: form.email, phone_number: "", message: form.message });
             setStatus("sent");
-            setForm({ name: "", email: "", phone: "", message: "" });
+            setForm({ name: "", email: "", message: "" });
             setTimeout(() => setStatus("idle"), 3200);
         } catch {
             setStatus("error");
@@ -140,11 +140,10 @@ export default function ContactSection() {
                         variants={fadeUp}
                         className="text-[clamp(28px,6vw,34px)] font-extrabold leading-[1.1] text-brand-ink lg:text-[clamp(32px,2.8vw,40px)]"
                     >
-                        Your Story Deserves to Soar.
+                        Your book deserves to take flight.
                     </motion.h2>
-                    <motion.p variants={fadeUp} className="mt-4 max-w-[300px] text-[11.5px] font-semibold leading-[1.7] text-brand-ink/70">
-                        Our clients are our best advocates. Here's what they have to say about their experience with Seawings
-                        publishers.
+                    <motion.p variants={fadeUp} className="mt-4 max-w-[300px] text-[14px] font-semibold leading-[1.7] text-brand-ink/70">
+                        Tell us about your story and what you need. We reply to every message within one working day, with a free, no-obligation quote.
                     </motion.p>
 
                     <motion.div variants={col} className="mt-7 grid max-w-[340px] grid-cols-1 gap-4 min-[400px]:grid-cols-2">
@@ -208,7 +207,7 @@ export default function ContactSection() {
                                 name="name"
                                 required
                                 autoComplete="name"
-                                placeholder="Full Name"
+                                placeholder="Your full name"
                                 value={form.name}
                                 onChange={onChange}
                                 className={`${inputBase} h-[34px] rounded-full`}
@@ -222,22 +221,8 @@ export default function ContactSection() {
                                 type="email"
                                 required
                                 autoComplete="email"
-                                placeholder="Email"
+                                placeholder="you@example.com"
                                 value={form.email}
-                                onChange={onChange}
-                                className={`${inputBase} h-[34px] rounded-full`}
-                            />
-                        </Field>
-
-                        <Field label="Phone Number" id="cf-phone">
-                            <input
-                                id="cf-phone"
-                                name="phone"
-                                type="tel"
-                                required
-                                autoComplete="tel"
-                                placeholder="Phone Number"
-                                value={form.phone}
                                 onChange={onChange}
                                 className={`${inputBase} h-[34px] rounded-full`}
                             />
@@ -249,7 +234,7 @@ export default function ContactSection() {
                                 name="message"
                                 required
                                 rows={5}
-                                placeholder="Message"
+                                placeholder="Tell us about your book, your timeline and what you need"
                                 value={form.message}
                                 onChange={onChange}
                                 className={`${inputBase} min-h-[94px] resize-none rounded-[16px] py-3`}

@@ -55,7 +55,7 @@ export default function AboutHero() {
 
                     <motion.p
                         variants={item}
-                        className="mt-3 max-w-[640px] text-[12px] font-medium leading-[1.9] text-white/95 sm:mt-4 sm:text-[13px] lg:text-[14px]"
+                        className="mt-3 max-w-[640px] text-[16px] font-medium leading-[1.9] text-white/95 sm:mt-4 sm:text-[16px] lg:text-[16px]"
                     >
                         Ten years of picture books, one friendly team, and a shared love of stories.
                     </motion.p>
