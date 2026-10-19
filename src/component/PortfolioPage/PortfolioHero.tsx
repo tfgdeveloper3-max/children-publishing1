@@ -1,10 +1,7 @@
 import { motion, useReducedMotion, type Variants } from "motion/react";
-import { Link } from "react-router-dom";
 import { useLeadModal } from "../LeadModal/LeadModalContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-
-const MotionLink = motion.create(Link);
 
 const container: Variants = {
     hidden: {},

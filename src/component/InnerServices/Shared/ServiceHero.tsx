@@ -4,7 +4,6 @@ import { ChevronRight } from "lucide-react";
 import { useLeadModal } from "@/component/LeadModal/LeadModalContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const MotionLink = motion.create(Link);
 
 const container: Variants = {
     hidden: {},
@@ -25,7 +24,7 @@ type Props = {
     ctaTo?: string;
 };
 
-export default function ServiceHero({ eyebrow, title, description, bg, ctaLabel = "Get a Free Quote", ctaTo = "/contact" }: Props) {
+export default function ServiceHero({ eyebrow, title, description, bg, ctaLabel = "Get a Free Quote"}: Props) {
     const reduceMotion = useReducedMotion();
     const { openLeadModal } = useLeadModal();
 

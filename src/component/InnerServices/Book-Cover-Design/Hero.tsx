@@ -1,4 +1,5 @@
 import { motion, useReducedMotion, type Variants } from "motion/react";
+import { useLeadModal } from "@/component/LeadModal/LeadModalContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -17,7 +18,6 @@ type InnerHeroProps = {
     title?: string;
     description?: string;
     ctaLabel?: string;
-    ctaHref?: string;
     bg?: string;
 };
 
@@ -26,14 +26,10 @@ export default function InnerHero({
     title = "Book Cover Design",
     description = "A great cover gets your book picked up. We design covers that look just as good on a bookshelf as they do on a phone screen.",
     ctaLabel = "Get a Cover Quote",
-    ctaHref = "#",
     bg = "/images/Book-Cover-Design-BG.png",
 }: InnerHeroProps) {
     const reduceMotion = useReducedMotion();
-
-    function openLeadModal(arg0: { title: string; subtitle: string; }): void {
-        throw new Error("Function not implemented.");
-    }
+    const { openLeadModal } = useLeadModal();
 
     return (
         <section className="relative isolate overflow-hidden bg-[#5b3a8c]">
@@ -55,16 +51,8 @@ export default function InnerHero({
             <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 border-t-2 border-dashed border-white/80" />
 
             <div className="mx-auto flex min-h-[340px] max-w-[1140px] items-center justify-center px-4 py-14 sm:min-h-[380px] sm:px-5 lg:min-h-[clamp(400px,32vw,520px)]">
-                <motion.div
-                    variants={container}
-                    initial="hidden"
-                    animate="show"
-                    className="flex max-w-[760px] flex-col items-center text-center"
-                >
-                    <motion.p
-                        variants={item}
-                        className="text-[11px] font-semibold tracking-wide text-white sm:text-[13px] lg:text-[14px]"
-                    >
+                <motion.div variants={container} initial="hidden" animate="show" className="flex max-w-[760px] flex-col items-center text-center">
+                    <motion.p variants={item} className="text-[13px] font-semibold tracking-wide text-white sm:text-[15px] lg:text-[17px]">
                         {eyebrow}
                     </motion.p>
 
@@ -75,10 +63,7 @@ export default function InnerHero({
                         {title}
                     </motion.h1>
 
-                    <motion.p
-                        variants={item}
-                        className="mt-3 max-w-[640px] text-[16px] font-medium leading-[1.9] text-white/95 sm:mt-4 sm:text-[16px] lg:text-[16px]"
-                    >
+                    <motion.p variants={item} className="mt-3 max-w-[640px] text-[16px] font-medium leading-[1.9] text-white/95 sm:mt-4">
                         {description}
                     </motion.p>
 
@@ -87,8 +72,9 @@ export default function InnerHero({
                             type="button"
                             onClick={() =>
                                 openLeadModal({
-                                    title: "Meet the Team",
-                                    subtitle: "Tell us a little about your book and the right people from our team will get in touch with you.",
+                                    service: "Book Cover & Interior Design",
+                                    title: "Get a Cover Quote",
+                                    subtitle: "Tell us a little about your book and our cover design team will send you a quote.",
                                 })
                             }
                             whileHover={{ scale: 1.05, y: -2 }}
