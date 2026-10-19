@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import { ChevronRight } from "lucide-react";
+import { useLeadModal } from "@/component/LeadModal/LeadModalContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const MotionLink = motion.create(Link);
@@ -26,6 +27,7 @@ type Props = {
 
 export default function ServiceHero({ eyebrow, title, description, bg, ctaLabel = "Get a Free Quote", ctaTo = "/contact" }: Props) {
     const reduceMotion = useReducedMotion();
+    const { openLeadModal } = useLeadModal();
 
     return (
         <section className="relative isolate overflow-hidden bg-[#5b3a8c]">
@@ -76,8 +78,14 @@ export default function ServiceHero({ eyebrow, title, description, bg, ctaLabel 
                     </motion.p>
 
                     <motion.div variants={item} className="mt-6 sm:mt-7">
-                        <MotionLink
-                            to={ctaTo}
+                        <motion.button
+                            type="button"
+                            onClick={() =>
+                                openLeadModal({
+                                    title: "Meet the Team",
+                                    subtitle: "Tell us a little about your book and the right people from our team will get in touch with you.",
+                                })
+                            }
                             whileHover={{ scale: 1.05, y: -2 }}
                             whileTap={{ scale: 0.97 }}
                             transition={{ type: "spring", stiffness: 220, damping: 20 }}
@@ -86,7 +94,7 @@ export default function ServiceHero({ eyebrow, title, description, bg, ctaLabel 
                             <span className="pointer-events-none absolute inset-[3px] rounded-full border border-dashed border-white/90" />
                             <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30 blur-sm transition-transform duration-[1100ms] ease-out group-hover:translate-x-[420%]" />
                             <span className="relative">{ctaLabel}</span>
-                        </MotionLink>
+                        </motion.button>
                     </motion.div>
                 </motion.div>
             </div>

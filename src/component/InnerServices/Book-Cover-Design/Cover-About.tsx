@@ -130,7 +130,8 @@ export default function About() {
                         </motion.ul>
 
                         <motion.div variants={fadeUp} className="mt-7">
-                            <PillButton to="/contact" className="px-7">
+                            <PillButton 
+                                 className="px-7">
                                 Contact Us
                             </PillButton>
                         </motion.div>

@@ -4,6 +4,7 @@ import { AnimatePresence, motion, type Variants } from "motion/react";
 import { ArrowRight, ChevronDown, ChevronRight, Menu, X } from "lucide-react";
 import { SERVICE_CATEGORIES, serviceHref } from "@/data/services";
 import LeadButton from "@/component/LeadModal/LeadButton";
+import { useLeadModal, type LeadModalOptions } from "@/component/LeadModal/LeadModalContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -40,16 +41,21 @@ const MotionLink = motion.create(Link);
 
 export function PillButton({
     children,
-    to = "/contact",
     className = "",
-}: {
+    title,
+    subtitle,
+    service,
+}: LeadModalOptions & {
     children: ReactNode;
     to?: string;
     className?: string;
 }) {
+    const { openLeadModal } = useLeadModal();
+
     return (
-        <MotionLink
-            to={to}
+        <motion.button
+            type="button"
+            onClick={() => openLeadModal({ title, subtitle, service })}
             whileHover={{ scale: 1.04, y: -1 }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 220, damping: 20 }}
@@ -58,7 +64,7 @@ export function PillButton({
             <span className="pointer-events-none absolute inset-[3px] rounded-full border border-dashed border-white/90" />
             <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30 blur-sm transition-transform duration-[1100ms] ease-out group-hover:translate-x-[420%]" />
             <span className="relative">{children}</span>
-        </MotionLink>
+        </motion.button>
     );
 }
 
@@ -114,21 +120,14 @@ export default function Navbar() {
     return (
         <header className="relative z-30 bg-white">
             <nav className="relative mx-auto flex h-[72px] max-w-[1140px] items-center justify-between px-4 sm:h-[80px] sm:px-5 lg:h-[88px]">
-
                 <MotionLink
                     to="/"
-                    aria-label="Toon Haus Publishing home"
                     initial={{ opacity: 0, x: -24 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 1, ease: EASE }}
-                    whileHover={{ scale: 1.03 }}
-                    className="shrink-0"
+                    className="text-[26px] font-extrabold leading-none text-brand-ink sm:text-[30px] xl:text-[34px]"
                 >
-                    <img
-                        src="/images/logo.png"
-                        alt="Toon Haus Publishing"
-                        className="h-[46px] w-auto sm:h-[54px] lg:h-[60px] xl:h-[66px]"
-                    />
+                    Logo Here
                 </MotionLink>
 
                 <motion.ul
@@ -181,7 +180,7 @@ export default function Navbar() {
 
                                     <AnimatePresence>
                                         {isOpen && (
-                                            <div className="absolute left-1/2 top-full z-40 w-[min(900px,calc(100vw-40px))] -translate-x-1/2 pt-1">
+                                            <div className="absolute left-1/2 top-[calc(100%-18px)] z-40 w-[min(900px,calc(100vw-40px))] -translate-x-1/2">
                                                 <motion.div
                                                     initial={{ opacity: 0, y: 14, scale: 0.98 }}
                                                     animate={{ opacity: 1, y: 0, scale: 1 }}

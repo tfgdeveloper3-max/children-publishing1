@@ -3,7 +3,7 @@ import { Check } from "lucide-react";
 import { PillButton } from "@/component/Navbar";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const HANDS = "/images/Hands-Side.png";
+const HANDS = "/images/Left.png";
 
 const head: Variants = {
     hidden: {},

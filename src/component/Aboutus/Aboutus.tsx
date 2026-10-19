@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { motion, AnimatePresence, useInView, type Variants } from "motion/react";
 import { Check } from "lucide-react";
+import { useLeadModal } from "../LeadModal/LeadModalContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -39,6 +40,7 @@ const CHECKS = [
 
 export default function Aboutus() {
     const [tab, setTab] = useState<TabKey>("mission");
+    const { openLeadModal } = useLeadModal();
 
     const leftRef = useRef<HTMLDivElement>(null);
     const leftInView = useInView(leftRef, { once: true, amount: 0.25 });
@@ -198,14 +200,20 @@ export default function Aboutus() {
                         </motion.ul>
 
                         <motion.div variants={fadeUp} className="mt-7 sm:mt-8">
-                            <motion.a
-                                href="#contact"
+                            <motion.button
+                                type="button"
+                                onClick={() =>
+                                    openLeadModal({
+                                        title: "Meet the Team",
+                                        subtitle: "Tell us a little about your book and the right people from our team will get in touch with you.",
+                                    })
+                                }
                                 whileHover={{ scale: 1.04 }}
                                 whileTap={{ scale: 0.97 }}
-                                className="inline-flex items-center justify-center rounded-full bg-brand-orange px-7 py-3 text-[14px] font-bold uppercase tracking-wide text-white shadow-[0_10px_24px_-8px_rgba(209,129,9,0.5)] outline-[1.5px] outline-dashed -outline-offset-[6px] outline-white/75 transition-colors duration-300 hover:bg-brand-orange-dark sm:px-8 sm:py-3.5 sm:text-[15px]"
+                                className="inline-flex items-center justify-center rounded-full bg-brand-orange px-7 py-3 text-[14px] font-bold uppercase tracking-wide text-white shadow-[0_10px_24px_-8px_rgba(209,129,9,0.5)] outline-[1.5px] outline-dashed -outline-offset-[6px] outline-white/75 transition-colors duration-300 hover:bg-brand-orange-dark focus-visible:ring-4 focus-visible:ring-brand-orange/40 sm:px-8 sm:py-3.5 sm:text-[15px]"
                             >
                                 Meet the Team
-                            </motion.a>
+                            </motion.button>
                         </motion.div>
                     </motion.div>
                 </div>

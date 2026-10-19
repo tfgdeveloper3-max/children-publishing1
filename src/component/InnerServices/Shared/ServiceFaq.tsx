@@ -5,6 +5,7 @@ import { MessageSquare } from "lucide-react";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 import type { QA } from "@/data/serviceContent";
+import { useLeadModal } from "@/component/LeadModal/LeadModalContext";
 
 const list: Variants = {
     hidden: {},
@@ -164,6 +165,7 @@ export default function ServiceFaq({ items, description }: { items: QA[]; descri
     const headRef = useRef<HTMLDivElement>(null);
     const inView = useInView(headRef, { once: true, amount: 0.5 });
     const [open, setOpen] = useState<number | null>(0);
+    const { openLeadModal } = useLeadModal();
 
     return (
         <section className="bg-white pb-16 pt-16 sm:pb-20 sm:pt-20 lg:pb-24 lg:pt-24">
@@ -219,8 +221,14 @@ export default function ServiceFaq({ items, description }: { items: QA[]; descri
                             question you have.
                         </p>
 
-                        <motion.a
-                            href="/contact"
+                        <motion.button
+                            type="button"
+                            onClick={() =>
+                                openLeadModal({
+                                    title: "Meet the Team",
+                                    subtitle: "Tell us a little about your book and the right people from our team will get in touch with you.",
+                                })
+                            }
                             whileHover={{ scale: 1.05, y: -2 }}
                             whileTap={{ scale: 0.97 }}
                             transition={{ type: "spring", stiffness: 220, damping: 20 }}
@@ -229,7 +237,7 @@ export default function ServiceFaq({ items, description }: { items: QA[]; descri
                             <span className="pointer-events-none absolute inset-[3px] rounded-full border border-dashed border-white/90" />
                             <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30 blur-sm transition-transform duration-[1100ms] ease-out group-hover:translate-x-[420%]" />
                             <span className="relative">Contact Us</span>
-                        </motion.a>
+                        </motion.button>
                     </motion.aside>
                 </div>
             </div>

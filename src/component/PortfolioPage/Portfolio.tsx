@@ -132,17 +132,6 @@ export default function Portfolio() {
                         )}
                     </div>
                 </motion.div>
-
-                <motion.div variants={fadeUp} initial="hidden" animate={headInView ? "show" : "hidden"} className="mt-8 flex justify-center sm:mt-10">
-                    <motion.a
-                        href="#portfolio"
-                        whileHover={{ scale: 1.04 }}
-                        whileTap={{ scale: 0.97 }}
-                        className="inline-flex items-center justify-center rounded-full bg-brand-orange px-7 py-3 text-[14px] font-bold uppercase tracking-wide text-white shadow-[0_10px_24px_-8px_rgba(209,129,9,0.5)] outline-[1.5px] outline-dashed -outline-offset-[6px] outline-white/75 transition-colors duration-300 hover:bg-brand-orange-dark sm:px-8 sm:py-3.5 sm:text-[15px]"
-                    >
-                        View More
-                    </motion.a>
-                </motion.div>
             </div>
         </section>
     );
