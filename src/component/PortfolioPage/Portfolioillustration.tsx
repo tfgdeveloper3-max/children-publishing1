@@ -174,14 +174,18 @@ export default function PortfolioIllustrations() {
         <section className="relative overflow-hidden bg-white bg-[url('/images/illustration-BG.png')] bg-cover bg-center py-14 sm:py-16 lg:py-20">
             <div className="relative z-10 mx-auto max-w-[1240px] px-4 sm:px-5">
                 <motion.div ref={headRef} variants={stagger} initial="hidden" animate={inView ? "show" : "hidden"} className="text-center">
-                    <motion.p variants={fadeUp} className="text-[13px] font-semibold text-brand-plum sm:text-[14px]">
-                        Kids Illustrations
+                    <motion.p
+                        variants={fadeUp}
+                        className="text-[13px] font-semibold text-brand-plum sm:text-[14px]"
+                    >
+                        VIBRANT ARTWORK & VISUAL STORYTELLING
                     </motion.p>
+
                     <motion.h2
                         variants={fadeUp}
                         className="mt-1 text-[clamp(26px,6vw,40px)] font-extrabold leading-[1.1] text-brand-ink lg:text-[clamp(32px,3.4vw,52px)]"
                     >
-                        Explore Our Illustration Work
+                        Explore the Colorful Worlds We’ve Illustrated for Young Readers!
                     </motion.h2>
                 </motion.div>
 

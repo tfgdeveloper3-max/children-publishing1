@@ -1,3 +1,4 @@
+
 import { useRef, useState } from "react";
 import { motion, AnimatePresence, useInView, type Variants } from "motion/react";
 import { Check } from "lucide-react";
@@ -11,10 +12,12 @@ const fadeUp: Variants = {
     hidden: { opacity: 0, y: 24 },
     show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
 };
+
 const stagger: Variants = {
     hidden: {},
     show: { transition: { staggerChildren: 0.12 } },
 };
+
 const pop: Variants = {
     hidden: { opacity: 0, scale: 0.9, y: 20 },
     show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.9, ease: EASE } },
@@ -22,20 +25,21 @@ const pop: Variants = {
 
 const TABS = {
     mission:
-        "We make colourful, caring books that help children fall in love with reading. We also make publishing simple and stress-free for the authors behind them.",
+        "We craft vibrant, heartfelt stories designed to spark a lifelong passion for reading in young minds. At the same time, we make the entire publishing experience seamless and stress-free for you, the author.",
     vision:
-        "We want every author with a story to see it in print, and every child to find a book that feels like it was written just for them.",
+        "Our vision is to help every author bring their imagination to life through beautifully crafted children's books that inspire curiosity, encourage learning, and create lasting memories for young readers.",
 } as const;
+
 type TabKey = keyof typeof TABS;
 
 const TAB_LABELS: Record<TabKey, string> = {
-    mission: "Our Mission",
-    vision: "Our Vision",
+    mission: "Our Core Mission",
+    vision: "Our Creative Vision",
 };
 
 const CHECKS = [
-    "Stories that help children learn, imagine and grow",
-    "Books your readers will want to open again and again",
+    "Stories Crafted to Help Children Learn, Imagine, and Grow",
+    "Magical Books Young Readers Will Want to Open Again and Again",
 ];
 
 export default function Aboutus() {
@@ -127,27 +131,36 @@ export default function Aboutus() {
                         animate={rightInView ? "show" : "hidden"}
                         className="w-full max-w-[640px] lg:w-[53%] lg:max-w-none"
                     >
-                        <motion.p variants={fadeUp} className="text-[14px] font-semibold text-brand-plum sm:text-[15px]">
-                            About Toonhaus
+                        <motion.p
+                            variants={fadeUp}
+                            className="text-[14px] font-semibold text-brand-plum sm:text-[15px]"
+                        >
+                            ABOUT TOON HAUS PUBLISHING
                         </motion.p>
 
                         <motion.h2
                             variants={fadeUp}
                             className="mt-1 text-[clamp(26px,6.5vw,34px)] font-extrabold leading-[1.1] text-brand-ink sm:text-[clamp(32px,4vw,40px)] lg:text-[clamp(32px,3.4vw,50px)] lg:leading-[1.08]"
                         >
-                            Where little stories grow into big adventures
+                            Empowering Authors to Create Unforgettable Children&apos;s Books!
                         </motion.h2>
 
                         <motion.p
                             variants={fadeUp}
                             className="mt-4 max-w-[600px] text-[14px] font-medium leading-[1.65] text-brand-ink/65 sm:text-[15px]"
                         >
-                            Toonhaus Publishing is a team of illustrators, designers and publishing specialists who love children's books. For over ten years we have helped authors turn a simple idea into a book that is ready to read, share and sell.
+                            Toon Haus Publishing brings together a passionate collective of illustrators, creative designers, and publishing experts who live and breathe children&apos;s literature. For over a decade, we have helped visionary authors turn simple concepts into polished, market-ready books meant to be read, treasured, and shared.
                         </motion.p>
 
-                        <motion.div variants={fadeUp} role="tablist" className="mt-5 flex flex-wrap items-center gap-2 sm:gap-3">
+                        <motion.div
+                            variants={fadeUp}
+                            role="tablist"
+                            aria-label="Our mission and vision"
+                            className="mt-5 flex flex-wrap items-center gap-2 sm:gap-3"
+                        >
                             {(Object.keys(TAB_LABELS) as TabKey[]).map((key) => {
                                 const active = tab === key;
+
                                 return (
                                     <button
                                         key={key}
@@ -156,8 +169,8 @@ export default function Aboutus() {
                                         aria-selected={active}
                                         onClick={() => setTab(key)}
                                         className={`rounded-full border-[1.5px] border-dashed px-4 py-1.5 text-[14px] font-bold transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange sm:px-5 sm:text-[15px] ${active
-                                            ? "border-brand-orange bg-brand-orange/10 text-brand-orange"
-                                            : "border-transparent text-brand-ink hover:text-brand-orange"
+                                                ? "border-brand-orange bg-brand-orange/10 text-brand-orange"
+                                                : "border-transparent text-brand-ink hover:text-brand-orange"
                                             }`}
                                     >
                                         {TAB_LABELS[key]}
@@ -166,7 +179,10 @@ export default function Aboutus() {
                             })}
                         </motion.div>
 
-                        <div className="mt-5 min-h-[100px] max-w-[600px] sm:mt-6 sm:min-h-[80px]">
+                        <div
+                            role="tabpanel"
+                            className="mt-5 min-h-[100px] max-w-[600px] sm:mt-6 sm:min-h-[80px]"
+                        >
                             <AnimatePresence mode="wait">
                                 <motion.p
                                     key={tab}
@@ -185,16 +201,21 @@ export default function Aboutus() {
                             variants={fadeUp}
                             className="mt-5 max-w-[600px] text-[14px] font-medium leading-[1.65] text-brand-ink/65 sm:text-[15px]"
                         >
-                            One team looks after everything: illustration, cover design, formatting and publishing. You get one point of contact and one consistent look from the first page to the last. No juggling freelancers, no lost files and no guesswork.
+                            One dedicated team handles everything from custom illustrations and eye-catching cover designs to professional interior formatting and global publishing. You enjoy a single point of contact and cohesive artistic direction from page one to the final chapter—meaning zero freelancer juggling, zero misplaced files, and zero guesswork.
                         </motion.p>
 
                         <motion.ul variants={fadeUp} className="mt-4 space-y-3">
                             {CHECKS.map((item) => (
                                 <li key={item} className="flex items-center gap-3">
                                     <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-brand-orange">
-                                        <Check className="h-3.5 w-3.5 text-white" strokeWidth={3.5} />
+                                        <Check
+                                            className="h-3.5 w-3.5 text-white"
+                                            strokeWidth={3.5}
+                                        />
                                     </span>
-                                    <span className="text-[14px] font-bold text-brand-ink sm:text-[15px]">{item}</span>
+                                    <span className="text-[14px] font-bold text-brand-ink sm:text-[15px]">
+                                        {item}
+                                    </span>
                                 </li>
                             ))}
                         </motion.ul>
@@ -204,15 +225,16 @@ export default function Aboutus() {
                                 type="button"
                                 onClick={() =>
                                     openLeadModal({
-                                        title: "Meet the Team",
-                                        subtitle: "Tell us a little about your book and the right people from our team will get in touch with you.",
+                                        title: "Meet Our Team Today",
+                                        subtitle:
+                                            "Tell us about your children's book and our creative publishing team will help you take the next step.",
                                     })
                                 }
                                 whileHover={{ scale: 1.04 }}
                                 whileTap={{ scale: 0.97 }}
                                 className="inline-flex items-center justify-center rounded-full bg-brand-orange px-7 py-3 text-[14px] font-bold uppercase tracking-wide text-white shadow-[0_10px_24px_-8px_rgba(209,129,9,0.5)] outline-[1.5px] outline-dashed -outline-offset-[6px] outline-white/75 transition-colors duration-300 hover:bg-brand-orange-dark focus-visible:ring-4 focus-visible:ring-brand-orange/40 sm:px-8 sm:py-3.5 sm:text-[15px]"
                             >
-                                Meet the Team
+                                MEET OUR TEAM TODAY
                             </motion.button>
                         </motion.div>
                     </motion.div>

@@ -54,9 +54,11 @@ type Props = {
     points: string[];
     image: string;
     imageAlt: string;
+    ctaLabel?: string;
+    service?: string;
 };
 
-export default function ServiceAbout({ eyebrow, heading, paragraphs, points, image, imageAlt }: Props) {
+export default function ServiceAbout({ eyebrow, heading, paragraphs, points, image, imageAlt, ctaLabel = "Contact Us", service }: Props) {
     return (
         <section className="relative overflow-hidden border-t-2 border-brand-plum bg-[#fbf9f4] pb-16 pt-14 sm:pb-20 sm:pt-16 lg:pb-24 lg:pt-20">
             <HandStrip side="left" />
@@ -108,8 +110,8 @@ export default function ServiceAbout({ eyebrow, heading, paragraphs, points, ima
                         </motion.ul>
 
                         <motion.div variants={fadeUp} className="mt-7">
-                            <PillButton to="/contact" className="px-7">
-                                Contact Us
+                            <PillButton className="px-7" service={service}>
+                                {ctaLabel}
                             </PillButton>
                         </motion.div>
                     </motion.div>

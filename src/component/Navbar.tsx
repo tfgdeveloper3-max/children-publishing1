@@ -16,7 +16,6 @@ const NAV: NavItem[] = [
     { label: "Services", to: "/services", mega: true },
     { label: "About Us", to: "/about" },
     { label: "Portfolio", to: "/portfolio" },
-    { label: "Blog", to: "/blog" },
     { label: "Reviews", to: "/reviews" },
     { label: "Contact Us", to: "/contact" },
 ];

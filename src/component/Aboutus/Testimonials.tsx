@@ -10,25 +10,25 @@ type Testimonial = { name: string; role: string; avatar: string; rating: number;
 
 const TESTIMONIALS: Testimonial[] = [
     {
-        name: "— Emily Carter",
-        role: "Children's Book Author",
-        avatar: "/images/Client-1.jpg",
+        name: "Sarah Jenkins",
+        role: "Picture Book Author",
+        avatar: "/images/Client-1.png",
         rating: 5,
-        text: "The illustrations were even better than I had imagined. Every character looked just as I'd pictured, and the team kept me updated at every step.",
+        text: "Partnering with Toon Haus Publishing turned my rough manuscript into a masterpiece! The artwork was breathtaking, communication was effortless, and my kids were completely mesmerized by the final product.",
     },
     {
-        name: "Daniel Morgan",
+        name: "David Vance",
         role: "Self-Published Author",
-        avatar: "/images/Client-2.jpg",
+        avatar: "/images/Client-2.png",
         rating: 5,
-        text: "I knew nothing about formatting or KDP. Toonhaus handled it all, and my book was live on Amazon sooner than I expected.",
+        text: "I was completely lost in the publishing process until I found Toon Haus Publishing. They guided me through layout, printing, and distribution with total clarity and true creative passion.",
     },
     {
-        name: "Sophia Bennett",
-        role: "Founder, Sample Press",
-        avatar: "/images/Client-3.jpg",
+        name: "Maya Lin",
+        role: "Children’s Storyteller",
+        avatar: "/images/Client-3.png",
         rating: 5,
-        text: "Friendly, reliable and creative. The cover design stood out right away, and our readers keep telling us how much they love it.",
+        text: "The level of detail in the illustrations exceeded all expectations! Every character had so much personality. I can’t imagine publishing my future books anywhere else.",
     },
 ];
 

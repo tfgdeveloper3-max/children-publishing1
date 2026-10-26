@@ -1,41 +1,84 @@
+
 import { useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import { AnimatePresence, motion, type Variants } from "motion/react";
-
-import { Check, Loader2, Mail, MapPin, Phone, Send, type LucideIcon } from "lucide-react";
+import {
+    Check,
+    Loader2,
+    Mail,
+    MapPin,
+    Phone,
+    Send,
+    type LucideIcon,
+} from "lucide-react";
 import { SITE } from "@/data/Site";
 import { submitLead } from "@/lib/lead";
 
 type BrandIcon = (props: { className?: string }) => ReactNode;
 
 const FacebookIcon: BrandIcon = ({ className }) => (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+    <svg
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+        className={className}
+    >
         <path d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9H17l.5-4h-4V8.8c0-.5.3-.8.5-.8z" />
     </svg>
 );
 
 const TwitterIcon: BrandIcon = ({ className }) => (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+    <svg
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+        className={className}
+    >
         <path d="M22 5.9c-.7.3-1.5.5-2.3.6.8-.5 1.5-1.3 1.8-2.2-.8.5-1.7.8-2.6 1a4.1 4.1 0 0 0-7 3.7A11.6 11.6 0 0 1 3.4 4.7a4.1 4.1 0 0 0 1.3 5.5c-.7 0-1.3-.2-1.9-.5 0 2 1.4 3.7 3.3 4.1-.6.2-1.2.2-1.9.1.5 1.6 2 2.8 3.8 2.9A8.3 8.3 0 0 1 2 18.5a11.6 11.6 0 0 0 6.3 1.8c7.5 0 11.7-6.3 11.7-11.7v-.5c.8-.6 1.5-1.3 2-2.2z" />
     </svg>
 );
 
 const LinkedinIcon: BrandIcon = ({ className }) => (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+    <svg
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+        className={className}
+    >
         <path d="M4.5 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM3 9h3v12H3zM9 9h2.9v1.7c.5-.9 1.7-1.9 3.6-1.9 3.8 0 4.5 2.4 4.5 5.6V21h-3v-5.8c0-1.4 0-3.2-2-3.2s-2.3 1.5-2.3 3.1V21H9z" />
     </svg>
 );
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-type Info = { title: string; lines: string[]; href: string; icon: LucideIcon; external?: boolean };
+type Info = {
+    title: string;
+    lines: string[];
+    href: string;
+    icon: LucideIcon;
+    external?: boolean;
+};
 
 const INFO: Info[] = [
-    { title: "Phone", lines: [SITE.phoneDisplay], href: SITE.phoneLink, icon: Phone },
-    { title: "Email", lines: [SITE.email], href: `mailto:${SITE.email}`, icon: Mail },
     {
-        title: "Location",
-        lines: SITE.address.lines,
-        href: SITE.address.mapLink,
+        title: "Phone Number",
+        lines: ["(949) 828-2170"],
+        href: "tel:+19498282170",
+        icon: Phone,
+    },
+    {
+        title: "Email Address",
+        lines: ["support@toonhauspublishing.com"],
+        href: "mailto:support@toonhauspublishing.com",
+        icon: Mail,
+    },
+    {
+        title: "Our Office Location",
+        lines: [
+            "2913 El Camino Real",
+            "Tustin, CA 92782",
+            "United States",
+        ],
+        href: "https://www.google.com/maps/search/?api=1&query=2913+El+Camino+Real+Tustin+CA+92782",
         icon: MapPin,
         external: true,
     },
@@ -49,17 +92,35 @@ const SOCIALS: { label: string; href: string; icon: BrandIcon }[] = [
 
 const col: Variants = {
     hidden: {},
-    show: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
+    show: {
+        transition: {
+            staggerChildren: 0.12,
+            delayChildren: 0.15,
+        },
+    },
 };
 
 const fadeUp: Variants = {
     hidden: { opacity: 0, y: 26 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.9, ease: EASE } },
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.9, ease: EASE },
+    },
 };
 
 const pop: Variants = {
     hidden: { opacity: 0, y: 30, scale: 0.92 },
-    show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 120, damping: 16 } },
+    show: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+            type: "spring",
+            stiffness: 120,
+            damping: 16,
+        },
+    },
 };
 
 const SHADOW = "0 3px 0 #25283e";
@@ -70,6 +131,7 @@ const inputBase =
 
 function InfoCard({ info }: { info: Info }) {
     const Icon = info.icon;
+
     return (
         <motion.a
             variants={pop}
@@ -85,23 +147,39 @@ function InfoCard({ info }: { info: Info }) {
             <span className="pointer-events-none absolute -right-3 -top-3 flex h-12 w-12 items-center justify-center rounded-full bg-brand-orange/10 text-brand-orange opacity-0 transition-all duration-500 group-hover:right-3 group-hover:top-3 group-hover:opacity-100">
                 <Icon className="h-5 w-5" strokeWidth={2} />
             </span>
-            <h3 className="text-[15px] font-bold text-brand-ink">{info.title}</h3>
+
+            <h3 className="text-[15px] font-bold text-brand-ink">
+                {info.title}
+            </h3>
+
             <p className="mt-2 text-[12.5px] leading-[1.45] text-brand-ink/85 transition-colors duration-300 group-hover:text-brand-plum">
-                {info.lines.map((l) => (
-                    <span key={l} className="block">
-                        {l}
+                {info.lines.map((line) => (
+                    <span key={line} className="block">
+                        {line}
                     </span>
                 ))}
             </p>
+
             <span className="absolute bottom-0 left-0 h-[3px] w-0 bg-brand-orange transition-all duration-500 group-hover:w-full" />
         </motion.a>
     );
 }
 
-function Field({ label, id, children }: { label: string; id: string; children: ReactNode }) {
+function Field({
+    label,
+    id,
+    children,
+}: {
+    label: string;
+    id: string;
+    children: ReactNode;
+}) {
     return (
         <motion.div variants={fadeUp}>
-            <label htmlFor={id} className="mb-2 block text-[13px] font-medium text-brand-ink">
+            <label
+                htmlFor={id}
+                className="mb-2 block text-[13px] font-medium text-brand-ink"
+            >
                 {label}
             </label>
             {children}
@@ -112,20 +190,45 @@ function Field({ label, id, children }: { label: string; id: string; children: R
 type Status = "idle" | "sending" | "sent" | "error";
 
 export default function ContactSection() {
-    const [form, setForm] = useState({ name: "", email: "", message: "" });
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        message: "",
+    });
+
     const [status, setStatus] = useState<Status>("idle");
 
-    const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-        setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+    const onChange = (
+        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        setForm((current) => ({
+            ...current,
+            [e.target.name]: e.target.value,
+        }));
+    };
 
-    const onSubmit = async (e: FormEvent) => {
+    const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         if (status === "sending") return;
+
         setStatus("sending");
+
         try {
-            await submitLead({ name: form.name, email: form.email, phone_number: "", message: form.message });
+            await submitLead({
+                name: form.name,
+                email: form.email,
+                phone_number: "",
+                message: form.message,
+            });
+
             setStatus("sent");
-            setForm({ name: "", email: "", message: "" });
+            setForm({
+                name: "",
+                email: "",
+                message: "",
+            });
+
             setTimeout(() => setStatus("idle"), 3200);
         } catch {
             setStatus("error");
@@ -135,18 +238,34 @@ export default function ContactSection() {
     return (
         <section className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-24">
             <div className="mx-auto grid max-w-[1000px] items-start gap-12 px-4 sm:px-5 lg:grid-cols-2 lg:gap-16">
-                <motion.div variants={col} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} className="lg:pt-6">
+                {/* Left column: Contact information */}
+                <motion.div
+                    variants={col}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, amount: 0.3 }}
+                    className="lg:pt-6"
+                >
                     <motion.h2
                         variants={fadeUp}
                         className="text-[clamp(28px,6vw,34px)] font-extrabold leading-[1.1] text-brand-ink lg:text-[clamp(32px,2.8vw,40px)]"
                     >
-                        Your book deserves to take flight.
+                        Your Story Deserves to Reach Young Readers Everywhere!
                     </motion.h2>
-                    <motion.p variants={fadeUp} className="mt-4 max-w-[300px] text-[14px] font-semibold leading-[1.7] text-brand-ink/70">
-                        Tell us about your story and what you need. We reply to every message within one working day, with a free, no-obligation quote.
+
+                    <motion.p
+                        variants={fadeUp}
+                        className="mt-4 max-w-[360px] text-[14px] font-semibold leading-[1.7] text-brand-ink/70"
+                    >
+                        Share your book concept and project needs with us! Our
+                        expert publishing team responds to every inquiry within
+                        24 hours with a custom, zero-obligation quote.
                     </motion.p>
 
-                    <motion.div variants={col} className="mt-7 grid max-w-[340px] grid-cols-1 gap-4 min-[400px]:grid-cols-2">
+                    <motion.div
+                        variants={col}
+                        className="mt-7 grid max-w-[450px] grid-cols-1 gap-4 min-[400px]:grid-cols-2"
+                    >
                         {INFO.map((info) => (
                             <InfoCard key={info.title} info={info} />
                         ))}
@@ -154,10 +273,17 @@ export default function ContactSection() {
 
                     {SOCIALS.length > 0 && (
                         <>
-                            <motion.h3 variants={fadeUp} className="mt-8 text-[18px] font-bold text-brand-ink">
+                            <motion.h3
+                                variants={fadeUp}
+                                className="mt-8 text-[18px] font-bold text-brand-ink"
+                            >
                                 Follow Us
                             </motion.h3>
-                            <motion.ul variants={col} className="mt-4 flex gap-3">
+
+                            <motion.ul
+                                variants={col}
+                                className="mt-4 flex gap-3"
+                            >
                                 {SOCIALS.map(({ label, href, icon: Icon }) => (
                                     <motion.li key={label} variants={pop}>
                                         <motion.a
@@ -165,9 +291,17 @@ export default function ContactSection() {
                                             aria-label={label}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            whileHover={{ y: -4, rotate: 8, scale: 1.08 }}
+                                            whileHover={{
+                                                y: -4,
+                                                rotate: 8,
+                                                scale: 1.08,
+                                            }}
                                             whileTap={{ scale: 0.92 }}
-                                            transition={{ type: "spring", stiffness: 320, damping: 16 }}
+                                            transition={{
+                                                type: "spring",
+                                                stiffness: 320,
+                                                damping: 16,
+                                            }}
                                             className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-brand-orange text-white shadow-[0_6px_14px_-6px_rgba(209,129,9,0.9)] outline-none transition-colors duration-300 hover:bg-brand-plum focus-visible:ring-4 focus-visible:ring-brand-orange/40"
                                         >
                                             <Icon className="h-3.5 w-3.5" />
@@ -179,6 +313,7 @@ export default function ContactSection() {
                     )}
                 </motion.div>
 
+                {/* Right column: Contact form */}
                 <motion.div
                     initial={{ opacity: 0, x: 50, rotate: 1.5 }}
                     whileInView={{ opacity: 1, x: 0, rotate: 0 }}
@@ -198,7 +333,7 @@ export default function ContactSection() {
                             variants={fadeUp}
                             className="mb-5 text-[clamp(26px,5vw,30px)] font-extrabold leading-[1.1] text-brand-ink lg:text-[32px]"
                         >
-                            Send us a message
+                            Get in Touch Today
                         </motion.h2>
 
                         <Field label="Full Name" id="cf-name">
@@ -207,34 +342,34 @@ export default function ContactSection() {
                                 name="name"
                                 required
                                 autoComplete="name"
-                                placeholder="Your full name"
+                                placeholder="Enter your full name here"
                                 value={form.name}
                                 onChange={onChange}
                                 className={`${inputBase} h-[34px] rounded-full`}
                             />
                         </Field>
 
-                        <Field label="Email" id="cf-email">
+                        <Field label="Email Address" id="cf-email">
                             <input
                                 id="cf-email"
                                 name="email"
                                 type="email"
                                 required
                                 autoComplete="email"
-                                placeholder="you@example.com"
+                                placeholder="name@domain.com"
                                 value={form.email}
                                 onChange={onChange}
                                 className={`${inputBase} h-[34px] rounded-full`}
                             />
                         </Field>
 
-                        <Field label="Message" id="cf-message">
+                        <Field label="Tell Us About Your Book" id="cf-message">
                             <textarea
                                 id="cf-message"
                                 name="message"
                                 required
                                 rows={5}
-                                placeholder="Tell us about your book, your timeline and what you need"
+                                placeholder="Share details about your story, targeted age group, desired services, and expected launch date..."
                                 value={form.message}
                                 onChange={onChange}
                                 className={`${inputBase} min-h-[94px] resize-none rounded-[16px] py-3`}
@@ -247,43 +382,64 @@ export default function ContactSection() {
                                 disabled={status === "sending"}
                                 whileHover={{ y: -2 }}
                                 whileTap={{ scale: 0.98 }}
-                                transition={{ type: "spring", stiffness: 260, damping: 18 }}
-                                className={`group relative flex h-[34px] w-full items-center justify-center overflow-hidden rounded-[8px] text-[12px] font-bold uppercase tracking-wide text-white shadow-[0_10px_22px_-12px_rgba(209,129,9,0.9)] outline-none transition-colors duration-500 focus-visible:ring-4 focus-visible:ring-brand-orange/40 disabled:cursor-wait ${status === "sent" ? "bg-emerald-600" : "bg-brand-orange hover:bg-[#b96f06]"}`}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 260,
+                                    damping: 18,
+                                }}
+                                className={`group relative flex h-[34px] w-full items-center justify-center overflow-hidden rounded-[8px] text-[12px] font-bold uppercase tracking-wide text-white shadow-[0_10px_22px_-12px_rgba(209,129,9,0.9)] outline-none transition-colors duration-500 focus-visible:ring-4 focus-visible:ring-brand-orange/40 disabled:cursor-wait ${status === "sent"
+                                        ? "bg-emerald-600"
+                                        : "bg-brand-orange hover:bg-[#b96f06]"
+                                    }`}
                             >
                                 <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30 blur-sm transition-transform duration-[1100ms] ease-out group-hover:translate-x-[420%]" />
+
                                 <AnimatePresence mode="wait" initial={false}>
                                     <motion.span
                                         key={status}
                                         initial={{ opacity: 0, y: 12 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: -12 }}
-                                        transition={{ duration: 0.3, ease: EASE }}
+                                        transition={{
+                                            duration: 0.3,
+                                            ease: EASE,
+                                        }}
                                         className="relative inline-flex items-center gap-2"
                                     >
-                                        {(status === "idle" || status === "error") && (
-                                            <>
-                                                Send Message
-                                                <Send className="h-3.5 w-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-1" />
-                                            </>
-                                        )}
+                                        {(status === "idle" ||
+                                            status === "error") && (
+                                                <>
+                                                    SUBMIT YOUR MESSAGE
+                                                    <Send className="h-3.5 w-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-1" />
+                                                </>
+                                            )}
+
                                         {status === "sending" && (
                                             <>
                                                 <Loader2 className="h-4 w-4 animate-spin" />
                                                 Sending
                                             </>
                                         )}
+
                                         {status === "sent" && (
                                             <>
-                                                <Check className="h-4 w-4" strokeWidth={3} />
+                                                <Check
+                                                    className="h-4 w-4"
+                                                    strokeWidth={3}
+                                                />
                                                 Message Sent
                                             </>
                                         )}
                                     </motion.span>
                                 </AnimatePresence>
                             </motion.button>
+
                             <p aria-live="polite" className="sr-only">
-                                {status === "sent" ? "Your message has been sent." : ""}
+                                {status === "sent"
+                                    ? "Your message has been sent."
+                                    : ""}
                             </p>
+
                             <AnimatePresence>
                                 {status === "error" && (
                                     <motion.p
@@ -293,9 +449,13 @@ export default function ContactSection() {
                                         exit={{ opacity: 0 }}
                                         className="mt-3 rounded-xl bg-[#fde8ec] px-4 py-3 text-[12.5px] text-[#8e1f33]"
                                     >
-                                        Your message couldn't be sent. Please try again, or email us at{" "}
-                                        <a href={`mailto:${SITE.email}`} className="font-bold underline">
-                                            {SITE.email}
+                                        Your message couldn't be sent. Please
+                                        try again, or email us at{" "}
+                                        <a
+                                            href="mailto:support@toonhauspublishing.com"
+                                            className="font-bold underline"
+                                        >
+                                            support@toonhauspublishing.com
                                         </a>
                                         .
                                     </motion.p>

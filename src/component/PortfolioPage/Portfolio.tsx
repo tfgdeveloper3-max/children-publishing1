@@ -74,14 +74,18 @@ export default function Portfolio() {
         >
             <div className="relative z-10 mx-auto max-w-[1140px] px-4 sm:px-5">
                 <motion.div ref={headRef} variants={stagger} initial="hidden" animate={headInView ? "show" : "hidden"} className="text-center">
-                    <motion.p variants={fadeUp} className="text-[13px] font-semibold text-brand-plum sm:text-[14px]">
-                        Portfolio
+                    <motion.p
+                        variants={fadeUp}
+                        className="text-[13px] font-semibold text-brand-plum sm:text-[14px]"
+                    >
+                        OUR FEATURED PORTFOLIO
                     </motion.p>
+
                     <motion.h2
                         variants={fadeUp}
-                        className="mx-auto mt-1 max-w-[560px] text-[clamp(26px,6vw,40px)] font-extrabold leading-[1.1] text-brand-ink lg:text-[clamp(34px,3.6vw,54px)] lg:leading-[1.08]"
+                        className="mx-auto mt-1 max-w-[700px] text-[clamp(26px,6vw,40px)] font-extrabold leading-[1.1] text-brand-ink lg:text-[clamp(34px,3.6vw,54px)] lg:leading-[1.08]"
                     >
-                        Selected projects created with purpose.
+                        Explore Our Handpicked Selection of Published Masterpieces!
                     </motion.h2>
                 </motion.div>
 

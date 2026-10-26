@@ -329,12 +329,15 @@ export default function Hero() {
                                     variants={itemVariants}
                                     className="mt-3 text-[25px] font-bold leading-[1.12] text-brand-ink min-[400px]:text-[28px] sm:text-[36px] lg:text-[37px] xl:text-[39px]"
                                 >
-                                    Stories that {" "}
-                                    <span className="text-brand-plum">leap off the pages</span>
+                                    Bringing <span className="text-brand-plum">Big Dreams</span>{" "}
+                                    to Little Readers
                                 </motion.h1>
 
-                                <motion.p variants={itemVariants} className="mt-2 max-w-[300px] text-[12px] font-medium text-brand-ink/90 sm:text-[13px]">
-                                    We illustrate, design and publish children's books that little readers ask for again and again.
+                                <motion.p
+                                    variants={itemVariants}
+                                    className="mt-2 max-w-[250px] text-[12px] font-medium leading-relaxed text-brand-ink/90 sm:max-w-[320px] sm:text-[13px]"
+                                >
+                                    At Toon Haus Publishing, we turn creative ideas into vibrant, beautifully illustrated children's books that spark imagination and make bedtime reading unforgettable.
                                 </motion.p>
 
                                 <motion.div variants={itemVariants} className="mt-6 sm:mt-7">
@@ -347,7 +350,7 @@ export default function Hero() {
                                     >
                                         <span className="pointer-events-none absolute inset-[3px] rounded-full border border-dashed border-white/90" />
                                         <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30 blur-sm transition-transform duration-[1100ms] ease-out group-hover:translate-x-[420%]" />
-                                        <span className="relative">See Our Books</span>
+                                        <span className="relative">Explore Our Books</span>
                                     </motion.a>
                                 </motion.div>
                             </motion.div>

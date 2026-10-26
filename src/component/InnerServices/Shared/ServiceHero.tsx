@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
+import { useLeadModal } from "@/component/LeadModal/LeadModalContext";
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import { ChevronRight } from "lucide-react";
-import { useLeadModal } from "@/component/LeadModal/LeadModalContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -21,10 +21,11 @@ type Props = {
     description: string;
     bg: string;
     ctaLabel?: string;
-    ctaTo?: string;
+    service?: string;
+    crumb?: string;
 };
 
-export default function ServiceHero({ eyebrow, title, description, bg, ctaLabel = "Get a Free Quote"}: Props) {
+export default function ServiceHero({ eyebrow, title, description, bg, ctaLabel = "Get a Free Quote", service, crumb }: Props) {
     const reduceMotion = useReducedMotion();
     const { openLeadModal } = useLeadModal();
 
@@ -57,7 +58,7 @@ export default function ServiceHero({ eyebrow, title, description, bg, ctaLabel 
                                 <Link to="/services" className="hover:text-white">Services</Link>
                             </li>
                             <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
-                            <li aria-current="page" className="text-white">{title}</li>
+                            <li aria-current="page" className="text-white">{crumb ?? title}</li>
                         </ol>
                     </motion.nav>
 
@@ -79,12 +80,7 @@ export default function ServiceHero({ eyebrow, title, description, bg, ctaLabel 
                     <motion.div variants={item} className="mt-6 sm:mt-7">
                         <motion.button
                             type="button"
-                            onClick={() =>
-                                openLeadModal({
-                                    title: "Meet the Team",
-                                    subtitle: "Tell us a little about your book and the right people from our team will get in touch with you.",
-                                })
-                            }
+                            onClick={() => openLeadModal({ service: service ?? crumb ?? title })}
                             whileHover={{ scale: 1.05, y: -2 }}
                             whileTap={{ scale: 0.97 }}
                             transition={{ type: "spring", stiffness: 220, damping: 20 }}

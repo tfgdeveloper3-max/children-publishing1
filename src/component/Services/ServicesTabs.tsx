@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { AnimatePresence, LayoutGroup, motion, type Variants } from "motion/react";
 import { Link, useSearchParams } from "react-router-dom";
-import type { LucideIcon } from "lucide-react";
-import { SERVICE_CATEGORIES, serviceHref, slugify, type Service } from "@/data/services";
+import { ArrowUpRight } from "lucide-react";
+import { SERVICE_CATEGORIES, serviceHref, slugify, type Service, type ServiceCategory } from "@/data/services";
+import { SERVICE_CARDS, SERVICE_TABS, SERVICES_PAGE } from "@/data/servicesPage";
+import { FeatureCard, SectionTag, balancedGrid } from "@/component/InnerServices/Shared/ui";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const HANDS = "/images/Hands-Side.png";
-
 const CATEGORIES = SERVICE_CATEGORIES;
 
 const head: Variants = {
@@ -21,79 +22,54 @@ const fadeUp: Variants = {
 
 const grid: Variants = {
     hidden: {},
-    show: { transition: { staggerChildren: 0.045, delayChildren: 0.05 } },
-    exit: { transition: { staggerChildren: 0.02, staggerDirection: -1 } },
+    show: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
+    exit: { transition: { staggerChildren: 0.03, staggerDirection: -1 } },
 };
 
 const cardIn: Variants = {
-    hidden: { opacity: 0, y: 28, scale: 0.94 },
-    show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 130, damping: 17 } },
-    exit: { opacity: 0, y: -12, scale: 0.97, transition: { duration: 0.2, ease: EASE } },
+    hidden: { opacity: 0, y: 30, rotate: 0 },
+    show: { opacity: 1, y: 0, rotate: 0, transition: { duration: 0.7, ease: EASE } },
+    exit: { opacity: 0, y: -14, transition: { duration: 0.2, ease: EASE } },
 };
 
-function Swirl() {
-    return (
-        <svg aria-hidden="true" viewBox="0 0 120 80" className="pointer-events-none absolute -right-2 -top-2 h-[80px] w-[120px] text-white/25" fill="none">
-            <path d="M8 4 C 50 10, 80 34, 118 70" stroke="currentColor" strokeWidth="1.4" />
-            <path d="M30 0 C 64 8, 92 30, 120 52" stroke="currentColor" strokeWidth="1" />
-            <path d="M58 0 C 82 8, 104 22, 120 36" stroke="currentColor" strokeWidth="0.8" />
-        </svg>
-    );
-}
-
 function ServiceCard({
-    title,
-    Icon,
-    to,
+    category,
+    service,
+    index,
     active,
-    layoutKey,
     onActivate,
+    className = "",
 }: {
-    title: string;
-    Icon: LucideIcon;
-    to: string;
+    category: ServiceCategory;
+    service: Service;
+    index: number;
     active: boolean;
-    layoutKey: string;
     onActivate: () => void;
+    className?: string;
 }) {
+    const copy = SERVICE_CARDS[slugify(service.title)];
+
     return (
-        <motion.li
-            variants={cardIn}
-            whileHover={{ y: -6 }}
-            transition={{ type: "spring", stiffness: 280, damping: 20 }}
-            className="w-[calc(50%-6px)] sm:w-[calc(33.333%-11px)] lg:w-[calc(25%-12px)]"
-        >
+        <motion.li variants={cardIn} className={className}>
             <Link
-                to={to}
+                to={serviceHref(category, service)}
                 onMouseEnter={onActivate}
                 onFocus={onActivate}
-                className="group relative isolate flex h-full min-h-[124px] flex-col justify-between overflow-hidden rounded-[10px] bg-white p-4 shadow-[0_10px_24px_-20px_rgba(37,40,62,0.6)] outline-none focus-visible:ring-4 focus-visible:ring-brand-plum/30 sm:min-h-[140px] sm:p-5 lg:min-h-[150px]"
+                className="block h-full rounded-[20px] outline-none focus-visible:ring-4 focus-visible:ring-brand-plum/30"
             >
-                {active && (
-                    <motion.span
-                        layoutId={`service-active-${layoutKey}`}
-                        transition={{ type: "spring", stiffness: 150, damping: 22 }}
-                        className="absolute inset-0 -z-10 bg-brand-plum"
-                    >
-                        <Swirl />
-                    </motion.span>
-                )}
-
-                <span className="pointer-events-none absolute inset-y-0 -left-1/2 -z-10 w-1/3 -skew-x-12 bg-white/20 blur-md transition-transform duration-[1200ms] ease-out group-hover:translate-x-[480%]" />
-
-                <motion.span
-                    animate={active ? { rotate: [0, -10, 10, 0], scale: [1, 1.12, 1] } : { rotate: 0, scale: 1 }}
-                    transition={active ? { duration: 0.9, ease: "easeInOut" } : { duration: 0.3 }}
-                    className={`inline-flex transition-colors duration-500 ${active ? "text-white" : "text-brand-ink"}`}
-                >
-                    <Icon className="h-9 w-9 sm:h-10 sm:w-10" strokeWidth={1.4} />
-                </motion.span>
-
-                <h3
-                    className={`mt-4 text-[14px] font-bold leading-[1.25] transition-colors duration-500 sm:text-[15px] lg:text-[16px] ${active ? "text-white" : "text-brand-ink"}`}
-                >
-                    {title}
-                </h3>
+                <FeatureCard
+                    index={index}
+                    icon={service.icon}
+                    active={active}
+                    title={copy?.title ?? service.title}
+                    text={copy?.text}
+                    footer={
+                        <span className="inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-wide text-brand-plum">
+                            Explore Service
+                            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={2.4} />
+                        </span>
+                    }
+                />
             </Link>
         </motion.li>
     );
@@ -108,13 +84,9 @@ function HandStrip({ side }: { side: "left" | "right" }) {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 1.2, ease: EASE }}
-            className={`pointer-events-none absolute top-[6%] hidden w-[clamp(52px,6vw,92px)] flex-col xl:flex ${isLeft ? "left-0" : "right-0"}`}
+            className={`pointer-events-none absolute top-[6%] hidden w-[clamp(52px,6vw,92px)] flex-col 2xl:flex ${isLeft ? "left-0" : "right-0"}`}
         >
-            <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="flex flex-col"
-            >
+            <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="flex flex-col">
                 {[0, 1].map((i) => (
                     <img key={i} src={HANDS} alt="" draggable={false} className={`w-full select-none ${isLeft ? "-scale-x-100" : ""}`} />
                 ))}
@@ -134,6 +106,7 @@ export default function ServicesTabs() {
     const listRef = useRef<HTMLDivElement>(null);
 
     const category = CATEGORIES[tab];
+    const layout = balancedGrid(category.services.length);
 
     useEffect(() => {
         const cat = params.get("category");
@@ -141,7 +114,7 @@ export default function ServicesTabs() {
         const ci = CATEGORIES.findIndex((c) => c.slug === cat);
         if (ci < 0) return;
         const svc = params.get("service");
-        const si = svc ? Math.max(0, CATEGORIES[ci].services.findIndex((x: Service) => slugify(x.title) === svc)) : 0;
+        const si = svc ? Math.max(0, CATEGORIES[ci].services.findIndex((x) => slugify(x.title) === svc)) : 0;
 
         if (ci === tabRef.current) setActive(si);
         else {
@@ -170,26 +143,24 @@ export default function ServicesTabs() {
     };
 
     return (
-        <section ref={sectionRef} className="relative scroll-mt-4 overflow-hidden bg-[#fbf9f4] py-14 sm:py-16 lg:py-20">
+        <section
+            id="our-services"
+            ref={sectionRef}
+            className="relative scroll-mt-4 overflow-hidden bg-[#faf7f1] py-16 sm:py-20 lg:py-24"
+        >
             <HandStrip side="left" />
             <HandStrip side="right" />
 
-            <div className="relative mx-auto max-w-[1040px] px-4 sm:px-5">
-                <motion.div
-                    variants={head}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true, amount: 0.5 }}
-                    className="mx-auto max-w-[640px] text-center"
-                >
-                    <motion.p variants={fadeUp} className="text-[15px] font-bold text-brand-plum sm:text-[17px]">
-                        Services
-                    </motion.p>
+            <div className="relative mx-auto max-w-[1100px] px-4 sm:px-5">
+                <motion.div variants={head} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.5 }} className="mx-auto max-w-[680px] text-center">
+                    <motion.div variants={fadeUp}>
+                        <SectionTag>{SERVICES_PAGE.eyebrow}</SectionTag>
+                    </motion.div>
                     <motion.h2
                         variants={fadeUp}
-                        className="mt-1 text-[clamp(26px,6vw,36px)] font-extrabold leading-[1.15] text-brand-ink lg:text-[clamp(34px,3vw,44px)]"
+                        className="mt-4 text-[clamp(26px,6vw,36px)] font-extrabold leading-[1.15] text-brand-ink lg:text-[clamp(34px,3vw,44px)]"
                     >
-                        Excellence in Every Step of Your Publishing Journey
+                        {SERVICES_PAGE.heading}
                     </motion.h2>
                 </motion.div>
 
@@ -198,7 +169,7 @@ export default function ServicesTabs() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.5 }}
                     transition={{ duration: 0.8, ease: EASE, delay: 0.25 }}
-                    className="mt-6 sm:mt-8"
+                    className="mt-8 sm:mt-10"
                 >
                     <LayoutGroup id="service-tabs">
                         <div
@@ -206,13 +177,13 @@ export default function ServicesTabs() {
                             role="tablist"
                             aria-label="Service categories"
                             onKeyDown={onTabKey}
-                            className="-mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:mx-0 sm:px-0 lg:flex-wrap lg:justify-center lg:overflow-visible [&::-webkit-scrollbar]:hidden"
+                            className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-3 pt-1 [scrollbar-width:none] sm:mx-0 sm:px-1 lg:flex-wrap lg:justify-center lg:overflow-visible [&::-webkit-scrollbar]:hidden"
                         >
                             {CATEGORIES.map((c, i) => {
                                 const isActive = tab === i;
                                 return (
                                     <button
-                                        key={c.label}
+                                        key={c.slug}
                                         ref={(el) => {
                                             tabRefs.current[i] = el;
                                         }}
@@ -223,16 +194,19 @@ export default function ServicesTabs() {
                                         aria-controls="svc-panel"
                                         tabIndex={isActive ? 0 : -1}
                                         onClick={() => setTab(i)}
-                                        className={`relative shrink-0 snap-center whitespace-nowrap rounded-full border px-4 py-2.5 text-[12px] font-semibold outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-brand-plum sm:text-[13px] ${isActive ? "border-transparent text-white" : "border-brand-ink/20 bg-white text-brand-ink hover:border-brand-plum hover:text-brand-plum"}`}
+                                        className={`relative shrink-0 snap-center whitespace-nowrap rounded-full border px-5 py-2.5 text-[12.5px] font-bold outline-none transition-all duration-300 focus-visible:ring-4 focus-visible:ring-brand-plum/30 sm:text-[13.5px] ${isActive
+                                                ? "border-transparent text-white shadow-[0_12px_22px_-12px_rgba(209,129,9,0.9)]"
+                                                : "border-brand-ink/15 bg-white text-brand-ink hover:border-brand-plum/40 hover:text-brand-plum"
+                                            }`}
                                     >
                                         {isActive && (
                                             <motion.span
                                                 layoutId="service-tab-pill"
                                                 transition={{ type: "spring", stiffness: 260, damping: 26 }}
-                                                className="absolute -inset-px rounded-full bg-brand-orange shadow-[0_8px_18px_-8px_rgba(209,129,9,0.85)]"
+                                                className="absolute inset-0 rounded-full bg-brand-orange"
                                             />
                                         )}
-                                        <span className="relative">{c.label}</span>
+                                        <span className="relative">{SERVICE_TABS[c.slug] ?? c.label}</span>
                                     </button>
                                 );
                             })}
@@ -240,7 +214,7 @@ export default function ServicesTabs() {
                     </LayoutGroup>
                 </motion.div>
 
-                <div id="svc-panel" role="tabpanel" aria-labelledby={`svc-tab-${tab}`} className="mt-8 sm:mt-10">
+                <div id="svc-panel" role="tabpanel" aria-labelledby={`svc-tab-${tab}`} className="mt-10 sm:mt-12">
                     <AnimatePresence mode="wait">
                         <motion.ul
                             key={tab}
@@ -248,18 +222,10 @@ export default function ServicesTabs() {
                             initial="hidden"
                             animate="show"
                             exit="exit"
-                            className="flex flex-wrap justify-center gap-3 sm:gap-4"
+                            className={`gap-y-6 ${layout.list}`}
                         >
-                            {category.services.map(({ title, icon }, i) => (
-                                <ServiceCard
-                                    key={title}
-                                    title={title}
-                                    Icon={icon}
-                                    to={serviceHref(category, category.services[i])}
-                                    active={active === i}
-                                    layoutKey={String(tab)}
-                                    onActivate={() => setActive(i)}
-                                />
+                            {category.services.map((svc, i) => (
+                                <ServiceCard key={svc.title} category={category} service={svc} index={i} active={active === i} onActivate={() => setActive(i)} className={layout.item(i)} />
                             ))}
                         </motion.ul>
                     </AnimatePresence>

@@ -1,5 +1,7 @@
+
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import { useLeadModal } from "../LeadModal/LeadModalContext";
+
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const container: Variants = {
@@ -40,22 +42,25 @@ export default function AboutHero() {
                     animate="show"
                     className="flex max-w-[760px] flex-col items-center text-center"
                 >
-                    <motion.p variants={item} className="text-[11px] font-semibold tracking-wide text-white sm:text-[13px] lg:text-[14px]">
-                        Made by Storytellers
+                    <motion.p
+                        variants={item}
+                        className="text-[11px] font-semibold tracking-wide text-white sm:text-[13px] lg:text-[14px]"
+                    >
+                        CREATED BY PASSIONATE STORYTELLERS
                     </motion.p>
 
                     <motion.h1
                         variants={item}
                         className="mt-2 text-[38px] font-bold leading-[1.1] text-white drop-shadow-[0_4px_18px_rgba(30,10,60,0.35)] sm:mt-3 sm:text-[52px] lg:text-[60px]"
                     >
-                        The Team Behind Toonhaus
+                        Meet the Creative Minds Behind Toon Haus Publishing!
                     </motion.h1>
 
                     <motion.p
                         variants={item}
                         className="mt-3 max-w-[640px] text-[16px] font-medium leading-[1.9] text-white/95 sm:mt-4 sm:text-[16px] lg:text-[16px]"
                     >
-                        Ten years of picture books, one friendly team, and a shared love of stories.
+                        Ten years of breathing life into magical children&apos;s books, driven by a tight-knit family of publishing professionals united by a deep love for unforgettable storytelling.
                     </motion.p>
 
                     <motion.div variants={item} className="mt-6 sm:mt-7">
@@ -63,8 +68,9 @@ export default function AboutHero() {
                             type="button"
                             onClick={() =>
                                 openLeadModal({
-                                    title: "Meet the Team",
-                                    subtitle: "Tell us a little about your book and the right people from our team will get in touch with you.",
+                                    title: "Meet Our Team",
+                                    subtitle:
+                                        "Tell us a little about your book, and our passionate publishing team will help bring your story to life.",
                                 })
                             }
                             whileHover={{ scale: 1.05, y: -2 }}
@@ -74,7 +80,7 @@ export default function AboutHero() {
                         >
                             <span className="pointer-events-none absolute inset-[3px] rounded-full border border-dashed border-white/90" />
                             <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30 blur-sm transition-transform duration-[1100ms] ease-out group-hover:translate-x-[420%]" />
-                            <span className="relative">Meet the Team</span>
+                            <span className="relative">MEET OUR TEAM</span>
                         </motion.button>
                     </motion.div>
                 </motion.div>

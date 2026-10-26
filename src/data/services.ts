@@ -182,7 +182,6 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
             {
                 title: "Book Cover & Interior Design",
                 icon: Palette,
-                to: "/services/book-cover-design",
                 includes: [
                     { title: "Cover design", icon: Palette, text: "A front, back and spine cover that stands out on the shelf and tells readers what your story is about." },
                     { title: "Interior layout", icon: Layers, text: "Thoughtful page layouts that balance pictures and text so every spread is easy for little readers to follow." },

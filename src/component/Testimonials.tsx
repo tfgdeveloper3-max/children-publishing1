@@ -1,48 +1,68 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence, useInView, useReducedMotion, type Variants } from "motion/react";
+import {
+    motion,
+    AnimatePresence,
+    useInView,
+    useReducedMotion,
+    type Variants,
+} from "motion/react";
 import { Quote, Star } from "lucide-react";
 
 const EASE_SOFT = [0.45, 0, 0.2, 1] as const;
 const SLIDE_MS = 6000;
 const SLIDE_SEC = 1.2;
 
-type Testimonial = { name: string; role: string; avatar: string; rating: number; text: string };
+type Testimonial = {
+    name: string;
+    role: string;
+    avatar: string;
+    rating: number;
+    text: string;
+};
 
 const TESTIMONIALS: Testimonial[] = [
     {
-        name: "— Emily Carter",
-        role: "Children's Book Author",
+        name: "Sarah Jenkins",
+        role: "Picture Book Author",
         avatar: "/images/Client-1.png",
         rating: 5,
-        text: "The illustrations were even better than I had imagined. Every character looked just as I'd pictured, and the team kept me updated at every step.",
+        text: "Partnering with Toon Haus Publishing turned my rough manuscript into a masterpiece! The artwork was breathtaking, communication was effortless, and my kids were completely mesmerized by the final product.",
     },
     {
-        name: "Daniel Morgan",
+        name: "David Vance",
         role: "Self-Published Author",
         avatar: "/images/Client-2.png",
         rating: 5,
-        text: "I knew nothing about formatting or KDP. Toonhaus handled it all, and my book was live on Amazon sooner than I expected.",
+        text: "I was completely lost in the publishing process until I found Toon Haus Publishing. They guided me through layout, printing, and distribution with total clarity and true creative passion.",
     },
     {
-        name: "Sophia Bennett",
-        role: "Founder, Sample Press",
+        name: "Maya Lin",
+        role: "Children’s Storyteller",
         avatar: "/images/Client-3.png",
         rating: 5,
-        text: "Friendly, reliable and creative. The cover design stood out right away, and our readers keep telling us how much they love it.",
+        text: "The level of detail in the illustrations exceeded all expectations! Every character had so much personality. I can’t imagine publishing my future books anywhere else.",
     },
 ];
 
 const fadeUp: Variants = {
     hidden: { opacity: 0, y: 24 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.9, ease: EASE_SOFT } },
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.9, ease: EASE_SOFT },
+    },
 };
+
 const stagger: Variants = {
     hidden: {},
     show: { transition: { staggerChildren: 0.12 } },
 };
 
 const slide: Variants = {
-    enter: (dir: number) => ({ x: dir > 0 ? 70 : -70, opacity: 0 }),
+    enter: (dir: number) => ({
+        x: dir > 0 ? 70 : -70,
+        opacity: 0,
+    }),
     center: {
         x: 0,
         opacity: 1,
@@ -78,7 +98,12 @@ export default function Testimonials() {
 
     useEffect(() => {
         if (!inView || paused || reduceMotion) return;
-        const id = window.setTimeout(() => setSlide(([i]) => [(i + 1) % TESTIMONIALS.length, 1]), SLIDE_MS);
+
+        const id = window.setTimeout(
+            () => setSlide(([i]) => [(i + 1) % TESTIMONIALS.length, 1]),
+            SLIDE_MS
+        );
+
         return () => window.clearTimeout(id);
     }, [index, inView, paused, reduceMotion]);
 
@@ -86,8 +111,14 @@ export default function Testimonials() {
 
     return (
         <section ref={sectionRef} className="relative overflow-hidden bg-brand-plum">
-            <div aria-hidden="true" className="scallop-edge absolute inset-x-0 top-0 z-30 h-[7px]" />
-            <div aria-hidden="true" className="scallop-edge absolute inset-x-0 bottom-0 z-30 h-[7px] rotate-180" />
+            <div
+                aria-hidden="true"
+                className="scallop-edge absolute inset-x-0 top-0 z-30 h-[7px]"
+            />
+            <div
+                aria-hidden="true"
+                className="scallop-edge absolute inset-x-0 bottom-0 z-30 h-[7px] rotate-180"
+            />
 
             <div className="flex flex-col lg:min-h-[600px] lg:flex-row xl:min-h-[640px]">
                 <div className="relative h-[240px] w-full sm:h-[340px] md:h-[400px] lg:h-auto lg:w-[45%]">
@@ -105,6 +136,7 @@ export default function Testimonials() {
                         aria-hidden="true"
                         className="pointer-events-none absolute right-[5%] top-[3%] hidden w-[110px] xl:block 2xl:w-[140px]"
                     />
+
                     <img
                         src="/images/note-book.png"
                         alt=""
@@ -122,7 +154,6 @@ export default function Testimonials() {
                         className="pointer-events-none absolute bottom-0 right-[2%] z-10 h-[200px] w-auto sm:right-[4%] sm:h-[230px] lg:right-[1%] lg:h-[44%] xl:h-[50%]"
                     />
 
-                    {/* Laptop+ par content ki width kam, taake text kid ke upar na aaye */}
                     <motion.div
                         ref={headRef}
                         variants={stagger}
@@ -130,14 +161,18 @@ export default function Testimonials() {
                         animate={headInView ? "show" : "hidden"}
                         className="relative z-20 max-w-[620px] lg:max-w-[64%] xl:max-w-[68%] 2xl:max-w-[620px]"
                     >
-                        <motion.p variants={fadeUp} className="text-[16px] font-semibold text-white sm:text-[17px]">
-                            Testimonials
+                        <motion.p
+                            variants={fadeUp}
+                            className="text-[16px] font-semibold text-white sm:text-[17px]"
+                        >
+                            PRAISE FROM OUR CREATORS
                         </motion.p>
+
                         <motion.h2
                             variants={fadeUp}
                             className="mt-1 text-[clamp(24px,6vw,36px)] font-extrabold leading-[1.15] text-white lg:text-[clamp(28px,2.9vw,46px)]"
                         >
-                            Loved by authors, trusted by publishers.
+                            Real Stories from Thrilled Authors!
                         </motion.h2>
 
                         <motion.div
@@ -148,7 +183,6 @@ export default function Testimonials() {
                             aria-live="polite"
                         >
                             <AnimatePresence initial={false} custom={dir}>
-                                {/* Avatar + text: mobile column, tablet row, laptop column (kam jagah), desktop row */}
                                 <motion.div
                                     key={index}
                                     custom={dir}
@@ -160,31 +194,57 @@ export default function Testimonials() {
                                     style={{ willChange: "transform, opacity" }}
                                 >
                                     <div className="relative ml-1 h-[96px] w-[96px] shrink-0 sm:h-[110px] sm:w-[110px] xl:h-[130px] xl:w-[130px]">
-                                        <img src={t.avatar} alt={t.name} className="h-full w-full rounded-full border-4 border-white object-cover" />
+                                        <img
+                                            src={t.avatar}
+                                            alt={t.name}
+                                            className="h-full w-full rounded-full border-4 border-white object-cover"
+                                        />
+
                                         <span className="absolute -bottom-1 -right-3 flex h-[46px] w-[46px] items-center justify-center rounded-full border-[3px] border-white bg-brand-orange sm:h-[52px] sm:w-[52px] xl:h-[60px] xl:w-[60px]">
-                                            <Quote className="h-5 w-5 rotate-180 fill-white text-white sm:h-6 sm:w-6" strokeWidth={1.5} />
+                                            <Quote
+                                                className="h-5 w-5 rotate-180 fill-white text-white sm:h-6 sm:w-6"
+                                                strokeWidth={1.5}
+                                            />
                                         </span>
                                     </div>
 
                                     <div className="max-w-[400px]">
-                                        <h3 className="text-[18px] font-bold text-white sm:text-[19px]">{t.name}</h3>
-                                        <p className="mt-0.5 text-[13px] font-semibold text-brand-orange sm:text-[14px]">{t.role}</p>
-                                        <div className="mt-2 flex gap-1" aria-label={`${t.rating} out of 5 stars`}>
+                                        <h3 className="text-[18px] font-bold text-white sm:text-[19px]">
+                                            {t.name}
+                                        </h3>
+
+                                        <p className="mt-0.5 text-[13px] font-semibold text-brand-orange sm:text-[14px]">
+                                            {t.role}
+                                        </p>
+
+                                        <div
+                                            className="mt-2 flex gap-1"
+                                            aria-label={`${t.rating} out of 5 stars`}
+                                        >
                                             {Array.from({ length: 5 }, (_, s) => (
                                                 <Star
                                                     key={s}
-                                                    className={`h-4 w-4 ${s < t.rating ? "fill-brand-orange text-brand-orange" : "text-white/30"}`}
+                                                    className={`h-4 w-4 ${s < t.rating
+                                                            ? "fill-brand-orange text-brand-orange"
+                                                            : "text-white/30"
+                                                        }`}
                                                     strokeWidth={1.5}
                                                 />
                                             ))}
                                         </div>
-                                        <p className="mt-3 text-[14px] font-medium leading-[1.7] text-white/90 sm:text-[15px]">{t.text}</p>
+
+                                        <p className="mt-3 text-[14px] font-medium leading-[1.7] text-white/90 sm:text-[15px]">
+                                            {t.text}
+                                        </p>
                                     </div>
                                 </motion.div>
                             </AnimatePresence>
                         </motion.div>
 
-                        <motion.div variants={fadeUp} className="mt-8 flex items-center gap-2.5 sm:mt-10">
+                        <motion.div
+                            variants={fadeUp}
+                            className="mt-8 flex items-center gap-2.5 sm:mt-10"
+                        >
                             {TESTIMONIALS.map((item, i) => (
                                 <button
                                     key={item.name}

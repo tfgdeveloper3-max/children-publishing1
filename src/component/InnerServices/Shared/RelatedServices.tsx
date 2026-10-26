@@ -1,43 +1,52 @@
 import { Link } from "react-router-dom";
 import { motion, type Variants } from "motion/react";
-import { ArrowRight } from "lucide-react";
-import { serviceHref, type Service, type ServiceCategory } from "@/data/services";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { serviceHref, slugify, type Service, type ServiceCategory } from "@/data/services";
+import { FeatureCard, SectionTag, balancedGrid } from "./ui";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const grid: Variants = {
     hidden: {},
-    show: { transition: { staggerChildren: 0.06, delayChildren: 0.15 } },
+    show: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
 };
 
 const cardIn: Variants = {
-    hidden: { opacity: 0, y: 28, scale: 0.94 },
-    show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 130, damping: 17 } },
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
 };
 
-export default function RelatedServices({ category, current }: { category: ServiceCategory; current: Service }) {
+export type RelatedCopy = {
+    eyebrow?: string;
+    heading?: string;
+    viewAll?: string;
+    cards?: Record<string, { title?: string; text?: string }>;
+};
+
+export default function RelatedServices({ category, current, copy = {} }: { category: ServiceCategory; current: Service; copy?: RelatedCopy }) {
     const others = category.services.filter((s) => s.title !== current.title).slice(0, 8);
     if (!others.length) return null;
+    const layout = balancedGrid(others.length);
 
     return (
-        <section className="bg-[#fbf9f4] pb-16 pt-20 sm:pb-20 sm:pt-24">
-            <div className="mx-auto max-w-[1040px] px-4 sm:px-5">
+        <section className="relative overflow-hidden bg-white py-16 sm:py-20">
+            <div className="mx-auto max-w-[1140px] px-4 sm:px-5">
                 <motion.div
                     initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.5 }}
                     transition={{ duration: 0.85, ease: EASE }}
-                    className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left"
+                    className="flex flex-col items-center justify-between gap-5 text-center md:flex-row md:items-end md:text-left"
                 >
-                    <div>
-                        <p className="text-[15px] font-bold text-brand-plum sm:text-[17px]">More in {category.label}</p>
-                        <h2 className="mt-1 text-[clamp(24px,5.5vw,32px)] font-extrabold leading-[1.15] text-brand-ink">Related Services</h2>
+                    <div className="max-w-[640px]">
+                        <SectionTag>{copy.eyebrow ?? `More in ${category.label}`}</SectionTag>
+                        <h2 className="mt-4 text-[clamp(24px,5.5vw,34px)] font-extrabold leading-[1.15] text-brand-ink">{copy.heading ?? "Related Services"}</h2>
                     </div>
                     <Link
                         to={`/services?category=${category.slug}`}
-                        className="group inline-flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wide text-brand-orange hover:text-brand-plum"
+                        className="group inline-flex shrink-0 items-center gap-2 rounded-full border-2 border-dashed border-brand-orange/60 bg-white px-5 py-2.5 text-[12px] font-bold uppercase tracking-wide text-brand-orange transition-all duration-300 hover:border-solid hover:border-brand-orange hover:bg-brand-orange hover:text-white"
                     >
-                        View all
+                        {copy.viewAll ?? "View All Services"}
                         <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
                 </motion.div>
@@ -46,22 +55,30 @@ export default function RelatedServices({ category, current }: { category: Servi
                     variants={grid}
                     initial="hidden"
                     whileInView="show"
-                    viewport={{ once: true, amount: 0.2 }}
-                    className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4"
+                    viewport={{ once: true, amount: 0.15 }}
+                    className={`mt-10 gap-y-6 ${layout.list}`}
                 >
-                    {others.map((svc) => {
+                    {others.map((svc, i) => {
                         const Icon = svc.icon;
+                        const card = copy.cards?.[slugify(svc.title)];
                         return (
-                            <motion.li key={svc.title} variants={cardIn} whileHover={{ y: -6 }} transition={{ type: "spring", stiffness: 280, damping: 20 }}>
+                            <motion.li key={svc.title} variants={cardIn} className={layout.item(i)}>
                                 <Link
                                     to={serviceHref(category, svc)}
-                                    className="group relative isolate flex h-full min-h-[124px] flex-col justify-between overflow-hidden rounded-[10px] bg-white p-4 shadow-[0_10px_24px_-20px_rgba(37,40,62,0.6)] outline-none transition-colors duration-500 hover:bg-brand-plum focus-visible:ring-4 focus-visible:ring-brand-plum/30 sm:min-h-[140px] sm:p-5"
+                                    className="block h-full rounded-[20px] outline-none focus-visible:ring-4 focus-visible:ring-brand-plum/30"
                                 >
-                                    <span className="pointer-events-none absolute inset-y-0 -left-1/2 -z-10 w-1/3 -skew-x-12 bg-white/20 blur-md transition-transform duration-[1200ms] ease-out group-hover:translate-x-[480%]" />
-                                    <Icon className="h-9 w-9 text-brand-ink transition-all duration-500 group-hover:rotate-[-8deg] group-hover:scale-110 group-hover:text-white sm:h-10 sm:w-10" strokeWidth={1.4} />
-                                    <span className="mt-4 text-[14px] font-bold leading-[1.25] text-brand-ink transition-colors duration-500 group-hover:text-white sm:text-[15px]">
-                                        {svc.title}
-                                    </span>
+                                    <FeatureCard
+                                        index={i}
+                                        icon={Icon}
+                                        title={card?.title ?? svc.title}
+                                        text={card?.text}
+                                        footer={
+                                            <span className="inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-wide text-brand-plum">
+                                                Learn more
+                                                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={2.4} />
+                                            </span>
+                                        }
+                                    />
                                 </Link>
                             </motion.li>
                         );

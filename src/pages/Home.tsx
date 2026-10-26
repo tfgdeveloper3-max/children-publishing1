@@ -4,7 +4,6 @@ import About from "@/component/AboutUs";
 import Trust from "@/component/Trust";
 import Testimonials from "@/component/Testimonials";
 import Illustrations from "@/component/illustration";
-import Blog from "@/component/Blog";
 import PortfolioSection from "@/component/Portfolio";
 
 export default function Home() {
@@ -17,7 +16,6 @@ export default function Home() {
             <PortfolioSection />
             <Testimonials />
             <Illustrations />
-            <Blog />
         </>
     );
 }

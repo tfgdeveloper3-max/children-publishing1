@@ -11,115 +11,125 @@ export type Review = {
     body: string;
     date: string;
     service?: string;
+    tag?: string;
     verified?: boolean;
 };
 
-export type NewReview = Omit<Review, "id" | "date" | "verified">;
+export type NewReview = Omit<Review, "id" | "date" | "verified" | "tag">;
 
 export type ReviewPageProps = {
     reviews?: Review[];
     onSubmitReview?: (review: NewReview) => Promise<void> | void;
 };
 
-const BRAND = "Bexley Publishing";
+const BRAND = "Toon Haus Publishing";
 
 const GREEN = "#00a870";
 const ORANGE = "var(--color-brand-orange)";
 
 const DEFAULT_REVIEWS: Review[] = [
     {
+        id: "marcus-vance",
+        author: "Marcus Vance",
+        rating: 5,
+        title: "Brought my rough story idea to life brilliantly!",
+        body: "I came to Toon Haus Publishing with just a basic plot outline and a dream. Their story crafting team developed my idea into a thrilling, heartfelt adventure that kids absolutely adore. I couldn't be happier!",
+        date: "2026-10-12",
+        service: "Ghostwriting",
+        tag: "Story Crafting",
+        verified: true,
+    },
+    {
+        id: "elena-rostova",
+        author: "Elena Rostova",
+        rating: 5,
+        title: "Thorough, gentle, and expert editorial feedback",
+        body: "The editing team polished my rhyme scheme and rhythm without losing my unique storyteller voice. They pointed out plot inconsistencies I totally missed. Highly recommended for any serious writer!",
+        date: "2026-09-28",
+        service: "Editing",
+        tag: "Editing",
+        verified: true,
+    },
+    {
+        id: "david-k-chen",
+        author: "David K. Chen",
+        rating: 5,
+        title: "A front cover that literally jumps off the shelf!",
+        body: "The cover design Toon Haus created for my picture book was beyond anything I imagined. It instantly captures parents' attention, and the interior layout formatted flawlessly for print.",
+        date: "2026-09-15",
+        service: "Cover Design",
+        tag: "Cover Design",
+        verified: true,
+    },
+    {
+        id: "sarah-jenkins",
+        author: "Sarah Jenkins",
+        rating: 5,
+        title: "Vibrant, breathtaking artwork on every page",
+        body: "The illustrators took my character sketches and transformed them into colorful, expressively alive artwork. Every single page turn feels like a magical experience for young readers.",
+        date: "2026-08-30",
+        service: "Cover Design",
+        tag: "Kids Illustrations",
+        verified: true,
+    },
+    {
         id: "david-torres",
         author: "David Torres",
         rating: 5,
-        title: "Turned my unfinished manuscript into a real book",
-        body: "Bexley Publishing worked on my unfinished manuscript and turned it into a well-crafted book ready for publication. They exceeded my expectations at every stage. Highly recommended.",
+        title: "Seamless ISBN setup and stress-free print release",
+        body: "Toon Haus Publishing handled all the tricky technical steps—copyrights, ISBN registrations, and Amazon KDP integration. My paperback and hardcover editions launched smoothly without a single hiccup.",
         date: "2026-08-14",
-        service: "Ghostwriting",
+        service: "Publishing",
+        tag: "Publishing",
         verified: true,
     },
     {
         id: "priya-nair",
         author: "Priya Nair",
         rating: 5,
-        title: "Professional from cover design to publishing",
-        body: "I got professional support from cover design all the way to publishing. The team handled every technical detail with precision, kept my voice intact, and made sure my message reached my readers.",
+        title: "My book is now available in stores worldwide!",
+        body: "Thanks to their international distribution setup, my children's book is listed across Barnes & Noble, IngramSpark, and local library networks globally. They made global publishing feel easy.",
         date: "2026-07-29",
         service: "Publishing",
+        tag: "Distribution",
         verified: true,
     },
     {
-        id: "samantha-thornhill",
-        author: "Samantha Thornhill",
+        id: "samantha-miller",
+        author: "Samantha Miller",
         rating: 5,
-        title: "Finally found a team that understood my idea",
-        body: "After wasting time with inexperienced people, I found Bexley and they truly understood my book idea. Their writing, editing, and design were outstanding, and the audiobook came out beautifully.",
+        title: "Unbelievable voice talent and crisp sound quality",
+        body: "After struggling to find the right voice actor elsewhere, Toon Haus delivered an incredible audiobook performance that truly understood my story's tone from day one.",
         date: "2026-07-10",
         service: "Audiobook",
+        tag: "Audiobook",
         verified: true,
     },
     {
-        id: "jonathan-pierce",
-        author: "Jonathan Pierce",
+        id: "robert-sterling",
+        author: "Robert Sterling",
         rating: 5,
-        title: "Sharp, careful editing",
-        body: "My editor caught plot holes I had missed for years and tightened the pacing without changing my style. Turnaround took a little longer than quoted, but the quality was worth the wait.",
+        title: "From initial draft to global launch, a 5-star experience",
+        body: "Working with a single dedicated team for illustration, editing, formatting, and publishing saved me so much stress. Toon Haus is the ultimate all-in-one partner for children's book authors.",
         date: "2026-06-22",
-        service: "Editing",
+        service: "Publishing",
+        tag: "Full Suite",
         verified: true,
     },
     {
-        id: "aisha-mbeki",
-        author: "Aisha Mbeki",
+        id: "chloe-bennett",
+        author: "Chloe Bennett",
         rating: 5,
-        title: "A cover that stands out on the shelf",
-        body: "The design team gave me three strong concepts and patiently refined my favourite until it was perfect. Readers keep telling me the cover is what made them pick up the book.",
-        date: "2026-06-03",
-        service: "Cover Design",
-        verified: true,
-    },
-    {
-        id: "robert-klein",
-        author: "Robert Klein",
-        rating: 5,
-        title: "Launch campaign brought real readers",
-        body: "The marketing plan was clear and well organised. My launch week brought in more reviews and sales than my previous two books combined. I would have liked more frequent reporting.",
+        title: "Helped my book reach #1 New Release in its category!",
+        body: "Their marketing strategies and launch support gave my book the exact visibility boost it needed. I gained real readers, amazing reviews, and consistent sales right out of the gate.",
         date: "2026-05-18",
         service: "Marketing",
-        verified: true,
-    },
-    {
-        id: "lauren-mitchell",
-        author: "Lauren Mitchell",
-        rating: 5,
-        title: "They wrote my story better than I could",
-        body: "I had the memories but not the words. My ghostwriter interviewed me over several weeks and captured my voice so well that my family could not believe I did not write it myself.",
-        date: "2026-04-27",
-        service: "Ghostwriting",
-        verified: true,
-    },
-    {
-        id: "carlos-mendes",
-        author: "Carlos Mendes",
-        rating: 5,
-        title: "Good result, slow communication at times",
-        body: "The final formatting and publishing were done well and my book is live on every major store. Communication was slow during the middle of the project, but my project manager sorted it out.",
-        date: "2026-04-09",
-        service: "Publishing",
-        verified: true,
-    },
-    {
-        id: "hannah-obrien",
-        author: "Hannah O'Brien",
-        rating: 5,
-        title: "Made publishing simple for a first-time author",
-        body: "As a first-time author I had no idea where to start. Bexley explained every step, handled ISBNs and distribution, and made the whole process feel easy and exciting.",
-        date: "2026-03-15",
-        service: "Publishing",
+        tag: "Marketing",
         verified: true,
     },
 ];
 
-const SERVICES = ["Ghostwriting", "Editing", "Publishing", "Cover Design", "Audiobook", "Marketing"];
+const SERVICES = ["Ghostwriting", "Publishing", "Audiobook", "Editing", "Cover Design", "Marketing"];
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const GAP = 20;
@@ -318,16 +328,16 @@ function Hero({ reviews, onWrite }: { reviews: Review[]; onWrite: () => void }) 
                                 <StarPath />
                             </svg>
                         </span>
-                        Rated {stats.avg.toFixed(1)} out of 5 by our authors
+                        <span className="font-semibold uppercase tracking-wide">Rated {stats.avg.toFixed(1)} out of 5 by our published authors</span>
                     </motion.a>
 
-                    <motion.h1 variants={item} className="mt-7 text-[clamp(34px,7vw,64px)] font-extrabold leading-[1.05] tracking-tight">
-                        Reviews from authors who <span className="text-brand-orange">published with us</span>
+                    <motion.h1 variants={item} className="mt-7 text-[clamp(32px,6vw,54px)] font-extrabold leading-[1.08] tracking-tight">
+                        Glowing Reviews from Authors Who <span className="text-brand-orange">Brought Their Stories to Life</span> with Us!
                     </motion.h1>
 
                     <motion.p variants={item} className="mt-6 max-w-xl text-[16px] leading-relaxed text-white/70 sm:text-lg">
-                        Every review here comes from a writer we worked with, across ghostwriting, editing, cover design, publishing and
-                        marketing. Read what they say, then share your own.
+                        Every testimonial below comes from an authentic author we've partnered with across storytelling, editing, visual design,
+                        publishing, and global distribution. Read their experiences, then share your own story with us!
                     </motion.p>
 
                     <motion.div variants={item} className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -337,7 +347,7 @@ function Hero({ reviews, onWrite }: { reviews: Review[]; onWrite: () => void }) 
                             whileTap={{ scale: 0.97 }}
                             className={`${PILL} h-14 px-8 text-[13px] ${HERO_FOCUS}`}
                         >
-                            <PillInner>Read the reviews</PillInner>
+                            <PillInner>Explore All Reviews</PillInner>
                         </motion.a>
                         <motion.button
                             type="button"
@@ -346,7 +356,7 @@ function Hero({ reviews, onWrite }: { reviews: Review[]; onWrite: () => void }) 
                             whileTap={{ scale: 0.97 }}
                             className={`inline-flex h-14 items-center justify-center rounded-full border-2 border-white/30 px-8 text-[13px] font-bold uppercase tracking-wide text-white transition-colors hover:border-white hover:bg-white hover:text-brand-ink ${HERO_FOCUS}`}
                         >
-                            Write a review
+                            Leave a Review
                         </motion.button>
                     </motion.div>
 
@@ -491,10 +501,7 @@ function ReviewsCarousel({ reviews, onWrite }: { reviews: Review[]; onWrite: () 
     }, [reviews]);
     const score = useCountUp(stats.avg, inView);
 
-    const services = useMemo(
-        () => ["All", ...Array.from(new Set(reviews.map((r) => r.service).filter(Boolean) as string[]))],
-        [reviews]
-    );
+    const services = useMemo(() => ["All", ...SERVICES], []);
 
     const list = useMemo(
         () => reviews.filter((r) => service === "All" || r.service === service).sort((a, b) => b.date.localeCompare(a.date)),
@@ -544,13 +551,13 @@ function ReviewsCarousel({ reviews, onWrite }: { reviews: Review[]; onWrite: () 
                     viewport={{ once: true }}
                     transition={{ duration: 0.7, ease: EASE }}
                 >
-                    <p className="text-[13px] font-semibold text-brand-plum sm:text-[14px]">What Authors Say</p>
+                    <p className="text-[15px] font-bold text-brand-plum sm:text-[17px]">What Our Authors Say</p>
                     <h2 id={labelId} className="mt-1 text-[clamp(28px,6vw,44px)] font-extrabold leading-[1.1]">
-                        Real stories from <span className="text-brand-plum">real authors</span>
+                        Authentic Success Stories from Our <span className="text-brand-plum">Published Authors!</span>
                     </h2>
                     <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-brand-ink/70">
-                        From first-time writers to seasoned professionals, authors trust {BRAND} to write, edit, design, publish, and market their
-                        books.
+                        From debut writers to established literary professionals, authors rely on {BRAND} to write, edit, design, publish, and market
+                        their children's books.
                     </p>
                 </motion.div>
 
@@ -691,8 +698,11 @@ function ReviewsCarousel({ reviews, onWrite }: { reviews: Review[]; onWrite: () 
                         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
                     />
                     <div className="relative">
-                        <p className="text-2xl font-extrabold tracking-tight">Worked with us?</p>
-                        <p className="mt-1 text-white/75">Share your experience and help other authors choose with confidence.</p>
+                        <p className="text-2xl font-extrabold tracking-tight">Are You One of Our Proud Published Authors?</p>
+                        <p className="mt-1 max-w-[560px] text-white/75">
+                            We'd love to hear your story! Share your journey with {BRAND} and help aspiring children's authors embark on their own publishing
+                            path with confidence.
+                        </p>
                     </div>
                     <motion.button
                         type="button"
@@ -701,7 +711,7 @@ function ReviewsCarousel({ reviews, onWrite }: { reviews: Review[]; onWrite: () 
                         whileTap={{ scale: 0.97 }}
                         className={`${PILL} h-14 shrink-0 px-8 text-[13px] ${FOCUS}`}
                     >
-                        <PillInner>Write a Review</PillInner>
+                        <PillInner>Leave Your Feedback Now</PillInner>
                     </motion.button>
                 </motion.div>
             </motion.div>
@@ -799,7 +809,9 @@ function ReviewCard({ review: r, active, now }: { review: Review; active: boolea
                         </span>
                     )}
                 </p>
-                {r.service && <span className="shrink-0 rounded-full bg-brand-orange/10 px-2.5 py-1 text-[11px] font-semibold text-brand-orange">{r.service}</span>}
+                {(r.tag || r.service) && (
+                    <span className="shrink-0 rounded-full bg-brand-orange/10 px-2.5 py-1 text-[11px] font-semibold text-brand-orange">{r.tag || r.service}</span>
+                )}
             </div>
         </motion.article>
     );

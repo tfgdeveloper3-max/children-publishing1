@@ -54,23 +54,24 @@ const SOCIALS = [
     { label: "YouTube", href: SITE.socials.youtube, icon: YoutubeIcon },
 ].filter((s) => s.href);
 
+
 const EXPLORE_LEFT = [
     { label: "Home", to: "/" },
-    { label: "Services", to: "/services" },
-    { label: "About Us", to: "/about" },
-    { label: "Portfolio", to: "/portfolio" },
+    { label: "What We Do", to: "/services" },
+    { label: "Our Story", to: "/about" },
 ];
 
 const EXPLORE_RIGHT = [
-    { label: "Blogs", to: "/blog" },
-    { label: "Reviews", to: "/reviews" },
-    { label: "Contact Us", to: "/contact" },
+    { label: "Featured Works", to: "/portfolio" },
+    { label: "Happy Authors", to: "/reviews" },
+    { label: "Let's Connect", to: "/contact" },
 ];
 
 const LEGAL = [
     { label: "Terms & Conditions", to: "/terms-and-conditions" },
     { label: "Privacy Policy", to: "/privacy-policy" },
 ];
+
 
 const WORK = [
     { src: "/images/Footer-2.jpg", alt: "Children at a hair salon" },
@@ -160,15 +161,39 @@ export default function Footer() {
                             <img src="/images/logo1.png" alt={SITE.name} loading="lazy" className="h-[70px] w-auto sm:h-[80px] lg:h-[88px]" />
                         </Link>
 
+
                         <p className="mt-4 max-w-[320px] text-[13px] font-semibold leading-[1.6] text-white/85 sm:text-[14px]">
-                            We illustrate, design and publish children's books that families love to read together.
+                            Empowering authors with world-class illustration, custom design, and
+                            full-service publishing that brings unforgettable stories to young
+                            hearts worldwide.
                         </p>
 
+
+
                         <div className="mt-6 flex flex-col gap-4">
-                            <ContactRow href={SITE.phoneLink} icon={Phone} label="Call Support" value={SITE.phoneDisplay} />
-                            <ContactRow href={`mailto:${SITE.email}`} icon={Mail} label="Email Support" value={SITE.email} />
-                            <ContactRow href={SITE.address.mapLink} icon={MapPin} label="Visit Us" value={SITE.address.lines.join(", ")} external />
+                            <ContactRow
+                                href="tel:+19498282170"
+                                icon={Phone}
+                                label="Speak with an Expert"
+                                value="(949) 828-2170"
+                            />
+
+                            <ContactRow
+                                href="mailto:support@toonhauspublishing.com"
+                                icon={Mail}
+                                label="Drop Us a Line"
+                                value="support@toonhauspublishing.com"
+                            />
+
+                            <ContactRow
+                                href="https://www.google.com/maps/search/?api=1&query=2913+El+Camino+Real%2C+Tustin%2C+CA+92782%2C+United+States"
+                                icon={MapPin}
+                                label="Our Headquarters"
+                                value="2913 El Camino Real, Tustin, CA 92782, United States"
+                                external
+                            />
                         </div>
+
 
                         {SOCIALS.length > 0 && (
                             <div className="mt-6 flex items-center gap-3">
@@ -192,7 +217,7 @@ export default function Footer() {
                     </motion.div>
 
                     <motion.nav variants={fadeUp} aria-label="Footer">
-                        <ColumnTitle>Explore</ColumnTitle>
+                        <ColumnTitle>Quick Navigation</ColumnTitle>
                         <div className="mt-6 grid grid-cols-2 gap-x-4 sm:mt-7 sm:gap-x-6">
                             <LinkList links={EXPLORE_LEFT} />
                             <LinkList links={EXPLORE_RIGHT} />
@@ -205,8 +230,7 @@ export default function Footer() {
                     </motion.nav>
 
                     <motion.div variants={fadeUp} className="md:col-span-2 lg:col-span-1">
-                        <ColumnTitle>Our Work</ColumnTitle>
-
+                        <ColumnTitle>Visual Showcase</ColumnTitle>
                         <div className="mt-6 grid max-w-[320px] grid-cols-3 gap-2.5 sm:mt-7 md:max-w-[560px] md:grid-cols-6 lg:max-w-[300px] lg:grid-cols-3">
                             {WORK.map((item) => (
                                 <div key={item.src} className="group aspect-square overflow-hidden rounded-[12px] border-[3px] border-[#f3e3c8]">

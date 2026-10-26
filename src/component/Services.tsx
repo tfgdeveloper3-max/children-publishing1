@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, useInView, useReducedMotion, type Variants } from "motion/react";
-import { ArrowUpRight, MoveLeft, MoveRight, type LucideIcon } from "lucide-react";
+import { motion, useInView, type Variants } from "motion/react";
+import { ArrowUpRight, type LucideIcon } from "lucide-react";
 import { findService, serviceHref } from "@/data/services";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -14,35 +14,38 @@ type Card = {
     href: string;
 };
 
-const PICKS: [string, string][] = [
-    ["children-s-book-writing-story-development", "Turn your idea into a story children will want to hear again and again."],
-    ["children-s-book-illustration-services", "Bright, full-colour pages in the style that suits your story best."],
-    ["2d-3d-animation-services", "2D and 3D animation that brings your pages and characters to life."],
-    ["amazon-book-marketing-optimization", "Ads, keywords and categories that put your book in front of parents."],
-    ["author-character-branding", "A memorable brand for you and your characters that fans recognise."],
+type Pick = { slug: string; title: string; description: string };
 
-    ["children-s-book-publishing-isbn-services", "Paperback, hardcover and Amazon KDP publishing with ISBNs handled."],
-    ["character-design-development", "Lovable characters that look the same on every single page."],
-    ["book-trailers-video-content", "Trailers and story videos that help families discover your book."],
-    ["book-launch-promotional-campaigns", "Reviews, press and podcasts that give your book a strong start."],
-    ["character-merchandise-design", "Plush toys, clothing, stickers and posters starring your characters."],
-
-    ["children-s-book-distribution-global-publishing", "Reach bookstores, libraries and online shops in 40+ countries."],
-    ["book-cover-interior-design", "Covers that stand out and layouts that make every page a joy."],
-    ["audiobooks-narration-voiceovers", "Warm narration and character voices for store-ready audiobooks."],
-    ["social-media-influencer-marketing", "Grow a community of parents and young fans on every platform."],
-    ["educational-materials-printable-activities", "Activity books, worksheets and colouring pages for home and class."],
+const PICKS: Pick[] = [
+    {
+        slug: "book-launch-promotional-campaigns",
+        title: "Book Launch & Promotional Campaigns",
+        description:
+            "Generate buzz with targeted press releases, reader reviews, author interviews, and podcast features that give your book the launch it deserves.",
+    },
+    {
+        slug: "character-merchandise-design",
+        title: "Character Merchandise & Apparel Design",
+        description:
+            "Bring your story off the page! We create custom plushies, apparel, stickers, and collectibles starring your lovable characters.",
+    },
+    {
+        slug: "children-s-book-distribution-global-publishing",
+        title: "Worldwide Children's Book Distribution",
+        description:
+            "Get featured on Amazon KDP, IngramSpark, and major retail platforms to reach schools, libraries, and young readers in over 40 countries with Toon Haus Publishing.",
+    },
 ];
 
 const IMAGES = ["/images/Cover3.png", "/images/Cover2.png", "/images/Cover1.png"];
 
-const services: Card[] = PICKS.flatMap(([slug, description], i) => {
-    const found = findService(slug);
+const services: Card[] = PICKS.flatMap((pick, i) => {
+    const found = findService(pick.slug);
     if (!found) return [];
     return [
         {
-            title: found.service.title,
-            description,
+            title: pick.title,
+            description: pick.description,
             image: IMAGES[i % IMAGES.length],
             icon: found.service.icon,
             href: serviceHref(found.category, found.service),
@@ -71,7 +74,7 @@ function ServiceCard({ service, delay, show }: { service: Card; delay: number; s
     const Icon = service.icon;
     const navigate = useNavigate();
 
-    const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    const onClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
         e.preventDefault();
         navigate(service.href);
@@ -145,57 +148,12 @@ function Hands({ side }: { side: "left" | "right" }) {
 }
 
 export default function Services() {
-    const n = services.length;
-    const loop = [...services, ...services, ...services];
-
-    const [perView, setPerView] = useState(3);
-    const [index, setIndex] = useState(n);
-    const [instant, setInstant] = useState(false);
-    const [paused, setPaused] = useState(false);
-    const animating = useRef(false);
-    const reduceMotion = useReducedMotion();
 
     const labelRef = useRef<HTMLParagraphElement>(null);
     const labelInView = useInView(labelRef, { once: true, amount: 0.8 });
-    const carouselRef = useRef<HTMLDivElement>(null);
-    const carouselInView = useInView(carouselRef, { once: true, amount: 0.3 });
+    const gridRef = useRef<HTMLDivElement>(null);
+    const gridInView = useInView(gridRef, { once: true, amount: 0.3 });
 
-    useEffect(() => {
-        const update = () => {
-            const w = window.innerWidth;
-            setPerView(w < 640 ? 1 : w < 1024 ? 2 : 3);
-        };
-        update();
-        window.addEventListener("resize", update);
-        return () => window.removeEventListener("resize", update);
-    }, []);
-
-    const go = useCallback((dir: 1 | -1) => {
-        if (animating.current) return;
-        animating.current = true;
-        setInstant(false);
-        setIndex((i) => i + dir);
-    }, []);
-
-    const handleComplete = () => {
-        if (index >= 2 * n) {
-            setInstant(true);
-            setIndex(index - n);
-        } else if (index < n) {
-            setInstant(true);
-            setIndex(index + n);
-        }
-        animating.current = false;
-    };
-
-    useEffect(() => {
-        if (paused || reduceMotion) return;
-        const id = window.setInterval(() => go(1), 5000);
-        return () => window.clearInterval(id);
-    }, [paused, reduceMotion, go]);
-
-    const arrowBtn =
-        "group/arrow flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-brand-ink outline-none transition-colors duration-500 hover:bg-white hover:text-brand-plum hover:shadow-[0_10px_24px_-12px_rgba(37,40,62,0.5)] focus-visible:ring-2 focus-visible:ring-brand-plum sm:h-12 sm:w-12";
 
     return (
         <section className="relative overflow-hidden bg-[#f9f7f2] py-14 sm:py-20 lg:py-24">
@@ -222,49 +180,30 @@ export default function Services() {
                     </p>
                     <motion.h2
                         variants={fadeUp}
-                        className="mx-auto mt-1 max-w-[560px] text-[clamp(26px,6vw,44px)] font-bold leading-[1.1] text-brand-ink lg:text-[clamp(28px,3.2vw,44px)]"
+                        className="mx-auto mt-1 max-w-[680px] text-[clamp(26px,6vw,44px)] font-bold leading-[1.12] text-brand-ink lg:text-[clamp(28px,3.2vw,44px)]"
                     >
-                        Everything your book needs Under one roof
+                        Your All-in-One Children's Publishing Studio
                     </motion.h2>
-                    <motion.p variants={fadeUp} className="mx-auto mt-3 max-w-[480px] text-[15px] leading-relaxed sm:text-[16px]">
-                        Countless services. One friendly team. A finished book you'll be proud of.
+                    <motion.p
+                        variants={fadeUp}
+                        className="mx-auto mt-3 max-w-[680px] text-[15px] leading-relaxed text-brand-ink/80 sm:text-[16px]"
+                    >
+                        From creative spark to global distribution, our passionate team handles every detail—so you end up with a polished book you'll be proud to share with the world.
                     </motion.p>
                 </motion.div>
 
                 <div
-                    className="mx-auto mt-8 flex max-w-[1040px] items-center gap-1 sm:mt-12 sm:gap-4"
-                    onMouseEnter={() => setPaused(true)}
-                    onMouseLeave={() => setPaused(false)}
-                    onFocusCapture={() => setPaused(true)}
-                    onBlurCapture={() => setPaused(false)}
+                    ref={gridRef}
+                    className="mx-auto mt-8 grid max-w-[1040px] grid-cols-1 gap-6 px-1 sm:mt-12 sm:grid-cols-2 sm:gap-7 sm:px-2 lg:grid-cols-3"
                 >
-                    <motion.button type="button" aria-label="Previous service" onClick={() => go(-1)} whileTap={{ scale: 0.9 }} className={arrowBtn}>
-                        <MoveLeft className="h-6 w-6 transition-transform duration-500 group-hover/arrow:-translate-x-1 sm:h-7 sm:w-7" strokeWidth={2.4} />
-                    </motion.button>
-
-                    <div ref={carouselRef} className="min-w-0 flex-1 overflow-hidden py-4" aria-roledescription="carousel">
-                        <motion.div
-                            className="flex"
-                            animate={{ x: `${(-index * 100) / perView}%` }}
-                            transition={instant ? { duration: 0 } : { duration: 0.9, ease: EASE }}
-                            onAnimationComplete={handleComplete}
-                            style={{ willChange: "transform" }}
-                        >
-                            {loop.map((s, i) => (
-                                <div key={`${s.title}-${i}`} className="shrink-0 px-1.5 sm:px-2.5" style={{ width: `${100 / perView}%` }}>
-                                    <ServiceCard
-                                        service={s}
-                                        show={carouselInView}
-                                        delay={0.25 + Math.max(0, Math.min(i - index, perView - 1)) * 0.12}
-                                    />
-                                </div>
-                            ))}
-                        </motion.div>
-                    </div>
-
-                    <motion.button type="button" aria-label="Next service" onClick={() => go(1)} whileTap={{ scale: 0.9 }} className={arrowBtn}>
-                        <MoveRight className="h-6 w-6 transition-transform duration-500 group-hover/arrow:translate-x-1 sm:h-7 sm:w-7" strokeWidth={2.4} />
-                    </motion.button>
+                    {services.map((s, i) => (
+                        <ServiceCard
+                            key={s.title}
+                            service={s}
+                            show={gridInView}
+                            delay={0.25 + i * 0.12}
+                        />
+                    ))}
                 </div>
             </div>
         </section>

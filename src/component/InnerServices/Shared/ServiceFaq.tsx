@@ -161,28 +161,45 @@ function TypingBubble() {
     );
 }
 
-export default function ServiceFaq({ items, description }: { items: QA[]; description?: string }) {
+export type FaqCopy = {
+    eyebrow?: string;
+    heading?: string;
+    description?: string;
+    sideHeading?: string;
+    sideText?: string;
+    sideCta?: string;
+};
+
+export default function ServiceFaq({ items, copy = {}, service }: { items: QA[]; copy?: FaqCopy; service?: string }) {
+    const { openLeadModal } = useLeadModal();
     const headRef = useRef<HTMLDivElement>(null);
     const inView = useInView(headRef, { once: true, amount: 0.5 });
     const [open, setOpen] = useState<number | null>(0);
-    const { openLeadModal } = useLeadModal();
 
     return (
         <section className="bg-white pb-16 pt-16 sm:pb-20 sm:pt-20 lg:pb-24 lg:pt-24">
             <div className="mx-auto max-w-[1140px] px-4 sm:px-5">
                 <div ref={headRef} className="mx-auto max-w-[760px] text-center">
+                    {copy.eyebrow && (
+                        <p
+                            className={`mb-1 text-[15px] font-bold uppercase tracking-wide text-brand-plum sm:text-[17px] ${inView ? "animate__animated animate__fadeInDown" : "opacity-0"}`}
+                            style={{ "--animate-duration": "0.9s" } as CSSProperties}
+                        >
+                            {copy.eyebrow}
+                        </p>
+                    )}
                     <h2
                         className={`text-[clamp(26px,6vw,34px)] font-extrabold leading-[1.15] text-brand-ink lg:text-[clamp(32px,2.8vw,40px)] ${inView ? "animate__animated animate__fadeInDown" : "opacity-0"}`}
                         style={{ "--animate-duration": "1s" } as CSSProperties}
                     >
-                        Frequently Asked Questions
+                        {copy.heading ?? "Frequently Asked Questions"}
                     </h2>
-                    {description && (
+                    {copy.description && (
                         <p
                             className={`mt-3 text-[13px] leading-[1.7] text-brand-ink/75 sm:text-[14px] ${inView ? "animate__animated animate__fadeInUp" : "opacity-0"}`}
                             style={{ "--animate-duration": "1s", animationDelay: "0.2s" } as CSSProperties}
                         >
-                            {description}
+                            {copy.description}
                         </p>
                     )}
                 </div>
@@ -214,21 +231,15 @@ export default function ServiceFaq({ items, description }: { items: QA[]; descri
                     >
                         <TypingBubble />
 
-                        <h3 className="mt-6 text-[16px] font-extrabold text-brand-ink sm:text-[17px]">Do you have more questions?</h3>
+                        <h3 className="mt-6 text-[16px] font-extrabold text-brand-ink sm:text-[17px]">{copy.sideHeading ?? "Do you have more questions?"}</h3>
 
                         <p className="mx-auto mt-3 max-w-[300px] text-[12.5px] leading-[1.85] text-brand-ink/75 sm:text-[13px]">
-                            Can't find the answer you're looking for? Our team is happy to talk through your book and answer any
-                            question you have.
+                            {copy.sideText ?? "Can't find the answer you're looking for? Our team is happy to talk through your book and answer any question you have."}
                         </p>
 
                         <motion.button
                             type="button"
-                            onClick={() =>
-                                openLeadModal({
-                                    title: "Meet the Team",
-                                    subtitle: "Tell us a little about your book and the right people from our team will get in touch with you.",
-                                })
-                            }
+                            onClick={() => openLeadModal({ service })}
                             whileHover={{ scale: 1.05, y: -2 }}
                             whileTap={{ scale: 0.97 }}
                             transition={{ type: "spring", stiffness: 220, damping: 20 }}
@@ -236,7 +247,7 @@ export default function ServiceFaq({ items, description }: { items: QA[]; descri
                         >
                             <span className="pointer-events-none absolute inset-[3px] rounded-full border border-dashed border-white/90" />
                             <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30 blur-sm transition-transform duration-[1100ms] ease-out group-hover:translate-x-[420%]" />
-                            <span className="relative">Contact Us</span>
+                            <span className="relative">{copy.sideCta ?? "Contact Us"}</span>
                         </motion.button>
                     </motion.aside>
                 </div>

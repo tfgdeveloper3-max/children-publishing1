@@ -17,14 +17,43 @@ const FLIP_EASE = [0.645, 0.045, 0.355, 1] as const;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 type Spread = { title: string; left: string; right: string };
+
 const SPREADS: Spread[] = [
-    { title: "The Brave Little Fox", left: "/images/illus/01/01.jpg", right: "/images/illus/01/02.jpg" },
-    { title: "Ocean Dreams", left: "/images/illus/02/01.jpg", right: "/images/illus/02/02.jpg" },
-    { title: "Starlight Safari", left: "/images/illus/03/01.jpg", right: "/images/illus/03/02.jpg" },
-    { title: "The Magic Garden", left: "/images/illus/04/01.jpg", right: "/images/illus/04/02.jpg" },
-    { title: "Cloud Castles", left: "/images/illus/05/01.jpg", right: "/images/illus/05/02.jpg" },
-    { title: "The Friendly Dragon", left: "/images/illus/06/01.jpg", right: "/images/illus/06/02.jpg" },
-    { title: "Rainbow River", left: "/images/illus/07/01.jpg", right: "/images/illus/07/02.jpg" },
+    {
+        title: "The Brave Little Fox",
+        left: "/images/illus/01/01.jpg",
+        right: "/images/illus/01/02.jpg",
+    },
+    {
+        title: "Ocean Dreams",
+        left: "/images/illus/02/01.jpg",
+        right: "/images/illus/02/02.jpg",
+    },
+    {
+        title: "Starlight Safari",
+        left: "/images/illus/03/01.jpg",
+        right: "/images/illus/03/02.jpg",
+    },
+    {
+        title: "The Magic Garden",
+        left: "/images/illus/04/01.jpg",
+        right: "/images/illus/04/02.jpg",
+    },
+    {
+        title: "Cloud Castles",
+        left: "/images/illus/05/01.jpg",
+        right: "/images/illus/05/02.jpg",
+    },
+    {
+        title: "The Friendly Dragon",
+        left: "/images/illus/06/01.jpg",
+        right: "/images/illus/06/02.jpg",
+    },
+    {
+        title: "Rainbow River",
+        left: "/images/illus/07/01.jpg",
+        right: "/images/illus/07/02.jpg",
+    },
 ];
 
 type Side = "left" | "right";
@@ -32,8 +61,13 @@ type Flip = { to: number; dir: 1 | -1 } | null;
 
 const fadeUp: Variants = {
     hidden: { opacity: 0, y: 24 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.85, ease: EASE } },
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.85, ease: EASE },
+    },
 };
+
 const stagger: Variants = {
     hidden: {},
     show: { transition: { staggerChildren: 0.12 } },
@@ -53,14 +87,25 @@ function Page({ spread, side }: { spread: Spread; side: Side }) {
                 className="pointer-events-none absolute inset-y-0 w-[14%]"
                 style={{
                     [side === "left" ? "right" : "left"]: 0,
-                    background: `linear-gradient(to ${side === "left" ? "left" : "right"}, rgba(0,0,0,0.32), rgba(0,0,0,0.08) 45%, transparent)`,
+                    background: `linear-gradient(to ${side === "left" ? "left" : "right"
+                        }, rgba(0,0,0,0.32), rgba(0,0,0,0.08) 45%, transparent)`,
                 }}
             />
         </div>
     );
 }
 
-function Leaf({ rot, dir, front, back }: { rot: MotionValue<number>; dir: 1 | -1; front: Spread; back: Spread }) {
+function Leaf({
+    rot,
+    dir,
+    front,
+    back,
+}: {
+    rot: MotionValue<number>;
+    dir: 1 | -1;
+    front: Spread;
+    back: Spread;
+}) {
     const progress = useTransform(rot, (r) => Math.abs(r) / 180);
     const frontShade = useTransform(progress, [0, 0.5], [0, 0.5]);
     const backShade = useTransform(progress, [0.5, 1], [0.5, 0]);
@@ -82,21 +127,42 @@ function Leaf({ rot, dir, front, back }: { rot: MotionValue<number>; dir: 1 | -1
                 willChange: "transform",
             }}
         >
-            <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
+            <div
+                className="absolute inset-0"
+                style={{
+                    backfaceVisibility: "hidden",
+                    WebkitBackfaceVisibility: "hidden",
+                }}
+            >
                 <Page spread={front} side={frontSide} />
                 <motion.div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0"
-                    style={{ opacity: frontShade, background: `linear-gradient(to ${forward ? "right" : "left"}, rgba(0,0,0,0.55), rgba(0,0,0,0.15))` }}
+                    style={{
+                        opacity: frontShade,
+                        background: `linear-gradient(to ${forward ? "right" : "left"
+                            }, rgba(0,0,0,0.55), rgba(0,0,0,0.15))`,
+                    }}
                 />
             </div>
 
-            <div className="absolute inset-0" style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
+            <div
+                className="absolute inset-0"
+                style={{
+                    transform: "rotateY(180deg)",
+                    backfaceVisibility: "hidden",
+                    WebkitBackfaceVisibility: "hidden",
+                }}
+            >
                 <Page spread={back} side={backSide} />
                 <motion.div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0"
-                    style={{ opacity: backShade, background: `linear-gradient(to ${forward ? "left" : "right"}, rgba(0,0,0,0.55), rgba(0,0,0,0.15))` }}
+                    style={{
+                        opacity: backShade,
+                        background: `linear-gradient(to ${forward ? "left" : "right"
+                            }, rgba(0,0,0,0.55), rgba(0,0,0,0.15))`,
+                    }}
                 />
             </div>
         </motion.div>
@@ -127,6 +193,7 @@ export default function Illustrations() {
     const turn = useCallback(
         (dir: 1 | -1) => {
             if (flip) return;
+
             const to = (index + dir + total) % total;
 
             if (reduceMotion) {
@@ -136,6 +203,7 @@ export default function Illustrations() {
 
             rot.set(0);
             setFlip({ to, dir });
+
             animate(rot, dir === 1 ? -180 : 180, {
                 duration: FLIP_SEC,
                 ease: FLIP_EASE,
@@ -154,6 +222,7 @@ export default function Illustrations() {
             if (e.key === "ArrowRight") turn(1);
             if (e.key === "ArrowLeft") turn(-1);
         };
+
         window.addEventListener("keydown", onKey);
         return () => window.removeEventListener("keydown", onKey);
     }, [turn]);
@@ -165,7 +234,11 @@ export default function Illustrations() {
     const staticRight = flip?.dir === 1 ? target : current;
 
     const progress = useTransform(rot, (r) => Math.abs(r) / 180);
-    const revealShadow = useTransform(progress, [0, 0.15, 0.85, 1], [0, 0.35, 0.1, 0]);
+    const revealShadow = useTransform(
+        progress,
+        [0, 0.15, 0.85, 1],
+        [0, 0.35, 0.1, 0]
+    );
 
     const arrowBtn =
         "flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-brand-ink shadow-[0_8px_20px_-10px_rgba(37,40,62,0.5)] transition-colors duration-300 hover:bg-brand-plum/10 hover:text-brand-plum focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-plum disabled:opacity-40 sm:h-12 sm:w-12 sm:bg-transparent sm:shadow-none lg:h-14 lg:w-14";
@@ -173,21 +246,34 @@ export default function Illustrations() {
     return (
         <section className="relative overflow-hidden bg-white bg-[url('/images/illustration-BG.png')] bg-cover bg-center py-14 sm:py-16 lg:py-20">
             <div className="relative z-10 mx-auto max-w-[1240px] px-4 sm:px-5">
-                <motion.div ref={headRef} variants={stagger} initial="hidden" animate={inView ? "show" : "hidden"} className="text-center">
-                    <motion.p variants={fadeUp} className="text-[16px] font-semibold text-brand-plum sm:text-[17px]">
-                        Kids Illustrations
+                <motion.div
+                    ref={headRef}
+                    variants={stagger}
+                    initial="hidden"
+                    animate={inView ? "show" : "hidden"}
+                    className="text-center"
+                >
+                    <motion.p
+                        variants={fadeUp}
+                        className="text-[16px] font-semibold text-brand-plum sm:text-[17px]"
+                    >
+                        ARTWORK &amp; ILLUSTRATION GALLERY
                     </motion.p>
+
                     <motion.h2
                         variants={fadeUp}
                         className="mt-1 text-[clamp(26px,6vw,40px)] font-extrabold leading-[1.1] text-brand-ink lg:text-[clamp(32px,3.4vw,52px)]"
                     >
-                        A peek inside our picture books
+                        Step Inside a World of Pure Visual Wonder!
                     </motion.h2>
+
                     <motion.p
                         variants={fadeUp}
                         className="mx-auto mt-3 max-w-[540px] text-[14px] font-medium leading-[1.6] text-brand-ink/65 sm:text-[15px]"
                     >
-                        Flip through the pages and see how we bring characters, colour and mood to every spread.
+                        Take an exclusive preview inside our enchanting spreads and see
+                        how Toon Haus Publishing breathes life, vibrant colors, and deep
+                        emotion into every single story.
                     </motion.p>
                 </motion.div>
 
@@ -197,63 +283,94 @@ export default function Illustrations() {
                     animate={inView ? "show" : "hidden"}
                     className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-6 sm:flex-nowrap sm:gap-4 md:gap-6 lg:mt-10 lg:gap-10"
                 >
-                    <button type="button" aria-label="Previous Page" onClick={() => turn(-1)} disabled={!!flip} className={`${arrowBtn} order-2 sm:order-none`}>
+                    <button
+                        type="button"
+                        aria-label="Previous Page"
+                        onClick={() => turn(-1)}
+                        disabled={!!flip}
+                        className={`${arrowBtn} order-2 sm:order-none`}
+                    >
                         <MoveLeft className="h-6 w-6 lg:h-8 lg:w-8" strokeWidth={2.6} />
                     </button>
 
                     <div className="relative order-1 w-full max-w-[1000px] px-[2%] sm:order-none sm:min-w-0 sm:flex-1 sm:px-0">
-                        <div aria-hidden="true" className="absolute -left-[0.5%] bottom-[1.2%] top-[1.2%] w-[3%] rounded-l-[3px] bg-[#cfd0d6] shadow-[inset_-2px_0_4px_rgba(0,0,0,0.15)] sm:-left-[1.6%]" />
-                        <div aria-hidden="true" className="absolute left-[0.3%] bottom-[0.6%] top-[0.6%] w-[3%] rounded-l-[2px] bg-[#e8e8ec] sm:-left-[0.8%]" />
-                        <div aria-hidden="true" className="absolute -right-[0.5%] bottom-[1.2%] top-[1.2%] w-[3%] rounded-r-[3px] bg-[#cfd0d6] shadow-[inset_2px_0_4px_rgba(0,0,0,0.15)] sm:-right-[1.6%]" />
-                        <div aria-hidden="true" className="absolute right-[0.3%] bottom-[0.6%] top-[0.6%] w-[3%] rounded-r-[2px] bg-[#e8e8ec] sm:-right-[0.8%]" />
+                        <div
+                            aria-hidden="true"
+                            className="absolute -left-[0.5%] bottom-[1.2%] top-[1.2%] w-[3%] rounded-l-[3px] bg-[#cfd0d6] shadow-[inset_-2px_0_4px_rgba(0,0,0,0.15)] sm:-left-[1.6%]"
+                        />
+                        <div
+                            aria-hidden="true"
+                            className="absolute left-[0.3%] bottom-[0.6%] top-[0.6%] w-[3%] rounded-l-[2px] bg-[#e8e8ec] sm:-left-[0.8%]"
+                        />
+                        <div
+                            aria-hidden="true"
+                            className="absolute -right-[0.5%] bottom-[1.2%] top-[1.2%] w-[3%] rounded-r-[3px] bg-[#cfd0d6] shadow-[inset_2px_0_4px_rgba(0,0,0,0.15)] sm:-right-[1.6%]"
+                        />
+                        <div
+                            aria-hidden="true"
+                            className="absolute right-[0.3%] bottom-[0.6%] top-[0.6%] w-[3%] rounded-r-[2px] bg-[#e8e8ec] sm:-right-[0.8%]"
+                        />
 
                         <div
                             className="relative aspect-[2/1] w-full shadow-[0_20px_30px_-20px_rgba(37,40,62,0.55)] sm:shadow-[0_30px_40px_-24px_rgba(37,40,62,0.55)]"
-                            style={{ perspective: "2400px", transformStyle: "preserve-3d" }}
+                            style={{
+                                perspective: "2400px",
+                                transformStyle: "preserve-3d",
+                            }}
                         >
                             <div className="absolute inset-y-0 left-0 w-1/2">
                                 <Page spread={staticLeft} side="left" />
                                 {flip?.dir === -1 && (
-                                    <motion.div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black" style={{ opacity: revealShadow }} />
+                                    <motion.div
+                                        aria-hidden="true"
+                                        className="pointer-events-none absolute inset-0 bg-black"
+                                        style={{ opacity: revealShadow }}
+                                    />
                                 )}
                             </div>
 
                             <div className="absolute inset-y-0 right-0 w-1/2">
                                 <Page spread={staticRight} side="right" />
                                 {flip?.dir === 1 && (
-                                    <motion.div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black" style={{ opacity: revealShadow }} />
+                                    <motion.div
+                                        aria-hidden="true"
+                                        className="pointer-events-none absolute inset-0 bg-black"
+                                        style={{ opacity: revealShadow }}
+                                    />
                                 )}
                             </div>
 
-                            {flip && <Leaf rot={rot} dir={flip.dir} front={current} back={target} />}
+                            {flip && (
+                                <Leaf
+                                    rot={rot}
+                                    dir={flip.dir}
+                                    front={current}
+                                    back={target}
+                                />
+                            )}
 
-                            <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-1/2 z-30 w-px -translate-x-1/2 bg-black/25" />
+                            <div
+                                aria-hidden="true"
+                                className="pointer-events-none absolute inset-y-0 left-1/2 z-30 w-px -translate-x-1/2 bg-black/25"
+                            />
                         </div>
                     </div>
 
-                    <button type="button" aria-label="Next Page" onClick={() => turn(1)} disabled={!!flip} className={`${arrowBtn} order-3 sm:order-none`}>
+                    <button
+                        type="button"
+                        aria-label="Next Page"
+                        onClick={() => turn(1)}
+                        disabled={!!flip}
+                        className={`${arrowBtn} order-3 sm:order-none`}
+                    >
                         <MoveRight className="h-6 w-6 lg:h-8 lg:w-8" strokeWidth={2.6} />
                     </button>
                 </motion.div>
 
-                <div className="mt-6 flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-center sm:gap-6" aria-live="polite">
-                    <div className="flex items-baseline gap-x-2">
-                        <span className="text-[13px] font-semibold text-brand-ink/50 sm:text-[14px]">Now Showing:</span>
-                        <span className="relative inline-grid">
-                            <AnimatePresence mode="popLayout" initial={false}>
-                                <motion.span
-                                    key={current.title}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -10 }}
-                                    transition={{ duration: 0.6, ease: EASE }}
-                                    className="text-[clamp(18px,4.5vw,24px)] font-extrabold text-brand-plum lg:text-[clamp(20px,1.8vw,28px)]"
-                                >
-                                    {current.title}
-                                </motion.span>
-                            </AnimatePresence>
-                        </span>
-                    </div>
+                <div
+                    className="mt-6 flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-center sm:gap-6"
+                    aria-live="polite"
+                >
 
                     <motion.a
                         href="/portfolio"

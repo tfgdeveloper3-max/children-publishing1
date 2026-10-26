@@ -23,10 +23,10 @@ type InnerHeroProps = {
 
 export default function ServicesHero({
     eyebrow = "Illustration • Publishing • Branding • Digital Design",
-    title = "Services",
-    description = "Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry. Lorem Ipsum Has Been The Industry's Standard.",
-    ctaLabel = "Know More",
-    ctaHref = "#",
+    title = "All-in-One Publishing Solutions for Bold Storytellers!",
+    description = "At Toon Haus Publishing, we blend breathtaking artwork, expert layout design, and full-scale publishing strategies to help your children's book stand out on global bookshelves and captivate young imaginations.",
+    ctaLabel = "Explore Our Services",
+    ctaHref = "/services",
     bg = "/images/Book-Cover-Design-BG.png",
 }: InnerHeroProps) {
     const reduceMotion = useReducedMotion();

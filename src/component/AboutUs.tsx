@@ -1,3 +1,4 @@
+
 import { useRef, useState } from "react";
 import { motion, AnimatePresence, useInView, type Variants } from "motion/react";
 import { Check } from "lucide-react";
@@ -9,22 +10,37 @@ const JET_ROTATE = 38;
 
 const fadeUp: Variants = {
     hidden: { opacity: 0, y: 24 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.8, ease: EASE },
+    },
 };
+
 const stagger: Variants = {
     hidden: {},
-    show: { transition: { staggerChildren: 0.12 } },
+    show: {
+        transition: { staggerChildren: 0.12 },
+    },
 };
+
 const pop: Variants = {
     hidden: { opacity: 0, scale: 0.9, y: 20 },
-    show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.9, ease: EASE } },
+    show: {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        transition: { duration: 0.9, ease: EASE },
+    },
 };
 
 const TABS = {
     mission:
-        "We make colourful, caring books that help children fall in love with reading. We also make publishing simple and stress-free for the authors behind them.",
-    vision: "We want every author with a story to see it in print, and every child to find a book that feels like it was written just for them.",
+        "To craft vibrant, heart-filled books that spark a lifelong passion for reading in kids while making the publishing journey seamless and fun for authors.",
+    vision:
+        "To become the world's favorite home for magical children's literature, empowering every author to share their wonder with future generations.",
 } as const;
+
 type TabKey = keyof typeof TABS;
 
 const TAB_LABELS: Record<TabKey, string> = {
@@ -32,16 +48,26 @@ const TAB_LABELS: Record<TabKey, string> = {
     vision: "Our Vision",
 };
 
-const CHECKS = ["Stories that help children learn, imagine and grow", "Books your readers will want to open again and again"];
+const CHECKS = [
+    "Enchanting stories that build wonder, empathy, and joy",
+    "Showstopping illustrations kids will want to re-read every night",
+];
 
 export default function About() {
     const [tab, setTab] = useState<TabKey>("mission");
     const { openLeadModal } = useLeadModal();
 
     const leftRef = useRef<HTMLDivElement>(null);
-    const leftInView = useInView(leftRef, { once: true, amount: 0.25 });
+    const leftInView = useInView(leftRef, {
+        once: true,
+        amount: 0.25,
+    });
+
     const rightRef = useRef<HTMLDivElement>(null);
-    const rightInView = useInView(rightRef, { once: true, amount: 0.25 });
+    const rightInView = useInView(rightRef, {
+        once: true,
+        amount: 0.25,
+    });
 
     return (
         <section className="relative overflow-hidden border-b-2 border-dashed border-brand-plum bg-white bg-[url('/images/About-BG.png')] bg-cover bg-center py-12 sm:py-16 lg:py-24">
@@ -65,14 +91,22 @@ export default function About() {
                                 variants={pop}
                                 className="absolute left-[2.7%] top-0 z-10 h-[45%] w-[40.7%] overflow-hidden rounded-[12px] border-[3px] border-white shadow-[0_12px_30px_-10px_rgba(37,40,62,0.35)] sm:rounded-[18px] sm:border-4"
                             >
-                                <img src="/images/Back-Cover.jpg" alt="Girl running with her dog" className="h-full w-full object-cover" />
+                                <img
+                                    src="/images/Back-Cover.jpg"
+                                    alt="Girl running with her dog"
+                                    className="h-full w-full object-cover"
+                                />
                             </motion.div>
 
                             <motion.div
                                 variants={pop}
                                 className="absolute left-[32.5%] top-[26.4%] z-20 h-[73.6%] w-[63.4%] overflow-hidden rounded-[14px] shadow-[0_18px_40px_-12px_rgba(37,40,62,0.45)] sm:rounded-[20px]"
                             >
-                                <img src="/images/Front-Cover.jpg" alt="Children sailing through a storm" className="h-full w-full object-cover object-[center_75%]" />
+                                <img
+                                    src="/images/Front-Cover.jpg"
+                                    alt="Children sailing through a storm"
+                                    className="h-full w-full object-cover object-[center_75%]"
+                                />
                             </motion.div>
 
                             <motion.div
@@ -80,16 +114,25 @@ export default function About() {
                                 className="absolute left-[47.8%] top-[8.8%] z-30 flex items-center gap-[0.6em] text-[clamp(11px,3.9cqw,22px)]"
                             >
                                 <div className="flex aspect-square w-[3.6em] items-center justify-center rounded-full bg-brand-plum font-extrabold text-white">
-                                    <span className="text-[1.25em] leading-none">10+</span>
+                                    <span className="text-[1.25em] leading-none">
+                                        10+
+                                    </span>
                                 </div>
+
                                 <p className="text-[0.9em] font-bold leading-[1.1] text-brand-ink">
                                     Years of
                                     <br />
-                                    Experience
+                                    Crafting Kid-Approved Bestsellers
                                 </p>
                             </motion.div>
 
-                            <motion.img variants={pop} src="/images/Balloon.png" alt="" aria-hidden="true" className="absolute left-[86%] top-[5%] z-30 w-[12%]" />
+                            <motion.img
+                                variants={pop}
+                                src="/images/Balloon.png"
+                                alt=""
+                                aria-hidden="true"
+                                className="absolute left-[86%] top-[5%] z-30 w-[12%]"
+                            />
 
                             <motion.img
                                 variants={pop}
@@ -109,42 +152,63 @@ export default function About() {
                         animate={rightInView ? "show" : "hidden"}
                         className="w-full max-w-[640px] lg:w-[53%] lg:max-w-none"
                     >
-                        <motion.p variants={fadeUp} className="text-[16px] font-semibold text-brand-plum sm:text-[17px]">
-                            About Toonhaus
+                        <motion.p
+                            variants={fadeUp}
+                            className="text-[16px] font-semibold text-brand-plum sm:text-[17px]"
+                        >
+                            ABOUT TOON HAUS PUBLISHING
                         </motion.p>
 
                         <motion.h2
                             variants={fadeUp}
                             className="mt-1 text-[clamp(26px,6.5vw,34px)] font-extrabold leading-[1.1] text-brand-ink sm:text-[clamp(32px,4vw,40px)] lg:text-[clamp(32px,3.4vw,50px)] lg:leading-[1.08]"
                         >
-                            Where little stories grow into big adventures
+                            Where Tiny Ideas Spark Legendary Adventures!
                         </motion.h2>
 
-                        <motion.p variants={fadeUp} className="mt-4 max-w-[600px] text-[14px] font-medium leading-[1.65] text-brand-ink/65 sm:text-[15px]">
-                            Toonhaus Publishing is a team of illustrators, designers and publishing specialists who love children's books. For over ten years we have
-                            helped authors turn a simple idea into a book that is ready to read, share and sell.
+                        <motion.p
+                            variants={fadeUp}
+                            className="mt-4 max-w-[600px] text-[14px] font-medium leading-[1.65] text-brand-ink/65 sm:text-[15px]"
+                        >
+                            At Toon Haus Publishing, we’re a passionate crew
+                            of artists, dreamers, and publishing wizards
+                            dedicated to making magic happen. For over a
+                            decade, we’ve been helping storytellers turn
+                            simple concepts into unforgettable, shelf-ready
+                            children’s masterpieces.
                         </motion.p>
 
-                        <motion.div variants={fadeUp} role="tablist" className="mt-5 flex flex-wrap items-center gap-2 sm:gap-3">
-                            {(Object.keys(TAB_LABELS) as TabKey[]).map((key) => {
-                                const active = tab === key;
-                                return (
-                                    <button
-                                        key={key}
-                                        type="button"
-                                        role="tab"
-                                        aria-selected={active}
-                                        onClick={() => setTab(key)}
-                                        className={`rounded-full border-[1.5px] border-dashed px-4 py-1.5 text-[14px] font-bold transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange sm:px-5 sm:text-[15px] ${active ? "border-brand-orange bg-brand-orange/10 text-brand-orange" : "border-transparent text-brand-ink hover:text-brand-orange"
-                                            }`}
-                                    >
-                                        {TAB_LABELS[key]}
-                                    </button>
-                                );
-                            })}
+                        <motion.div
+                            variants={fadeUp}
+                            role="tablist"
+                            className="mt-5 flex flex-wrap items-center gap-2 sm:gap-3"
+                        >
+                            {(Object.keys(TAB_LABELS) as TabKey[]).map(
+                                (key) => {
+                                    const active = tab === key;
+
+                                    return (
+                                        <button
+                                            key={key}
+                                            type="button"
+                                            role="tab"
+                                            aria-selected={active}
+                                            onClick={() => setTab(key)}
+                                            className={`rounded-full border-[1.5px] border-dashed px-4 py-1.5 text-[14px] font-bold transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange sm:px-5 sm:text-[15px] ${active
+                                                    ? "border-brand-orange bg-brand-orange/10 text-brand-orange"
+                                                    : "border-transparent text-brand-ink hover:text-brand-orange"
+                                                }`}
+                                        >
+                                            {TAB_LABELS[key]}
+                                        </button>
+                                    );
+                                }
+                            )}
                         </motion.div>
 
-                        <div className="mt-5 min-h-[100px] max-w-[600px] sm:mt-6 sm:min-h-[80px]">
+                        <div
+                            className="mt-5 min-h-[100px] max-w-[600px] sm:mt-6 sm:min-h-[80px]"
+                        >
                             <AnimatePresence mode="wait">
                                 <motion.p
                                     key={tab}
@@ -159,36 +223,58 @@ export default function About() {
                             </AnimatePresence>
                         </div>
 
-                        <motion.p variants={fadeUp} className="mt-5 max-w-[600px] text-[14px] font-medium leading-[1.65] text-brand-ink/65 sm:text-[15px]">
-                            One team looks after everything: illustration, cover design, formatting and publishing. You get one point of contact and one consistent
-                            look from the first page to the last. No juggling freelancers, no lost files and no guesswork.
+                        <motion.p
+                            variants={fadeUp}
+                            className="mt-5 max-w-[600px] text-[14px] font-medium leading-[1.65] text-brand-ink/65 sm:text-[15px]"
+                        >
+                            Say goodbye to juggling freelancers and hidden
+                            stress. With Toon Haus Publishing, you get a
+                            dedicated creative partner guiding you through
+                            artwork, layout, formatting, and launch—all with
+                            unified style and zero guesswork.
                         </motion.p>
 
-                        <motion.ul variants={fadeUp} className="mt-4 space-y-3">
+                        <motion.ul
+                            variants={fadeUp}
+                            className="mt-4 space-y-3"
+                        >
                             {CHECKS.map((item) => (
-                                <li key={item} className="flex items-center gap-3">
+                                <li
+                                    key={item}
+                                    className="flex items-center gap-3"
+                                >
                                     <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-brand-orange">
-                                        <Check className="h-3.5 w-3.5 text-white" strokeWidth={3.5} />
+                                        <Check
+                                            className="h-3.5 w-3.5 text-white"
+                                            strokeWidth={3.5}
+                                        />
                                     </span>
-                                    <span className="text-[14px] font-bold text-brand-ink sm:text-[15px]">{item}</span>
+
+                                    <span className="text-[14px] font-bold text-brand-ink sm:text-[15px]">
+                                        {item}
+                                    </span>
                                 </li>
                             ))}
                         </motion.ul>
 
-                        <motion.div variants={fadeUp} className="mt-7 sm:mt-8">
+                        <motion.div
+                            variants={fadeUp}
+                            className="mt-7 sm:mt-8"
+                        >
                             <motion.button
                                 type="button"
                                 onClick={() =>
                                     openLeadModal({
-                                        title: "Meet the Team",
-                                        subtitle: "Tell us a little about your book and the right people from our team will get in touch with you.",
+                                        title: "Meet the Creative Team",
+                                        subtitle:
+                                            "Tell us a little about your book and the right people from our team will get in touch with you.",
                                     })
                                 }
                                 whileHover={{ scale: 1.04 }}
                                 whileTap={{ scale: 0.97 }}
                                 className="inline-flex items-center justify-center rounded-full bg-brand-orange px-7 py-3 text-[14px] font-bold uppercase tracking-wide text-white shadow-[0_10px_24px_-8px_rgba(209,129,9,0.5)] outline-[1.5px] outline-dashed -outline-offset-[6px] outline-white/75 transition-colors duration-300 hover:bg-brand-orange-dark focus-visible:ring-4 focus-visible:ring-brand-orange/40 sm:px-8 sm:py-3.5 sm:text-[15px]"
                             >
-                                Meet the Team
+                                MEET THE CREATIVE TEAM
                             </motion.button>
                         </motion.div>
                     </motion.div>
